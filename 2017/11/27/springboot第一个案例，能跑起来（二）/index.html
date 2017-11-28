@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="springboot," />
 
 
 
@@ -79,17 +79,18 @@
 
 
 
-<meta name="description" content="向终身学习者致敬">
+<meta name="description" content="what：是个什么项目一个简单的springboot搭建的curd的项目">
+<meta name="keywords" content="springboot">
 <meta property="og:type" content="article">
-<meta property="og:title" content="刘宇">
-<meta property="og:url" content="http://yoursite.com/2017/11/27/刘宇/index.html">
+<meta property="og:title" content="第一个案例，能跑起来（二）">
+<meta property="og:url" content="http://yoursite.com/2017/11/27/springboot第一个案例，能跑起来（二）/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="向终身学习者致敬">
+<meta property="og:description" content="what：是个什么项目一个简单的springboot搭建的curd的项目">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-27T05:42:01.364Z">
+<meta property="og:updated_time" content="2017-11-28T01:47:00.996Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="刘宇">
-<meta name="twitter:description" content="向终身学习者致敬">
+<meta name="twitter:title" content="第一个案例，能跑起来（二）">
+<meta name="twitter:description" content="what：是个什么项目一个简单的springboot搭建的curd的项目">
 
 
 
@@ -119,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/11/27/刘宇/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/11/27/springboot第一个案例，能跑起来（二）/"/>
 
 
 
 
 
-  <title>刘宇 | Blog</title>
+  <title>第一个案例，能跑起来（二） | Blog</title>
   
 
 
@@ -262,7 +263,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/27/刘宇/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/27/springboot第一个案例，能跑起来（二）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="老孩">
@@ -279,7 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">刘宇</h1>
+          <h1 class="post-title" itemprop="name headline">第一个案例，能跑起来（二）</h1>
         
 
         <div class="post-meta">
@@ -309,7 +310,7 @@
 
           
           
-             <span id="/2017/11/27/刘宇/" class="leancloud_visitors" data-flag-title="刘宇">
+             <span id="/2017/11/27/springboot第一个案例，能跑起来（二）/" class="leancloud_visitors" data-flag-title="第一个案例，能跑起来（二）">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -340,7 +341,238 @@
       
 
       
-        
+        <h2 id="what：是个什么项目"><a href="#what：是个什么项目" class="headerlink" title="what：是个什么项目"></a>what：是个什么项目</h2><p>一个简单的springboot搭建的curd的项目<br><a id="more"></a><br>when：</p>
+<p>where<br>why：<br>案例学习快速，容易理解。<br>how：<br>在springboot基础下，使用jdbc配置数据源和通过JdbcTemplate编写数据访问，数据库使用mysql。</p>
+<p>第一步：pom.xml文件依赖</p>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemalocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"><br>    <modelversion>4.0.0</modelversion><br><br>    <groupid>com.liukai</groupid><br>    <artifactid>springBootStudy</artifactid><br>    <version>1.0-SNAPSHOT</version><br>    <packaging>war</packaging><br>    <parent><br>        <groupid>org.springframework.boot</groupid><br>        <artifactid>spring-boot-starter-parent</artifactid><br>        <version>1.3.3.RELEASE</version><br><br>    </parent><br><br>    <dependencies><br>        <dependency><br>            <groupid>org.springframework.boot</groupid><br>            <artifactid>spring-boot-starter-web</artifactid><br>        </dependency><br><br><br>        <dependency><br>            <groupid>org.springframework.boot</groupid><br>            <artifactid>spring-boot-starter-jdbc</artifactid><br>        </dependency><br><br>        <dependency><br>            <groupid>mysql</groupid><br>            <artifactid>mysql-connector-java</artifactid><br>            <version>5.1.35</version><br>        </dependency><br>        <dependency><br>            <groupid>com.alibaba</groupid><br>            <artifactid>druid</artifactid><br>            <version>1.0.14</version><br>        </dependency><br>        <dependency><br>            <groupid>org.json</groupid><br>            <artifactid>json</artifactid><br>            <version>20160810</version><br>        </dependency><br>        <dependency><br>            <groupid>junit</groupid><br>            <artifactid>junit</artifactid><br>            <version>4.12</version><br>        </dependency><br>        <dependency><br>            <groupid>org.springframework.boot</groupid><br>            <artifactid>spring-boot-starter-test</artifactid><br>            <scope>test</scope><br>        </dependency><br>        <dependency><br>            <groupid>org.springframework.boot</groupid><br>            <artifactid>spring-boot-starter-log4j</artifactid><br>        </dependency><br><br>    </dependencies><br><br>    <build><br>        <plugins><br><br>            <plugin><br>                <groupid>org.apache.maven.plugins</groupid><br>                <artifactid>maven-compiler-plugin</artifactid><br>                <version>3.6.1</version><br>                <configuration><br>                    <source>1.7<br>                    <target>1.7</target><br>                    <encoding>UTF-8</encoding><br>                    <skip>true</skip><br>                    <compilerarguments><br>                        <extdirs>src\main\webapp\WEB-INF\lib</extdirs><br>                    </compilerarguments><br>                </configuration><br>            </plugin><br>        </plugins><br>    </build><br></project>
+
+<p>第二步：数据源配置<br>（方法一：使用 Spring Boot 默认配置）<br>    使用 Spring Boot 默认配置，不需要在创建 dataSource 和 jdbcTemplate 的 Bean。<br>    在 src/main/resources/application.properties 中配置数据源信息。<br>        datasourcespring.datasource.driver-class-name=com.mysql.jdbc.Driver<br>        spring.datasource.url=jdbc:mysql://localhost:3306/springboot_db<br>        spring.datasource.username=root<br>        spring.datasource.password=root<br>（方法二：手动创建）<br>    在 src/main/resources/config/source.properties 中配置数据源信息。</p>
+<pre><code># mysql
+source.driverClassName = com.mysql.jdbc.Driver
+source.url = jdbc:mysql://localhost:3306/springboot_db
+source.username = root
+source.password = root
+通过 Java Config 创建 dataSource 和jdbcTemplate。
+@Configuration
+@EnableTransactionManagement
+@PropertySource(value = {&quot;classpath:config/source.properties&quot;})
+public class BeanConfig {
+
+    @Autowired
+    private Environment env;
+
+    @Bean(destroyMethod = &quot;close&quot;)
+    public DataSource dataSource() {
+        DruidDataSource dataSource = new DruidDataSource();
+        dataSource.setDriverClassName(env.getProperty(&quot;source.driverClassName&quot;).trim());
+        dataSource.setUrl(env.getProperty(&quot;source.url&quot;).trim());
+        dataSource.setUsername(env.getProperty(&quot;source.username&quot;).trim());
+        dataSource.setPassword(env.getProperty(&quot;source.password&quot;).trim());
+        return dataSource;
+    }
+
+    @Bean
+    public JdbcTemplate jdbcTemplate() {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate();
+        jdbcTemplate.setDataSource(dataSource());
+        return jdbcTemplate;
+    }
+}
+</code></pre><p>第三步：脚本初始化<br>CREATE TABLE <code>t_author</code> (<br><code>id</code> bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT ‘用户ID’,<br><code>real_name</code> varchar(32) NOT NULL COMMENT ‘用户名称’,<br><code>nick_name</code> varchar(32) NOT NULL COMMENT ‘用户匿名’,<br>PRIMARY KEY (<code>id</code>)<br>) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;</p>
+<p>第四步：entity，dao，service，controller<br>Entity：<br>public class Author {<br>    private Long id;<br>    private String realName;<br>    private String nickName;</p>
+<pre><code>public Long getId() {
+    return id;
+}
+
+public void setId(Long id) {
+    this.id = id;
+}
+
+public String getRealName() {
+    return realName;
+}
+
+public void setRealName(String realName) {
+    this.realName = realName;
+}
+
+public String getNickName() {
+    return nickName;
+}
+
+public void setNickName(String nickName) {
+    this.nickName = nickName;
+}
+</code></pre><p>}</p>
+<p>DAO:<br>public interface AuthorDao {</p>
+<pre><code>int add(Author author);
+
+int update(Author author);
+
+int delete(Long id);
+
+Author findAuthor(Long id);
+
+List&lt;Author&gt; findAuthorList();
+</code></pre><p>}</p>
+<p>@Repository<br>public class AuthorDaoImpl implements AuthorDao {<br>    @Autowired<br>    private JdbcTemplate jdbcTemplate;</p>
+<pre><code>@Override
+public int add(Author author) {
+    return jdbcTemplate.update(&quot;INSERT  INTO t_author(real_Name, nick_Name) VALUES (?, ?)&quot;, author.getRealName(), author.getNickName());
+}
+
+@Override
+public int update(Author author) {
+    return jdbcTemplate.update(&quot;update t_author set real_name = ?, nick_name = ? where id = ?&quot;,
+            new Object[]{author.getRealName(), author.getNickName(), author.getId()});
+}
+
+@Override
+public int delete(Long id) {
+    return jdbcTemplate.update(&quot;delete from t_author where id = ?&quot;, id);
+}
+
+@Override
+public Author findAuthor(Long id) {
+    List&lt;Author&gt; list = jdbcTemplate.query(&quot;select * from t_author where id = ?&quot;, new Object[]{id}, new BeanPropertyRowMapper(Author.class));
+    if (null != list &amp;&amp; list.size() &gt; 0) {
+        Author auhtor = list.get(0);
+        return auhtor;
+    } else {
+        return null;
+    }
+}
+
+@Override
+public List&lt;Author&gt; findAuthorList () {
+    List&lt;Author&gt; authorList = jdbcTemplate.query(&quot;select * from t_author&quot;, new Object[]{}, new BeanPropertyRowMapper&lt;Author&gt;(Author.class));
+    return authorList;
+}
+</code></pre><p>}</p>
+<p>Service:<br>public interface AuthorService {</p>
+<pre><code>int add(Author author);
+int update(Author author);
+int delete(Long id);
+Author findAuthor(Long id);
+List&lt;Author&gt; findAuthorList();
+</code></pre><p>}<br>@Service(“authorService”)<br>public class AuthorServiceImpl implements AuthorService{</p>
+<pre><code>@Autowired
+private AuthorDao authorDao;
+
+@Override
+public int add(Author author) {
+    return this.authorDao.add(author);
+}
+
+@Override
+public int update(Author author) {
+    return this.authorDao.update(author);
+}
+
+@Override
+public int delete(Long id) {
+    return this.authorDao.delete(id);
+}
+
+@Override
+public Author findAuthor(Long id) {
+    return this.authorDao.findAuthor(id);
+}
+
+@Override
+public List&lt;Author&gt; findAuthorList() {
+    return this.authorDao.findAuthorList();
+}
+</code></pre><p>}<br>controller:<br>@RestController<br>@RequestMapping(value = “/author”)<br>public class AuthorController{<br>    @Autowired<br>    private AuthorService authorService;</p>
+<pre><code>/**
+ * 新增方法
+ */
+@RequestMapping(value = &quot;/add&quot; ,method = RequestMethod.POST)
+public void add(@RequestBody UserDto userDto) {
+    Long userId = userDto.getUserId();
+    String realName = userDto.getRealName();
+    String nickName = userDto.getNickName();
+    Author author = new Author();
+    if (author!=null) {
+        author.setId(userId);
+    }
+    author.setRealName(realName);
+    author.setNickName(nickName);
+    try{
+        this.authorService.add(author);
+    }catch(Exception e){
+        e.printStackTrace();
+        throw new RuntimeException(&quot;新增错误&quot;);
+    }
+}
+
+/**
+ * 查询用户信息
+ */
+@RequestMapping(value = &quot;/{userId:\\d+}&quot;, method = RequestMethod.GET)
+public Author getAuthor(@PathVariable Long userId, HttpServletRequest request) {
+    Author author = this.authorService.findAuthor(userId);
+    if(author == null){
+        throw new RuntimeException(&quot;查询错误&quot;);
+    }
+    return author;
+}
+
+
+/**
+ * 查询用户列表
+ */
+@RequestMapping(method = RequestMethod.GET)
+public Map&lt;String,Object&gt; getAuthorList(HttpServletRequest request) {
+    List&lt;Author&gt; authorList = this.authorService.findAuthorList();
+    Map&lt;String,Object&gt; param = new HashMap&lt;String,Object&gt;();
+    param.put(&quot;total&quot;, authorList.size());
+    param.put(&quot;rows&quot;, authorList);
+    return param;
+}
+
+/**
+* 更新方法
+*/
+@RequestMapping(value = &quot;/{userId:\\d+}&quot;, method = RequestMethod.PUT)
+public void update(@PathVariable Long userId, @RequestBody JSONObject jsonObject) {
+    Author author = this.authorService.findAuthor(userId);
+    String realName = jsonObject.getString(&quot;real_name&quot;);
+    String nickName = jsonObject.getString(&quot;nick_name&quot;);
+    author.setRealName(realName);
+    author.setNickName(nickName);
+    try{
+        this.authorService.update(author);
+    }catch(Exception e){
+        e.printStackTrace();
+        throw new RuntimeException(&quot;更新错误&quot;);
+    }
+}
+
+/**
+ * 删除方法
+ */
+@RequestMapping(value = &quot;/{userId:\\d+}&quot;, method = RequestMethod.DELETE)
+public void delete(@PathVariable Long userId) {
+    try{
+        this.authorService.delete(userId);
+    }catch(Exception e){
+        throw new RuntimeException(&quot;删除错误&quot;);
+    }
+}
+</code></pre><p>}</p>
+<p>第五步：编写启动类<br>@SpringBootApplication<br>public class AuthorApplication extends SpringBootServletInitializer {</p>
+<pre><code>public static void main(String[] args) {
+    SpringApplication.run(AuthorApplication.class, args);
+}
+
+@Override
+protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+    return application.sources(AuthorApplication.class);
+}
+</code></pre><p>}</p>
+<p>总结：感觉springboot的启动类又可以叫做配置类。每一个项目都要有一个配置类（当然你想没有也可以）代替之前spring的Application.xml配置文件。只不过这里<br>简单springboot的默认配置已经满足，不用再配置类在配置其他东西。目前先不深入了解启动类中的注解，一步一步来。</p>
+
       
     </div>
     
@@ -355,6 +587,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/springboot/" rel="tag"># springboot</a>
+          
+        </div>
+      
 
       
       
@@ -364,8 +602,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/11/27/liukai/" rel="next" title="liukai">
-                <i class="fa fa-chevron-left"></i> liukai
+              <a href="/2017/11/27/springboot基础（一）/" rel="next" title="springboot基础（一）">
+                <i class="fa fa-chevron-left"></i> springboot基础（一）
               </a>
             
           </div>
@@ -373,6 +611,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/11/28/springboot数据访问和多数据源配置（三）/" rel="prev" title="springboot数据访问和多数据源配置（三）">
+                springboot数据访问和多数据源配置（三） <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -424,8 +666,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -452,6 +703,15 @@
 
             
 
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
             
 
           </nav>
@@ -487,6 +747,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#what：是个什么项目"><span class="nav-number">1.</span> <span class="nav-text">what：是个什么项目</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
