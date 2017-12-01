@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="springboot, mybatis，mysql," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -79,18 +79,17 @@
 
 
 
-<meta name="description" content="what：springboot-mybatis如何整合">
-<meta name="keywords" content="springboot, mybatis，mysql">
+<meta name="description" content="Tags : springboot, mybatis，mysql">
 <meta property="og:type" content="article">
 <meta property="og:title" content="springboot-mybatis整合（四）">
 <meta property="og:url" content="http://yoursite.com/2017/11/28/springboot-mybatis整合（四）/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="what：springboot-mybatis如何整合">
+<meta property="og:description" content="Tags : springboot, mybatis，mysql">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-28T12:09:09.015Z">
+<meta property="og:updated_time" content="2017-12-01T10:12:54.415Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="springboot-mybatis整合（四）">
-<meta name="twitter:description" content="what：springboot-mybatis如何整合">
+<meta name="twitter:description" content="Tags : springboot, mybatis，mysql">
 
 
 
@@ -311,19 +310,43 @@
       
 
       
-        <h2 id="what：springboot-mybatis如何整合"><a href="#what：springboot-mybatis如何整合" class="headerlink" title="what：springboot-mybatis如何整合"></a>what：springboot-mybatis如何整合</h2><a id="more"></a>
-<h2 id="when："><a href="#when：" class="headerlink" title="when："></a>when：</h2><h2 id="where："><a href="#where：" class="headerlink" title="where："></a>where：</h2><h2 id="why："><a href="#why：" class="headerlink" title="why："></a>why：</h2><h2 id="how："><a href="#how：" class="headerlink" title="how："></a>how：</h2><h3 id="第一步：pom-xml"><a href="#第一步：pom-xml" class="headerlink" title="第一步：pom.xml"></a>第一步：pom.xml</h3><dependency><br><groupid>org.mybatis.spring.boot</groupid><br><artifactid>mybatis-spring-boot-starter</artifactid><br><version>1.1.1</version><br></dependency><br><dependency><br><groupid>mysql</groupid><br><artifactid>mysql-connector-java</artifactid><br><version>5.1.35</version><br></dependency><br><dependency><br><groupid>com.alibaba</groupid><br><artifactid>druid</artifactid><br><version>1.0.14</version><br></dependency>
-
-<h3 id="第二步：配置数据源（数据库自己和前面一样，一个链接）"><a href="#第二步：配置数据源（数据库自己和前面一样，一个链接）" class="headerlink" title="第二步：配置数据源（数据库自己和前面一样，一个链接）"></a>第二步：配置数据源（数据库自己和前面一样，一个链接）</h3><p>在 src/main/resources/application.properties 中配置数据源信息。</p>
-<p>#mysql<br>spring.datasource.driver-class-name=com.mysql.jdbc.Driver<br>spring.datasource.url=jdbc:mysql://localhost:3307/springboot_db1<br>spring.datasource.username=root<br>spring.datasource.password=root</p>
-<h3 id="第三步：数据库"><a href="#第三步：数据库" class="headerlink" title="第三步：数据库"></a>第三步：数据库</h3><pre><code>CREATE TABLE `t_author` (
+        <p><center><font color="#CC4A31">Tags : springboot, mybatis，mysql</font></center><br><a id="more"></a></p>
+<h2 id="what："><a href="#what：" class="headerlink" title="what："></a>what：</h2><h2 id="when："><a href="#when：" class="headerlink" title="when："></a>when：</h2><h2 id="where："><a href="#where：" class="headerlink" title="where："></a>where：</h2><h2 id="why："><a href="#why：" class="headerlink" title="why："></a>why：</h2><h2 id="how："><a href="#how：" class="headerlink" title="how："></a>how：</h2><h3 id="第一步：pom-xml"><a href="#第一步：pom-xml" class="headerlink" title="第一步：pom.xml"></a>第一步：pom.xml</h3><pre><code>&lt;dependency&gt;
+&lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;
+&lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;
+&lt;version&gt;1.1.1&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+&lt;groupId&gt;mysql&lt;/groupId&gt;
+&lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+&lt;version&gt;5.1.35&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+&lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+&lt;artifactId&gt;druid&lt;/artifactId&gt;
+&lt;version&gt;1.0.14&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre><h3 id="第二步：配置数据源（数据库自己和前面一样，一个链接）"><a href="#第二步：配置数据源（数据库自己和前面一样，一个链接）" class="headerlink" title="第二步：配置数据源（数据库自己和前面一样，一个链接）"></a>第二步：配置数据源（数据库自己和前面一样，一个链接）</h3><p>在 src/main/resources/application.properties 中配置数据源信息。</p>
+<pre><code>#mysql
+spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+spring.datasource.url=jdbc:mysql://localhost:3307/springboot_db1
+spring.datasource.username=root
+spring.datasource.password=root
+</code></pre><h3 id="第三步：数据库"><a href="#第三步：数据库" class="headerlink" title="第三步：数据库"></a>第三步：数据库</h3><pre><code>CREATE TABLE `t_author` (
 `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT &apos;用户ID&apos;,
 `real_name` varchar(32) NOT NULL COMMENT &apos;用户名称&apos;,
 `nick_name` varchar(32) NOT NULL COMMENT &apos;用户匿名&apos;,
 PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-</code></pre><h3 id="第四步：mybatis整合"><a href="#第四步：mybatis整合" class="headerlink" title="第四步：mybatis整合"></a>第四步：mybatis整合</h3><p>实体：<br>    public class Author {<br>    private Long id;<br>    @JSONField(name=”real_name”)<br>    private String realName;<br>    @JSONField(name=”nick_name”)<br>    private String nickName;</p>
-<pre><code>public Long getId() {
+</code></pre><h3 id="第四步：mybatis整合"><a href="#第四步：mybatis整合" class="headerlink" title="第四步：mybatis整合"></a>第四步：mybatis整合</h3><p>entity：</p>
+<pre><code>public class Author {
+private Long id;
+@JSONField(name=&quot;real_name&quot;)
+private String realName;
+@JSONField(name=&quot;nick_name&quot;)
+private String nickName;
+
+public Long getId() {
     return id;
 }
 
@@ -347,124 +370,142 @@ public void setNickName(String nickName) {
     this.nickName = nickName;
 }
 }
-</code></pre><p>dao：<br>    @Mapper<br>    public interface AuthorMapper {<br>        @Insert(“insert into t_author(real_name, nick_name) values(#{real_name}, #{nick_name})”)<br>        int add(@Param(“realName”) String realName, @Param(“nickName”) String nickName);</p>
-<pre><code>    @Update(&quot;update t_author set real_name = #{real_name}, nick_name = #{nick_name} where id = #{id}&quot;)
-    int update(@Param(&quot;real_name&quot;) String realName, @Param(&quot;nick_name&quot;) String nickName, @Param(&quot;id&quot;) Long id);
+</code></pre><p>dao：</p>
+<pre><code>@Mapper
+public interface AuthorMapper {
+@Insert(&quot;insert into t_author(real_name, nick_name) values(#{real_name}, #{nick_name})&quot;)
+int add(@Param(&quot;realName&quot;) String realName, @Param(&quot;nickName&quot;) String nickName);
 
-    @Delete(&quot;delete from t_author where id = #{id}&quot;)
-    int delete(Long id);
+@Update(&quot;update t_author set real_name = #{real_name}, nick_name = #{nick_name} where id = #{id}&quot;)
+int update(@Param(&quot;real_name&quot;) String realName, @Param(&quot;nick_name&quot;) String nickName, @Param(&quot;id&quot;) Long id);
 
-    @Select(&quot;select id, real_name as realName, nick_name as nickName from t_author where id = #{id}&quot;)
-    Author findAuthor(@Param(&quot;id&quot;) Long id);
+@Delete(&quot;delete from t_author where id = #{id}&quot;)
+int delete(Long id);
 
-    @Select(&quot;select id, real_name as realName, nick_name as nickName from t_author&quot;)
-    List&lt;Author&gt; findAuthorList();
+@Select(&quot;select id, real_name as realName, nick_name as nickName from t_author where id = #{id}&quot;)
+Author findAuthor(@Param(&quot;id&quot;) Long id);
 
-}
-</code></pre><p>service：<br>    @Service<br>    public class AuthorService {</p>
-<pre><code>    @Autowired
-    private AuthorMapper authorMapper;
-
-    public int add(String realName, String nickName) {
-    return this.authorMapper.add(realName, nickName);
-    }
-    public int update(String realName, String nickName, Long id) {
-    return this.authorMapper.update(realName, nickName, id);
-    }
-    public int delete(Long id) {
-    return this.authorMapper.delete(id);
-    }
-    public Author findAuthor(Long id) {
-    return this.authorMapper.findAuthor(id);
-    }
-    public List&lt;Author&gt; findAuthorList() {
-    return this.authorMapper.findAuthorList();
-    }
+@Select(&quot;select id, real_name as realName, nick_name as nickName from t_author&quot;)
+List&lt;Author&gt; findAuthorList();
 
 }
-</code></pre><p>controller：<br><em>RequestMapping映射什么访问url就输入什么，不用输入项目名（如果在启动类中未有其他设置的话）<br>    /**
-    </em>RequestMapping映射什么访问url就输入什么，不用输入项目名（如果在启动类中未有其他设置的话）<br>    */<br>    @RestController<br>    @RequestMapping(value=”/author”)<br>    @MapperScan(“com.liukai.dao”)<br>    public class AuthorController {</p>
-<pre><code>    @Autowired
-    private AuthorService authorService;
-    /**
-     * 查询用户列表
-     */
-    @RequestMapping(method = RequestMethod.GET)
-    public Map&lt;String,Object&gt; getAuthorList(HttpServletRequest request) {
-    List&lt;Author&gt; authorList = this.authorService.findAuthorList();
-    Map&lt;String,Object&gt; param = new HashMap&lt;String,Object&gt;();
-    param.put(&quot;total&quot;, authorList.size());
-    param.put(&quot;rows&quot;, authorList);
-    return param;
-    }
-    /**
-     * 查询用户信息
-     */
-    @RequestMapping(value = &quot;/getauthor/{userId}&quot;, method = RequestMethod.GET)
-    public Author getAuthor(@PathVariable Long userId, HttpServletRequest request) {
-    Author author = this.authorService.findAuthor(userId);
-    if(author == null){
-        throw new RuntimeException(&quot;查询错误&quot;);
-    }
-    return author;
-    }
+</code></pre><p>service：</p>
+<pre><code>@Service
+public class AuthorService {
+@Autowired
+private AuthorMapper authorMapper;
 
-    /**
-     * 新增方法
-     */
-    @RequestMapping(method = RequestMethod.POST)
-    public void add(@RequestBody JSONObject jsonObject) {
-    String userId = jsonObject.getString(&quot;user_id&quot;);
-    String realName = jsonObject.getString(&quot;real_name&quot;);
-    String nickName = jsonObject.getString(&quot;nick_name&quot;);
+public int add(String realName, String nickName) {
+return this.authorMapper.add(realName, nickName);
+}
 
-    try{
-        this.authorService.add(realName, nickName);
-    }catch(Exception e){
-        e.printStackTrace();
-        throw new RuntimeException(&quot;新增错误&quot;);
-    }
-    }
-    /**
-     * 更新方法
-     */
-    @RequestMapping(value = &quot;/{userId:\\d+}&quot;, method = RequestMethod.PUT)
-    public void update(@PathVariable Long userId, @RequestBody JSONObject jsonObject) {
-    Author author = this.authorService.findAuthor(userId);
-    String realName = jsonObject.getString(&quot;real_name&quot;);
-    String nickName = jsonObject.getString(&quot;nick_name&quot;);
+public int update(String realName, String nickName, Long id) {
+return this.authorMapper.update(realName, nickName, id);
+}
 
-    try{
-        this.authorService.update(realName, nickName, author.getId());
-    }catch(Exception e){
-        e.printStackTrace();
-        throw new RuntimeException(&quot;更新错误&quot;);
-    }
-    }
-    /**
-     * 删除方法
-     */
-    @RequestMapping(value = &quot;/{userId:\\d+}&quot;, method = RequestMethod.DELETE)
-    public void delete(@PathVariable Long userId) {
-    try{
-        this.authorService.delete(userId);
-    }catch(Exception e){
-        throw new RuntimeException(&quot;删除错误&quot;);
-    }
-    }
+public int delete(Long id) {
+return this.authorMapper.delete(id);
+}
 
+public Author findAuthor(Long id) {
+return this.authorMapper.findAuthor(id);
+}
+
+public List&lt;Author&gt; findAuthorList() {
+return this.authorMapper.findAuthorList();
+}
+}
+</code></pre><p>controller：</p>
+<p>*RequestMapping映射什么访问url就输入什么，不用输入项目名（如果在启动类中未有其他设置的话）</p>
+<pre><code>/**
+*RequestMapping映射什么访问url就输入什么，不用输入项目名（如果在启动类中未有其他设置的话）
+*/
+@RestController
+@RequestMapping(value=&quot;/author&quot;)
+@MapperScan(&quot;com.liukai.dao&quot;)
+public class AuthorController {
+@Autowired
+private AuthorService authorService;
+
+/**
+* 查询用户列表
+*/
+@RequestMapping(method = RequestMethod.GET)
+public Map&lt;String,Object&gt; getAuthorList(HttpServletRequest request) {
+List&lt;Author&gt; authorList = this.authorService.findAuthorList();
+Map&lt;String,Object&gt; param = new HashMap&lt;String,Object&gt;();
+param.put(&quot;total&quot;, authorList.size());
+param.put(&quot;rows&quot;, authorList);
+return param;
+}
+
+/**
+* 查询用户信息
+*/
+@RequestMapping(value = &quot;/getauthor/{userId}&quot;, method = RequestMethod.GET)
+public Author getAuthor(@PathVariable Long userId, HttpServletRequest request) {
+Author author = this.authorService.findAuthor(userId);
+if(author == null){
+    throw new RuntimeException(&quot;查询错误&quot;);
+}
+return author;
+}
+
+/**
+* 新增方法
+*/
+@RequestMapping(method = RequestMethod.POST)
+public void add(@RequestBody JSONObject jsonObject) {
+String userId = jsonObject.getString(&quot;user_id&quot;);
+String realName = jsonObject.getString(&quot;real_name&quot;);
+String nickName = jsonObject.getString(&quot;nick_name&quot;);
+try{
+    this.authorService.add(realName, nickName);
+}catch(Exception e){
+    e.printStackTrace();
+    throw new RuntimeException(&quot;新增错误&quot;);
+}
+}
+
+/**
+* 更新方法
+*/
+@RequestMapping(value = &quot;/{userId:\\d+}&quot;, method = RequestMethod.PUT)
+public void update(@PathVariable Long userId, @RequestBody JSONObject jsonObject) {
+Author author = this.authorService.findAuthor(userId);
+String realName = jsonObject.getString(&quot;real_name&quot;);
+String nickName = jsonObject.getString(&quot;nick_name&quot;);
+try{
+    this.authorService.update(realName, nickName, author.getId());
+}catch(Exception e){
+    e.printStackTrace();
+    throw new RuntimeException(&quot;更新错误&quot;);
+}
+}
+
+/**
+* 删除方法
+*/
+@RequestMapping(value = &quot;/{userId:\\d+}&quot;, method = RequestMethod.DELETE)
+public void delete(@PathVariable Long userId) {
+try{
+    this.authorService.delete(userId);
+}catch(Exception e){
+    throw new RuntimeException(&quot;删除错误&quot;);
+}
+}
 }
 </code></pre><h3 id="第五步：启动类"><a href="#第五步：启动类" class="headerlink" title="第五步：启动类"></a>第五步：启动类</h3><pre><code>@SpringBootApplication
 public class AuthorApplication extends SpringBootServletInitializer{
 
-    public static void main(String[] args) {
-    SpringApplication.run(AuthorApplication.class, args);
-    }
+public static void main(String[] args) {
+SpringApplication.run(AuthorApplication.class, args);
+}
 
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-    return application.sources(AuthorApplication.class);
-    }
+@Override
+protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+return application.sources(AuthorApplication.class);
+}
 }
 </code></pre><h1 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h1><p>注意mybatis的整合时的注解。手动配置的请看<a href="http://www.cnblogs.com/cnblog-long/p/7238250.html" target="_blank" rel="noopener">大神博客</a></p>
 
@@ -481,12 +522,6 @@ public class AuthorApplication extends SpringBootServletInitializer{
     
 
     <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/springboot-mybatis，mysql/" rel="tag"># springboot, mybatis，mysql</a>
-          
-        </div>
       
 
       
@@ -599,7 +634,7 @@ public class AuthorApplication extends SpringBootServletInitializer{
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -648,7 +683,7 @@ public class AuthorApplication extends SpringBootServletInitializer{
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#what：springboot-mybatis如何整合"><span class="nav-number">1.</span> <span class="nav-text">what：springboot-mybatis如何整合</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#when："><span class="nav-number">2.</span> <span class="nav-text">when：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#where："><span class="nav-number">3.</span> <span class="nav-text">where：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#why："><span class="nav-number">4.</span> <span class="nav-text">why：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#how："><span class="nav-number">5.</span> <span class="nav-text">how：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一步：pom-xml"><span class="nav-number">5.1.</span> <span class="nav-text">第一步：pom.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二步：配置数据源（数据库自己和前面一样，一个链接）"><span class="nav-number">5.2.</span> <span class="nav-text">第二步：配置数据源（数据库自己和前面一样，一个链接）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三步：数据库"><span class="nav-number">5.3.</span> <span class="nav-text">第三步：数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第四步：mybatis整合"><span class="nav-number">5.4.</span> <span class="nav-text">第四步：mybatis整合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第五步：启动类"><span class="nav-number">5.5.</span> <span class="nav-text">第五步：启动类</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结："><span class="nav-number"></span> <span class="nav-text">总结：</span></a></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#what："><span class="nav-number">1.</span> <span class="nav-text">what：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#when："><span class="nav-number">2.</span> <span class="nav-text">when：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#where："><span class="nav-number">3.</span> <span class="nav-text">where：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#why："><span class="nav-number">4.</span> <span class="nav-text">why：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#how："><span class="nav-number">5.</span> <span class="nav-text">how：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一步：pom-xml"><span class="nav-number">5.1.</span> <span class="nav-text">第一步：pom.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二步：配置数据源（数据库自己和前面一样，一个链接）"><span class="nav-number">5.2.</span> <span class="nav-text">第二步：配置数据源（数据库自己和前面一样，一个链接）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三步：数据库"><span class="nav-number">5.3.</span> <span class="nav-text">第三步：数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第四步：mybatis整合"><span class="nav-number">5.4.</span> <span class="nav-text">第四步：mybatis整合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第五步：启动类"><span class="nav-number">5.5.</span> <span class="nav-text">第五步：启动类</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结："><span class="nav-number"></span> <span class="nav-text">总结：</span></a></div>
             
 
           </div>

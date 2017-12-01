@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="what：是个什么项目一个简单的springboot搭建的curd的项目">
+<meta name="description" content="Tags : springboot">
 <meta name="keywords" content="springboot">
 <meta property="og:type" content="article">
 <meta property="og:title" content="第一个案例，能跑起来（二）">
 <meta property="og:url" content="http://yoursite.com/2017/11/27/springboot第一个案例，能跑起来（二）/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="what：是个什么项目一个简单的springboot搭建的curd的项目">
+<meta property="og:description" content="Tags : springboot">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-28T01:47:00.996Z">
+<meta property="og:updated_time" content="2017-12-01T10:10:48.701Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="第一个案例，能跑起来（二）">
-<meta name="twitter:description" content="what：是个什么项目一个简单的springboot搭建的curd的项目">
+<meta name="twitter:description" content="Tags : springboot">
 
 
 
@@ -311,12 +311,92 @@
       
 
       
-        <h2 id="what：是个什么项目"><a href="#what：是个什么项目" class="headerlink" title="what：是个什么项目"></a>what：是个什么项目</h2><p>一个简单的springboot搭建的curd的项目<br><a id="more"></a><br>when：</p>
-<p>where<br>why：<br>案例学习快速，容易理解。<br>how：<br>在springboot基础下，使用jdbc配置数据源和通过JdbcTemplate编写数据访问，数据库使用mysql。</p>
-<p>第一步：pom.xml文件依赖</p>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemalocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"><br>    <modelversion>4.0.0</modelversion><br><br>    <groupid>com.liukai</groupid><br>    <artifactid>springBootStudy</artifactid><br>    <version>1.0-SNAPSHOT</version><br>    <packaging>war</packaging><br>    <parent><br>        <groupid>org.springframework.boot</groupid><br>        <artifactid>spring-boot-starter-parent</artifactid><br>        <version>1.3.3.RELEASE</version><br><br>    </parent><br><br>    <dependencies><br>        <dependency><br>            <groupid>org.springframework.boot</groupid><br>            <artifactid>spring-boot-starter-web</artifactid><br>        </dependency><br><br><br>        <dependency><br>            <groupid>org.springframework.boot</groupid><br>            <artifactid>spring-boot-starter-jdbc</artifactid><br>        </dependency><br><br>        <dependency><br>            <groupid>mysql</groupid><br>            <artifactid>mysql-connector-java</artifactid><br>            <version>5.1.35</version><br>        </dependency><br>        <dependency><br>            <groupid>com.alibaba</groupid><br>            <artifactid>druid</artifactid><br>            <version>1.0.14</version><br>        </dependency><br>        <dependency><br>            <groupid>org.json</groupid><br>            <artifactid>json</artifactid><br>            <version>20160810</version><br>        </dependency><br>        <dependency><br>            <groupid>junit</groupid><br>            <artifactid>junit</artifactid><br>            <version>4.12</version><br>        </dependency><br>        <dependency><br>            <groupid>org.springframework.boot</groupid><br>            <artifactid>spring-boot-starter-test</artifactid><br>            <scope>test</scope><br>        </dependency><br>        <dependency><br>            <groupid>org.springframework.boot</groupid><br>            <artifactid>spring-boot-starter-log4j</artifactid><br>        </dependency><br><br>    </dependencies><br><br>    <build><br>        <plugins><br><br>            <plugin><br>                <groupid>org.apache.maven.plugins</groupid><br>                <artifactid>maven-compiler-plugin</artifactid><br>                <version>3.6.1</version><br>                <configuration><br>                    <source>1.7<br>                    <target>1.7</target><br>                    <encoding>UTF-8</encoding><br>                    <skip>true</skip><br>                    <compilerarguments><br>                        <extdirs>src\main\webapp\WEB-INF\lib</extdirs><br>                    </compilerarguments><br>                </configuration><br>            </plugin><br>        </plugins><br>    </build><br></project>
+        <p><center><font color="#CC4A31">Tags : springboot</font></center><br><a id="more"></a></p>
+<h2 id="what：是个什么项目"><a href="#what：是个什么项目" class="headerlink" title="what：是个什么项目"></a>what：是个什么项目</h2><p>一个简单的springboot搭建的curd的项目</p>
+<h2 id="when："><a href="#when：" class="headerlink" title="when："></a>when：</h2><h2 id="where"><a href="#where" class="headerlink" title="where"></a>where</h2><h2 id="why："><a href="#why：" class="headerlink" title="why："></a>why：</h2><p>案例学习快速，容易理解。</p>
+<h2 id="how："><a href="#how：" class="headerlink" title="how："></a>how：</h2><p>在springboot基础下，使用jdbc配置数据源和通过JdbcTemplate编写数据访问，数据库使用mysql。</p>
+<h3 id="第一步：pom-xml文件依赖"><a href="#第一步：pom-xml文件依赖" class="headerlink" title="第一步：pom.xml文件依赖"></a>第一步：pom.xml文件依赖</h3><pre><code>&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+     xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd&quot;&gt;
+&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+&lt;groupId&gt;com.liukai&lt;/groupId&gt;
+&lt;artifactId&gt;springBootStudy&lt;/artifactId&gt;
+&lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+&lt;packaging&gt;war&lt;/packaging&gt;
+&lt;parent&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+    &lt;version&gt;1.3.3.RELEASE&lt;/version&gt;
 
-<p>第二步：数据源配置<br>（方法一：使用 Spring Boot 默认配置）<br>    使用 Spring Boot 默认配置，不需要在创建 dataSource 和 jdbcTemplate 的 Bean。<br>    在 src/main/resources/application.properties 中配置数据源信息。<br>        datasourcespring.datasource.driver-class-name=com.mysql.jdbc.Driver<br>        spring.datasource.url=jdbc:mysql://localhost:3306/springboot_db<br>        spring.datasource.username=root<br>        spring.datasource.password=root<br>（方法二：手动创建）<br>    在 src/main/resources/config/source.properties 中配置数据源信息。</p>
+&lt;/parent&gt;
+&lt;dependencies&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+
+
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-jdbc&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+
+    &lt;dependency&gt;
+        &lt;groupId&gt;mysql&lt;/groupId&gt;
+        &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+        &lt;version&gt;5.1.35&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+        &lt;artifactId&gt;druid&lt;/artifactId&gt;
+        &lt;version&gt;1.0.14&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.json&lt;/groupId&gt;
+        &lt;artifactId&gt;json&lt;/artifactId&gt;
+        &lt;version&gt;20160810&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;junit&lt;/groupId&gt;
+        &lt;artifactId&gt;junit&lt;/artifactId&gt;
+        &lt;version&gt;4.12&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+        &lt;scope&gt;test&lt;/scope&gt;
+    &lt;/dependency&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-log4j&lt;/artifactId&gt;
+    &lt;/dependency&gt;
+
+&lt;/dependencies&gt;
+&lt;build&gt;
+    &lt;plugins&gt;
+
+        &lt;plugin&gt;
+            &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+            &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
+            &lt;version&gt;3.6.1&lt;/version&gt;
+            &lt;configuration&gt;
+                &lt;source&gt;1.7&lt;/source&gt;
+                &lt;target&gt;1.7&lt;/target&gt;
+                &lt;encoding&gt;UTF-8&lt;/encoding&gt;
+                &lt;skip&gt;true&lt;/skip&gt;
+                &lt;compilerArguments&gt;
+                    &lt;extdirs&gt;src\main\webapp\WEB-INF\lib&lt;/extdirs&gt;
+                &lt;/compilerArguments&gt;
+            &lt;/configuration&gt;
+        &lt;/plugin&gt;
+    &lt;/plugins&gt;
+&lt;/build&gt;
+&lt;/project&gt;
+</code></pre><h3 id="第二步：数据源配置"><a href="#第二步：数据源配置" class="headerlink" title="第二步：数据源配置"></a>第二步：数据源配置</h3><p>（方法一：使用 Spring Boot 默认配置）<br>使用 Spring Boot 默认配置，不需要在创建 dataSource 和 jdbcTemplate 的 Bean。<br>在 src/main/resources/application.properties 中配置数据源信息。</p>
+<pre><code>datasourcespring.datasource.driver-class-name=com.mysql.jdbc.Driver
+spring.datasource.url=jdbc:mysql://localhost:3306/springboot_db
+spring.datasource.username=root
+spring.datasource.password=root
+</code></pre><p>（方法二：手动创建）<br>在 src/main/resources/config/source.properties 中配置数据源信息。</p>
 <pre><code># mysql
 source.driverClassName = com.mysql.jdbc.Driver
 source.url = jdbc:mysql://localhost:3306/springboot_db
@@ -348,200 +428,233 @@ public class BeanConfig {
         return jdbcTemplate;
     }
 }
-</code></pre><p>第三步：脚本初始化<br>CREATE TABLE <code>t_author</code> (<br><code>id</code> bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT ‘用户ID’,<br><code>real_name</code> varchar(32) NOT NULL COMMENT ‘用户名称’,<br><code>nick_name</code> varchar(32) NOT NULL COMMENT ‘用户匿名’,<br>PRIMARY KEY (<code>id</code>)<br>) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;</p>
-<p>第四步：entity，dao，service，controller<br>Entity：<br>public class Author {<br>    private Long id;<br>    private String realName;<br>    private String nickName;</p>
-<pre><code>public Long getId() {
-    return id;
-}
+</code></pre><p>###第三步：脚本初始化###</p>
+<pre><code>CREATE TABLE `t_author` (
+`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT &apos;用户ID&apos;,
+`real_name` varchar(32) NOT NULL COMMENT &apos;用户名称&apos;,
+`nick_name` varchar(32) NOT NULL COMMENT &apos;用户匿名&apos;,
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+</code></pre><p>###第四步：entity，dao，service，controller###<br>Entity：</p>
+<pre><code>public class Author {
+    private Long id;
+    private String realName;
+    private String nickName;
 
-public void setId(Long id) {
-    this.id = id;
-}
+    public Long getId() {
+        return id;
+    }
 
-public String getRealName() {
-    return realName;
-}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-public void setRealName(String realName) {
-    this.realName = realName;
-}
+    public String getRealName() {
+        return realName;
+    }
 
-public String getNickName() {
-    return nickName;
-}
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
 
-public void setNickName(String nickName) {
-    this.nickName = nickName;
-}
-</code></pre><p>}</p>
-<p>DAO:<br>public interface AuthorDao {</p>
-<pre><code>int add(Author author);
+    public String getNickName() {
+        return nickName;
+    }
 
-int update(Author author);
-
-int delete(Long id);
-
-Author findAuthor(Long id);
-
-List&lt;Author&gt; findAuthorList();
-</code></pre><p>}</p>
-<p>@Repository<br>public class AuthorDaoImpl implements AuthorDao {<br>    @Autowired<br>    private JdbcTemplate jdbcTemplate;</p>
-<pre><code>@Override
-public int add(Author author) {
-    return jdbcTemplate.update(&quot;INSERT  INTO t_author(real_Name, nick_Name) VALUES (?, ?)&quot;, author.getRealName(), author.getNickName());
-}
-
-@Override
-public int update(Author author) {
-    return jdbcTemplate.update(&quot;update t_author set real_name = ?, nick_name = ? where id = ?&quot;,
-            new Object[]{author.getRealName(), author.getNickName(), author.getId()});
-}
-
-@Override
-public int delete(Long id) {
-    return jdbcTemplate.update(&quot;delete from t_author where id = ?&quot;, id);
-}
-
-@Override
-public Author findAuthor(Long id) {
-    List&lt;Author&gt; list = jdbcTemplate.query(&quot;select * from t_author where id = ?&quot;, new Object[]{id}, new BeanPropertyRowMapper(Author.class));
-    if (null != list &amp;&amp; list.size() &gt; 0) {
-        Author auhtor = list.get(0);
-        return auhtor;
-    } else {
-        return null;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 }
+</code></pre><p>DAO:</p>
+<pre><code>public interface AuthorDao {
 
-@Override
-public List&lt;Author&gt; findAuthorList () {
-    List&lt;Author&gt; authorList = jdbcTemplate.query(&quot;select * from t_author&quot;, new Object[]{}, new BeanPropertyRowMapper&lt;Author&gt;(Author.class));
-    return authorList;
-}
-</code></pre><p>}</p>
-<p>Service:<br>public interface AuthorService {</p>
-<pre><code>int add(Author author);
-int update(Author author);
-int delete(Long id);
-Author findAuthor(Long id);
-List&lt;Author&gt; findAuthorList();
-</code></pre><p>}<br>@Service(“authorService”)<br>public class AuthorServiceImpl implements AuthorService{</p>
-<pre><code>@Autowired
-private AuthorDao authorDao;
+    int add(Author author);
 
-@Override
-public int add(Author author) {
-    return this.authorDao.add(author);
-}
+    int update(Author author);
 
-@Override
-public int update(Author author) {
-    return this.authorDao.update(author);
-}
+    int delete(Long id);
 
-@Override
-public int delete(Long id) {
-    return this.authorDao.delete(id);
-}
+    Author findAuthor(Long id);
 
-@Override
-public Author findAuthor(Long id) {
-    return this.authorDao.findAuthor(id);
+    List&lt;Author&gt; findAuthorList();
 }
+@Repository
+public class AuthorDaoImpl implements AuthorDao {
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
-@Override
-public List&lt;Author&gt; findAuthorList() {
-    return this.authorDao.findAuthorList();
-}
-</code></pre><p>}<br>controller:<br>@RestController<br>@RequestMapping(value = “/author”)<br>public class AuthorController{<br>    @Autowired<br>    private AuthorService authorService;</p>
-<pre><code>/**
- * 新增方法
- */
-@RequestMapping(value = &quot;/add&quot; ,method = RequestMethod.POST)
-public void add(@RequestBody UserDto userDto) {
-    Long userId = userDto.getUserId();
-    String realName = userDto.getRealName();
-    String nickName = userDto.getNickName();
-    Author author = new Author();
-    if (author!=null) {
-        author.setId(userId);
+    @Override
+    public int add(Author author) {
+        return jdbcTemplate.update(&quot;INSERT  INTO t_author(real_Name, nick_Name) VALUES (?, ?)&quot;, author.getRealName(), author.getNickName());
     }
-    author.setRealName(realName);
-    author.setNickName(nickName);
-    try{
-        this.authorService.add(author);
-    }catch(Exception e){
-        e.printStackTrace();
-        throw new RuntimeException(&quot;新增错误&quot;);
+
+    @Override
+    public int update(Author author) {
+        return jdbcTemplate.update(&quot;update t_author set real_name = ?, nick_name = ? where id = ?&quot;,
+                new Object[]{author.getRealName(), author.getNickName(), author.getId()});
+    }
+
+    @Override
+    public int delete(Long id) {
+        return jdbcTemplate.update(&quot;delete from t_author where id = ?&quot;, id);
+    }
+
+    @Override
+    public Author findAuthor(Long id) {
+        List&lt;Author&gt; list = jdbcTemplate.query(&quot;select * from t_author where id = ?&quot;, new Object[]{id}, new BeanPropertyRowMapper(Author.class));
+        if (null != list &amp;&amp; list.size() &gt; 0) {
+            Author auhtor = list.get(0);
+            return auhtor;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public List&lt;Author&gt; findAuthorList () {
+        List&lt;Author&gt; authorList = jdbcTemplate.query(&quot;select * from t_author&quot;, new Object[]{}, new BeanPropertyRowMapper&lt;Author&gt;(Author.class));
+        return authorList;
     }
 }
+</code></pre><p>Service:</p>
+<pre><code>public interface AuthorService {
 
-/**
- * 查询用户信息
- */
-@RequestMapping(value = &quot;/{userId:\\d+}&quot;, method = RequestMethod.GET)
-public Author getAuthor(@PathVariable Long userId, HttpServletRequest request) {
-    Author author = this.authorService.findAuthor(userId);
-    if(author == null){
-        throw new RuntimeException(&quot;查询错误&quot;);
+    int add(Author author);
+    int update(Author author);
+    int delete(Long id);
+    Author findAuthor(Long id);
+    List&lt;Author&gt; findAuthorList();
+}
+@Service(&quot;authorService&quot;)
+public class AuthorServiceImpl implements AuthorService{
+
+    @Autowired
+    private AuthorDao authorDao;
+
+    @Override
+    public int add(Author author) {
+        return this.authorDao.add(author);
     }
-    return author;
-}
 
+    @Override
+    public int update(Author author) {
+        return this.authorDao.update(author);
+    }
 
-/**
- * 查询用户列表
- */
-@RequestMapping(method = RequestMethod.GET)
-public Map&lt;String,Object&gt; getAuthorList(HttpServletRequest request) {
-    List&lt;Author&gt; authorList = this.authorService.findAuthorList();
-    Map&lt;String,Object&gt; param = new HashMap&lt;String,Object&gt;();
-    param.put(&quot;total&quot;, authorList.size());
-    param.put(&quot;rows&quot;, authorList);
-    return param;
-}
+    @Override
+    public int delete(Long id) {
+        return this.authorDao.delete(id);
+    }
 
-/**
-* 更新方法
-*/
-@RequestMapping(value = &quot;/{userId:\\d+}&quot;, method = RequestMethod.PUT)
-public void update(@PathVariable Long userId, @RequestBody JSONObject jsonObject) {
-    Author author = this.authorService.findAuthor(userId);
-    String realName = jsonObject.getString(&quot;real_name&quot;);
-    String nickName = jsonObject.getString(&quot;nick_name&quot;);
-    author.setRealName(realName);
-    author.setNickName(nickName);
-    try{
-        this.authorService.update(author);
-    }catch(Exception e){
-        e.printStackTrace();
-        throw new RuntimeException(&quot;更新错误&quot;);
+    @Override
+    public Author findAuthor(Long id) {
+        return this.authorDao.findAuthor(id);
+    }
+
+    @Override
+    public List&lt;Author&gt; findAuthorList() {
+        return this.authorDao.findAuthorList();
     }
 }
+</code></pre><p>controller:</p>
+<pre><code>@RestController
+@RequestMapping(value = &quot;/author&quot;)
+public class AuthorController{
+    @Autowired
+    private AuthorService authorService;
 
-/**
- * 删除方法
- */
-@RequestMapping(value = &quot;/{userId:\\d+}&quot;, method = RequestMethod.DELETE)
-public void delete(@PathVariable Long userId) {
-    try{
-        this.authorService.delete(userId);
-    }catch(Exception e){
-        throw new RuntimeException(&quot;删除错误&quot;);
+    /**
+    * 新增方法
+    */
+    @RequestMapping(value = &quot;/add&quot; ,method = RequestMethod.POST)
+    public void add(@RequestBody UserDto userDto) {
+        Long userId = userDto.getUserId();
+        String realName = userDto.getRealName();
+        String nickName = userDto.getNickName();
+        Author author = new Author();
+        if (author!=null) {
+            author.setId(userId);
+        }
+        author.setRealName(realName);
+        author.setNickName(nickName);
+        try{
+            this.authorService.add(author);
+        }catch(Exception e){
+            e.printStackTrace();
+            throw new RuntimeException(&quot;新增错误&quot;);
+        }
+    }
+
+    /**
+    * 查询用户信息
+    */
+    @RequestMapping(value = &quot;/{userId:\\d+}&quot;, method = RequestMethod.GET)
+    public Author getAuthor(@PathVariable Long userId, HttpServletRequest request) {
+        Author author = this.authorService.findAuthor(userId);
+        if(author == null){
+            throw new RuntimeException(&quot;查询错误&quot;);
+        }
+        return author;
+    }
+
+
+    /**
+    * 查询用户列表
+    */
+    @RequestMapping(method = RequestMethod.GET)
+    public Map&lt;String,Object&gt; getAuthorList(HttpServletRequest request) {
+        List&lt;Author&gt; authorList = this.authorService.findAuthorList();
+        Map&lt;String,Object&gt; param = new HashMap&lt;String,Object&gt;();
+        param.put(&quot;total&quot;, authorList.size());
+        param.put(&quot;rows&quot;, authorList);
+        return param;
+    }
+
+    /**
+    * 更新方法
+    */
+    @RequestMapping(value = &quot;/{userId:\\d+}&quot;, method = RequestMethod.PUT)
+    public void update(@PathVariable Long userId, @RequestBody JSONObject jsonObject) {
+        Author author = this.authorService.findAuthor(userId);
+        String realName = jsonObject.getString(&quot;real_name&quot;);
+        String nickName = jsonObject.getString(&quot;nick_name&quot;);
+        author.setRealName(realName);
+        author.setNickName(nickName);
+        try{
+            this.authorService.update(author);
+        }catch(Exception e){
+            e.printStackTrace();
+            throw new RuntimeException(&quot;更新错误&quot;);
+        }
+    }
+
+    /**
+    * 删除方法
+    */
+    @RequestMapping(value = &quot;/{userId:\\d+}&quot;, method = RequestMethod.DELETE)
+    public void delete(@PathVariable Long userId) {
+        try{
+            this.authorService.delete(userId);
+        }catch(Exception e){
+            throw new RuntimeException(&quot;删除错误&quot;);
+        }
     }
 }
-</code></pre><p>}</p>
-<p>第五步：编写启动类<br>@SpringBootApplication<br>public class AuthorApplication extends SpringBootServletInitializer {</p>
-<pre><code>public static void main(String[] args) {
-    SpringApplication.run(AuthorApplication.class, args);
-}
+</code></pre><p>###第五步：编写启动类###</p>
+<pre><code>@SpringBootApplication
+public class AuthorApplication extends SpringBootServletInitializer {
 
-@Override
-protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-    return application.sources(AuthorApplication.class);
+
+    public static void main(String[] args) {
+        SpringApplication.run(AuthorApplication.class, args);
+    }
+
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(AuthorApplication.class);
+    }
 }
-</code></pre><p>}</p>
-<p>总结：感觉springboot的启动类又可以叫做配置类。每一个项目都要有一个配置类（当然你想没有也可以）代替之前spring的Application.xml配置文件。只不过这里<br>简单springboot的默认配置已经满足，不用再配置类在配置其他东西。目前先不深入了解启动类中的注解，一步一步来。</p>
+</code></pre><p>总结：感觉springboot的启动类又可以叫做配置类。每一个项目都要有一个配置类（当然你想没有也可以）代替之前spring的Application.xml配置文件。只不过这里<br>简单springboot的默认配置已经满足，不用再配置类在配置其他东西。目前先不深入了解启动类中的注解，一步一步来。</p>
 
       
     </div>
@@ -678,7 +791,7 @@ protected SpringApplicationBuilder configure(SpringApplicationBuilder applicatio
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
@@ -727,7 +840,7 @@ protected SpringApplicationBuilder configure(SpringApplicationBuilder applicatio
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#what：是个什么项目"><span class="nav-number">1.</span> <span class="nav-text">what：是个什么项目</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#what：是个什么项目"><span class="nav-number">1.</span> <span class="nav-text">what：是个什么项目</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#when："><span class="nav-number">2.</span> <span class="nav-text">when：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#where"><span class="nav-number">3.</span> <span class="nav-text">where</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#why："><span class="nav-number">4.</span> <span class="nav-text">why：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#how："><span class="nav-number">5.</span> <span class="nav-text">how：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一步：pom-xml文件依赖"><span class="nav-number">5.1.</span> <span class="nav-text">第一步：pom.xml文件依赖</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二步：数据源配置"><span class="nav-number">5.2.</span> <span class="nav-text">第二步：数据源配置</span></a></li></ol></li></ol></div>
             
 
           </div>
