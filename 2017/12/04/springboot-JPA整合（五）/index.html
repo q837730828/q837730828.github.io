@@ -79,19 +79,17 @@
 
 
 
-<meta name="description" content="Tags :java注解的用法">
+<meta name="description" content="Tags : springboot, JPA, mysql">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JAVA注解">
-<meta property="og:url" content="http://yoursite.com/2017/12/01/JAVA注解/index.html">
+<meta property="og:title" content="springboot-JPA整合（五）">
+<meta property="og:url" content="http://yoursite.com/2017/12/04/springboot-JPA整合（五）/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="Tags :java注解的用法">
+<meta property="og:description" content="Tags : springboot, JPA, mysql">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2017/12/01/JAVA注解/javaAnnotation/1.png">
-<meta property="og:updated_time" content="2017-12-01T12:09:07.353Z">
+<meta property="og:updated_time" content="2017-12-05T01:59:11.171Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JAVA注解">
-<meta name="twitter:description" content="Tags :java注解的用法">
-<meta name="twitter:image" content="http://yoursite.com/2017/12/01/JAVA注解/javaAnnotation/1.png">
+<meta name="twitter:title" content="springboot-JPA整合（五）">
+<meta name="twitter:description" content="Tags : springboot, JPA, mysql">
 
 
 
@@ -121,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/12/01/JAVA注解/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/12/04/springboot-JPA整合（五）/"/>
 
 
 
 
 
-  <title>JAVA注解 | Blog</title>
+  <title>springboot-JPA整合（五） | Blog</title>
   
 
 
@@ -234,7 +232,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/01/JAVA注解/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/04/springboot-JPA整合（五）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="老孩">
@@ -251,7 +249,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">JAVA注解</h1>
+          <h1 class="post-title" itemprop="name headline">springboot-JPA整合（五）</h1>
         
 
         <div class="post-meta">
@@ -263,8 +261,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-01T19:55:54+08:00">
-                2017-12-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-04T14:31:08+08:00">
+                2017-12-04
               </time>
             
 
@@ -281,7 +279,7 @@
 
           
           
-             <span id="/2017/12/01/JAVA注解/" class="leancloud_visitors" data-flag-title="JAVA注解">
+             <span id="/2017/12/04/springboot-JPA整合（五）/" class="leancloud_visitors" data-flag-title="springboot-JPA整合（五）">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -312,162 +310,222 @@
       
 
       
-        <p><center><font color="#CC4A31">Tags :java注解的用法</font></center><br><a id="more"></a></p>
-<p><img src="javaAnnotation/1.png" alt="java注解的详解图"></p>
-<h2 id="用途："><a href="#用途：" class="headerlink" title="用途："></a>用途：</h2><p>如果没有用来读取注解的方法和工作，那么注解也就不会比注释更有用处了。但是在web开发中使用可以定义注解然后通过aop或者扫描包（比如说spring中提供的功能）来实现通过注解定位，更灵活方便。使用注解的过程中，很重要的一部分就是创建于使用注解处理器。Java SE5扩展了反射机制的API，以帮助程序员快速的构造自定义注解处理器。</p>
-<h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><pre><code>/***********注解声明***************/
-/**
-* 水果名称注解
-* @author peida
-*
-*/
-@Target(ElementType.FIELD)
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface FruitName {
-    String value() default &quot;&quot;;
-}
+        <p><center><font color="#CC4A31">Tags : springboot, JPA, mysql</font></center><br><a id="more"></a></p>
+<h2 id="What：什么是JPA"><a href="#What：什么是JPA" class="headerlink" title="What：什么是JPA"></a>What：什么是JPA</h2><p>JPA － Java Persistence API，是从JDK5开始提供的，用来描述对象 &lt;–&gt; 关系表映射关系，并持久化的标准。也就是说，在java中，他只是一套标准接口，没了具体实现，她什么也实现不了。常见的实现有hibernate，spring data jpa。<br>JPA是orm框架标准，主流的orm框架都实现了这个标准。<br>Mybatis - 另一个思路的持久化层框架，与上述的JPA思路不同，他不是依靠ORM描述映射关系来与数据库交互的。<br>MyBatis没有实现JPA，他和orm框架的设计思路完全不一样。<br>MyBatis是拥抱sql，而orm则更靠近面向对象，不建议写sql，实在要写推荐你写hql代替。<br>    <font color="#CC4A31">Mybatis是sql mapping框架而不是orm框架，当然orm和Mybatis都是持久层框架。</font><br>Hibernate是全自动ORM框架，而Mybatis是半自动的。hibernate完全可以通过对象关系模型实现对数据库的操作，拥有完整的JavaBean对象与数据库的映射结构来自动生成sql。而mybatis仅有基本的字段映射，对象数据以及对象实际关系仍然需要通过手写sql来实现和管理。</p>
+<h2 id="when："><a href="#when：" class="headerlink" title="when："></a>when：</h2><h2 id="where"><a href="#where" class="headerlink" title="where"></a>where</h2><h2 id="why："><a href="#why：" class="headerlink" title="why："></a>why：</h2><h2 id="how："><a href="#how：" class="headerlink" title="how："></a>how：</h2><h3 id="第一步，添加相关依赖。"><a href="#第一步，添加相关依赖。" class="headerlink" title="第一步，添加相关依赖。"></a>第一步，添加相关依赖。</h3><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;
+                xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+                xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
 
-/**
-* 水果颜色注解
-* @author peida
-*
-*/
-@Target(ElementType.FIELD)
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface FruitColor {
-    /**
-    * 颜色枚举
-    * @author peida
-    *
-    */
-    public enum Color{ BULE,RED,GREEN};
+    &lt;parent&gt;
+        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+        &lt;version&gt;1.3.3.RELEASE&lt;/version&gt;
+    &lt;/parent&gt;
 
-    /**
-    * 颜色属性
-    * @return
-    */
-    Color fruitColor() default Color.GREEN;
-}
+    &lt;groupId&gt;com.liukai&lt;/groupId&gt;
+    &lt;artifactId&gt;SpringBoot-JPA&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+    &lt;packaging&gt;jar&lt;/packaging&gt;
 
-/**
-* 水果供应者注解
-* @author peida
-*
-*/
-@Target(ElementType.FIELD)
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface FruitProvider {
-    /**
-    * 供应商编号
-    * @return
-    */
-    public int id() default -1;
+    &lt;dependencies&gt;
+        &lt;!-- spring-boot --&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-log4j&lt;/artifactId&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
+            &lt;scope&gt;test&lt;/scope&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;
+        &lt;/dependency&gt;
 
-    /**
-    * 供应商名称
-    * @return
-    */
-    public String name() default &quot;&quot;;
+        &lt;dependency&gt;
+            &lt;groupId&gt;mysql&lt;/groupId&gt;
+            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+            &lt;version&gt;5.1.35&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
+            &lt;artifactId&gt;druid&lt;/artifactId&gt;
+            &lt;version&gt;1.0.14&lt;/version&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+&lt;/project&gt;
+</code></pre><h3 id="第二步：数据源配置"><a href="#第二步：数据源配置" class="headerlink" title="第二步：数据源配置"></a>第二步：数据源配置</h3><p>（使用 Spring Boot 默认配置）<br>使用 Spring Boot 默认配置，不需要在创建 dataSource 和 jdbcTemplate 的 Bean。<br>在 src/main/resources/application.properties 中配置数据源信息。</p>
+<pre><code>datasourcespring.datasource.driver-class-name=com.mysql.jdbc.Driver
+spring.datasource.url=jdbc:mysql://localhost:3306/springboot_db
+spring.datasource.username=root
+spring.datasource.password=root
+</code></pre><p>###第三步：脚本初始化###</p>
+<pre><code>CREATE TABLE `t_author` (
+`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT &apos;用户ID&apos;,
+`real_name` varchar(32) NOT NULL COMMENT &apos;用户名称&apos;,
+`nick_name` varchar(32) NOT NULL COMMENT &apos;用户匿名&apos;,
+PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+</code></pre><p>###第四步：entity，dao，service，controller 整合JPA有两种方案###</p>
+<h4 id="方案一-通过继承JpaRepository接口"><a href="#方案一-通过继承JpaRepository接口" class="headerlink" title="方案一 通过继承JpaRepository接口"></a>方案一 通过继承JpaRepository接口</h4><p>Entity：（因为和mybatis实现方式不同，需要配置相应的java注解）</p>
+<pre><code>@Entity
+@Table(name = &quot;t_author&quot;)
+public class Author{
 
-    /**
-    * 供应商地址
-    * @return
-    */
-    public String address() default &quot;&quot;;
-}
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-/***********注解使用***************/
+    @Column(name=&quot;real_name&quot;)
+    private String realName;
 
-public class Apple {
+    @Column(name=&quot;nick_name&quot;)
+    private String nickName;
 
-    @FruitName(&quot;Apple&quot;)
-    private String appleName;
-
-    @FruitColor(fruitColor=Color.RED)
-    private String appleColor;
-
-    @FruitProvider(id=1,name=&quot;陕西红富士集团&quot;,address=&quot;陕西省西安市延安路89号红富士大厦&quot;)
-    private String appleProvider;
-
-    public void setAppleColor(String appleColor) {
-        this.appleColor = appleColor;
+    // SET和GET方法
+    public Long getId() {
+        return id;
     }
-    public String getAppleColor() {
-        return appleColor;
+    public void setId(Long id) {
+        this.id = id;
     }
-
-    public void setAppleName(String appleName) {
-        this.appleName = appleName;
+    public String getRealName() {
+        return realName;
     }
-    public String getAppleName() {
-        return appleName;
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
-
-    public void setAppleProvider(String appleProvider) {
-        this.appleProvider = appleProvider;
+    public String getNickName() {
+        return nickName;
     }
-    public String getAppleProvider() {
-        return appleProvider;
-    }
-
-    public void displayName(){
-        System.out.println(&quot;水果的名字是：苹果&quot;);
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 }
+</code></pre><p>DAO:<font color="#CC4A31">差别主要在这里</font></p>
+<pre><code>public interface AuthorRepository extends CrudRepository&lt;Author, Long&gt; {
 
-/***********注解处理器***************/
+    List&lt;Author&gt; findAll();
 
-public class FruitInfoUtil {
-    public static void getFruitInfo(Class&lt;?&gt; clazz){
+    @Query(&quot;from Author where id = :id&quot;)
+    Author findAuthor(@Param(&quot;id&quot;) Long id);
+}
+</code></pre><p>Service:</p>
+<pre><code>@Service
+public class AuthorService {
+    @Autowired
+    private AuthorRepository authorRepository;
 
-        String strFruitName=&quot; 水果名称：&quot;;
-        String strFruitColor=&quot; 水果颜色：&quot;;
-        String strFruitProvicer=&quot;供应商信息：&quot;;
+    public List&lt;Author&gt; findAll() {
+        return this.authorRepository.findAll();
+    }
 
-        Field[] fields = clazz.getDeclaredFields();
+    public Author findAuthor(Long id){
+        return this.authorRepository.findAuthor(id);
+    }
+}
+</code></pre><p>controller:</p>
+<pre><code>@RestController
+@RequestMapping
+public class AuthorController {
 
-        for(Field field :fields){
-            if(field.isAnnotationPresent(FruitName.class)){
-                FruitName fruitName = (FruitName) field.getAnnotation(FruitName.class);
-                strFruitName=strFruitName+fruitName.value();
-                System.out.println(strFruitName);
-            }
-            else if(field.isAnnotationPresent(FruitColor.class)){
-                FruitColor fruitColor= (FruitColor) field.getAnnotation(FruitColor.class);
-                strFruitColor=strFruitColor+fruitColor.fruitColor().toString();
-                System.out.println(strFruitColor);
-            }
-            else if(field.isAnnotationPresent(FruitProvider.class)){
-                FruitProvider fruitProvider= (FruitProvider) field.getAnnotation(FruitProvider.class);
-                strFruitProvicer=&quot; 供应商编号：&quot;+fruitProvider.id()+&quot; 供应商名称：&quot;+fruitProvider.name()+&quot; 供应商地址：&quot;+fruitProvider.address();
-                System.out.println(strFruitProvicer);
-            }
+    @Autowired
+    private AuthorService authorService;
+
+    /**
+    * 查询用户列表
+    */
+    @RequestMapping(method = RequestMethod.GET)
+    public Map&lt;String, Object&gt; getAuthorList(HttpServletRequest request) {
+        List&lt;Author&gt; authorList = this.authorService.findAll();
+        Map&lt;String, Object&gt; param = new HashMap&lt;String, Object&gt;();
+        param.put(&quot;total&quot;, authorList.size());
+        param.put(&quot;rows&quot;, authorList);
+        return param;
+    }
+
+
+    /**
+    * 查询用户信息
+    */
+    @RequestMapping(value = &quot;/{userId:\\d+}&quot;, method = RequestMethod.GET)
+    public Author getAuthor(@PathVariable Long userId, HttpServletRequest request) {
+        Author author = this.authorService.findAuthor(userId);
+        if (author == null) {
+            throw new RuntimeException(&quot;查询错误&quot;);
         }
+        return author;
     }
 }
+</code></pre><p>启动类：</p>
+<pre><code>@Configuration
+@SpringBootApplication
+public class AuthorApplication extends SpringBootServletInitializer{
 
-/***********输出结果***************/
-public class FruitRun {
-
-    /**
-    * @param args
-    */
     public static void main(String[] args) {
-
-        FruitInfoUtil.getFruitInfo(Apple.class);
-
+        SpringApplication.run(AuthorApplication.class, args);
     }
 
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(AuthorApplication.class);
+    }
+}
+</code></pre><h4 id="方案二-通过调用EntityManager类方法"><a href="#方案二-通过调用EntityManager类方法" class="headerlink" title="方案二 通过调用EntityManager类方法"></a>方案二 通过调用EntityManager类方法</h4><p>entity：</p>
+<pre><code>@Entity
+@Table(name = &quot;t_author&quot;)
+public class Author{
+@Id
+@GeneratedValue(strategy = GenerationType.AUTO)
+private Long id;
+
+@Column(name=&quot;real_name&quot;)
+private String realName;
+
+@Column(name=&quot;nick_name&quot;)
+private String nickName;
+
+// SET和GET方法
+}
+</code></pre><p>dao：</p>
+<pre><code>public interface AuthorDao {
+    List&lt;Author&gt; findAll();
+    Author findAuthor(Long id);
 }
 
-====================================
-水果名称：Apple
-水果颜色：RED
-供应商编号：1 供应商名称：陕西红富士集团 供应商地址：陕西省西安市延安路89号红富士大厦
-</code></pre><p><a href="http://www.cnblogs.com/peida/archive/2013/04/26/3038503.html" target="_blank" rel="noopener">大神教程</a></p>
+@Repository
+public class AuthorDaoImpl implements AuthorDao {
+//差别主要在这里
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Override
+    public List&lt;Author&gt; findAll() {
+        return this.entityManager
+        .createQuery(&quot;select t from Author t&quot;, Author.class)
+        .getResultList();
+    }
+    @Override
+    public Author findAuthor(Long id){
+        return this.entityManager
+        .createQuery(&quot;select t from Author t where id = ?&quot;, Author.class)
+        .setParameter(1, id)
+        .getSingleResult();
+    }
+}
+</code></pre><p>service和controller和方案一相同。</p>
+<p>总结：两种实现方式的区别在dao层。什么是jpa？什么是orm？spring data jpa是什么？和hibernate和mybitas有什么关系？</p>
 
       
     </div>
@@ -492,8 +550,8 @@ public class FruitRun {
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/01/自己写了个乱七八糟的小工具/" rel="next" title="自己写了个乱七八糟的小工具">
-                <i class="fa fa-chevron-left"></i> 自己写了个乱七八糟的小工具
+              <a href="/2017/12/01/JAVA注解/" rel="next" title="JAVA注解">
+                <i class="fa fa-chevron-left"></i> JAVA注解
               </a>
             
           </div>
@@ -502,8 +560,8 @@ public class FruitRun {
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/12/04/springboot-JPA整合（五）/" rel="prev" title="springboot-JPA整合（五）">
-                springboot-JPA整合（五） <i class="fa fa-chevron-right"></i>
+              <a href="/2017/12/04/FastJson中-JSONField注解使用/" rel="prev" title="FastJson中@JSONField注解使用">
+                FastJson中@JSONField注解使用 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -647,7 +705,7 @@ public class FruitRun {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#用途："><span class="nav-number">1.</span> <span class="nav-text">用途：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例代码"><span class="nav-number">2.</span> <span class="nav-text">示例代码</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#What：什么是JPA"><span class="nav-number">1.</span> <span class="nav-text">What：什么是JPA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#when："><span class="nav-number">2.</span> <span class="nav-text">when：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#where"><span class="nav-number">3.</span> <span class="nav-text">where</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#why："><span class="nav-number">4.</span> <span class="nav-text">why：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#how："><span class="nav-number">5.</span> <span class="nav-text">how：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一步，添加相关依赖。"><span class="nav-number">5.1.</span> <span class="nav-text">第一步，添加相关依赖。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二步：数据源配置"><span class="nav-number">5.2.</span> <span class="nav-text">第二步：数据源配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#方案一-通过继承JpaRepository接口"><span class="nav-number">5.2.1.</span> <span class="nav-text">方案一 通过继承JpaRepository接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方案二-通过调用EntityManager类方法"><span class="nav-number">5.2.2.</span> <span class="nav-text">方案二 通过调用EntityManager类方法</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>

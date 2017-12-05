@@ -79,19 +79,17 @@
 
 
 
-<meta name="description" content="Tags :java注解的用法">
+<meta name="description" content="Tags : 小问题">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JAVA注解">
-<meta property="og:url" content="http://yoursite.com/2017/12/01/JAVA注解/index.html">
+<meta property="og:title" content="FastJson中@JSONField注解使用">
+<meta property="og:url" content="http://yoursite.com/2017/12/04/FastJson中-JSONField注解使用/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="Tags :java注解的用法">
+<meta property="og:description" content="Tags : 小问题">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2017/12/01/JAVA注解/javaAnnotation/1.png">
-<meta property="og:updated_time" content="2017-12-01T12:09:07.353Z">
+<meta property="og:updated_time" content="2017-12-04T10:55:50.130Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JAVA注解">
-<meta name="twitter:description" content="Tags :java注解的用法">
-<meta name="twitter:image" content="http://yoursite.com/2017/12/01/JAVA注解/javaAnnotation/1.png">
+<meta name="twitter:title" content="FastJson中@JSONField注解使用">
+<meta name="twitter:description" content="Tags : 小问题">
 
 
 
@@ -121,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/12/01/JAVA注解/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/12/04/FastJson中-JSONField注解使用/"/>
 
 
 
 
 
-  <title>JAVA注解 | Blog</title>
+  <title>FastJson中@JSONField注解使用 | Blog</title>
   
 
 
@@ -234,7 +232,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/01/JAVA注解/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/04/FastJson中-JSONField注解使用/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="老孩">
@@ -251,7 +249,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">JAVA注解</h1>
+          <h1 class="post-title" itemprop="name headline">FastJson中@JSONField注解使用</h1>
         
 
         <div class="post-meta">
@@ -263,8 +261,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-01T19:55:54+08:00">
-                2017-12-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-04T18:39:50+08:00">
+                2017-12-04
               </time>
             
 
@@ -281,7 +279,7 @@
 
           
           
-             <span id="/2017/12/01/JAVA注解/" class="leancloud_visitors" data-flag-title="JAVA注解">
+             <span id="/2017/12/04/FastJson中-JSONField注解使用/" class="leancloud_visitors" data-flag-title="FastJson中@JSONField注解使用">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -312,162 +310,59 @@
       
 
       
-        <p><center><font color="#CC4A31">Tags :java注解的用法</font></center><br><a id="more"></a></p>
-<p><img src="javaAnnotation/1.png" alt="java注解的详解图"></p>
-<h2 id="用途："><a href="#用途：" class="headerlink" title="用途："></a>用途：</h2><p>如果没有用来读取注解的方法和工作，那么注解也就不会比注释更有用处了。但是在web开发中使用可以定义注解然后通过aop或者扫描包（比如说spring中提供的功能）来实现通过注解定位，更灵活方便。使用注解的过程中，很重要的一部分就是创建于使用注解处理器。Java SE5扩展了反射机制的API，以帮助程序员快速的构造自定义注解处理器。</p>
-<h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><pre><code>/***********注解声明***************/
-/**
-* 水果名称注解
-* @author peida
-*
-*/
-@Target(ElementType.FIELD)
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface FruitName {
-    String value() default &quot;&quot;;
-}
+        <p><center><font color="#CC4A31">Tags : 小问题</font></center><br><a id="more"></a><br>最近做项目中，使用了json格式在服务器之间进行数据传输。但是发现json格式数据不符合JAVA中的变量定义规则，并且难以理解，因此需要在后台中做二次处理，将数据处理成我们系统中定义的格式。<br>由于json中的key与bean中的属性不能匹配，因此在转换过程中出现了部分属性为null的情况。经过查看官方文档，发现可以使用@JSONField进行解释，但是并没有详细的使用说明。<br>@JSONField的作用对象:<br>1、Field<br>2、Setter 和 Getter方法</p>
+<font color="#CC4A31">注：FastJson在进行操作时，是根据getter和setter的方法进行的，并不是依据Field进行。</font><br>一、作用Field<br><font color="#CC4A31">@JSONField作用在Field时，其name不仅定义了输入key的名称，同时也定义了输出的名称。</font>
 
-/**
-* 水果颜色注解
-* @author peida
-*
-*/
-@Target(ElementType.FIELD)
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface FruitColor {
-    /**
-    * 颜色枚举
-    * @author peida
-    *
-    */
-    public enum Color{ BULE,RED,GREEN};
+<pre><code>import com.alibaba.fastjson.JSONObject;  
+import com.alibaba.fastjson.annotation.JSONField;  
 
-    /**
-    * 颜色属性
-    * @return
-    */
-    Color fruitColor() default Color.GREEN;
-}
+public class Person {  
+    @JSONField(name=&quot;name&quot;)  
+    private String name;  
 
-/**
-* 水果供应者注解
-* @author peida
-*
-*/
-@Target(ElementType.FIELD)
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface FruitProvider {
-    /**
-    * 供应商编号
-    * @return
-    */
-    public int id() default -1;
+    @JSONField(name=&quot;age&quot;)  
+    private String age;  
 
-    /**
-    * 供应商名称
-    * @return
-    */
-    public String name() default &quot;&quot;;
+    @JSONField(name=&quot;desc&quot;)  
+    private String desc;  
 
-    /**
-    * 供应商地址
-    * @return
-    */
-    public String address() default &quot;&quot;;
-}
+    public String getName() {  
+        return name;  
+    }  
+    public void setName(String name) {  
+        this.name = name;  
+    }  
+    public String getAge() {  
+        return age;  
+    }  
+    public void setAge(String age) {  
+        this.age = age;  
+    }  
+    public String getDesc() {  
+        return desc;  
+    }  
+    public void setDesc(String desc) {  
+        this.desc = desc;  
+    }  
 
-/***********注解使用***************/
+    public void setNAME(String NAME) {  //没有生效，字段上注解中的name的值为&quot;name&quot;，则setter为setName
+        this.name = NAME;  
+    }  
 
-public class Apple {
+    public void setAGE(String AGE) {  //没有生效，字段上注解中的name的值为&quot;name&quot;，则setter为setAge
+        this.age = AGE;  
+    }  
 
-    @FruitName(&quot;Apple&quot;)
-    private String appleName;
+    public void setDESC(String DESC) {  //没有生效，字段上注解中的name的值为&quot;name&quot;，则setter为setDesc
+        this.desc = DESC;  
+    }  
 
-    @FruitColor(fruitColor=Color.RED)
-    private String appleColor;
-
-    @FruitProvider(id=1,name=&quot;陕西红富士集团&quot;,address=&quot;陕西省西安市延安路89号红富士大厦&quot;)
-    private String appleProvider;
-
-    public void setAppleColor(String appleColor) {
-        this.appleColor = appleColor;
-    }
-    public String getAppleColor() {
-        return appleColor;
-    }
-
-    public void setAppleName(String appleName) {
-        this.appleName = appleName;
-    }
-    public String getAppleName() {
-        return appleName;
-    }
-
-    public void setAppleProvider(String appleProvider) {
-        this.appleProvider = appleProvider;
-    }
-    public String getAppleProvider() {
-        return appleProvider;
-    }
-
-    public void displayName(){
-        System.out.println(&quot;水果的名字是：苹果&quot;);
-    }
-}
-
-/***********注解处理器***************/
-
-public class FruitInfoUtil {
-    public static void getFruitInfo(Class&lt;?&gt; clazz){
-
-        String strFruitName=&quot; 水果名称：&quot;;
-        String strFruitColor=&quot; 水果颜色：&quot;;
-        String strFruitProvicer=&quot;供应商信息：&quot;;
-
-        Field[] fields = clazz.getDeclaredFields();
-
-        for(Field field :fields){
-            if(field.isAnnotationPresent(FruitName.class)){
-                FruitName fruitName = (FruitName) field.getAnnotation(FruitName.class);
-                strFruitName=strFruitName+fruitName.value();
-                System.out.println(strFruitName);
-            }
-            else if(field.isAnnotationPresent(FruitColor.class)){
-                FruitColor fruitColor= (FruitColor) field.getAnnotation(FruitColor.class);
-                strFruitColor=strFruitColor+fruitColor.fruitColor().toString();
-                System.out.println(strFruitColor);
-            }
-            else if(field.isAnnotationPresent(FruitProvider.class)){
-                FruitProvider fruitProvider= (FruitProvider) field.getAnnotation(FruitProvider.class);
-                strFruitProvicer=&quot; 供应商编号：&quot;+fruitProvider.id()+&quot; 供应商名称：&quot;+fruitProvider.name()+&quot; 供应商地址：&quot;+fruitProvider.address();
-                System.out.println(strFruitProvicer);
-            }
-        }
-    }
-}
-
-/***********输出结果***************/
-public class FruitRun {
-
-    /**
-    * @param args
-    */
-    public static void main(String[] args) {
-
-        FruitInfoUtil.getFruitInfo(Apple.class);
-
-    }
-
-}
-
-====================================
-水果名称：Apple
-水果颜色：RED
-供应商编号：1 供应商名称：陕西红富士集团 供应商地址：陕西省西安市延安路89号红富士大厦
-</code></pre><p><a href="http://www.cnblogs.com/peida/archive/2013/04/26/3038503.html" target="_blank" rel="noopener">大神教程</a></p>
+    public String toString() {  
+        return JSONObject.toJSONString(this);  
+    }  
+}  
+</code></pre><p>二、作用在setter和getter方法上</p>
+<p><font color="#CC4A31">当作用在setter方法上时，就相当于根据 name 到 json中寻找对应的值，并调用该setter对象赋值。<br>当作用在getter上时，在bean转换为json时，其key值为name定义的值。</font><br>实例如下：<a href="http://blog.csdn.net/qq_38287146/article/details/74012105" target="_blank" rel="noopener">大神实例</a></p>
 
       
     </div>
@@ -492,8 +387,8 @@ public class FruitRun {
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/01/自己写了个乱七八糟的小工具/" rel="next" title="自己写了个乱七八糟的小工具">
-                <i class="fa fa-chevron-left"></i> 自己写了个乱七八糟的小工具
+              <a href="/2017/12/04/springboot-JPA整合（五）/" rel="next" title="springboot-JPA整合（五）">
+                <i class="fa fa-chevron-left"></i> springboot-JPA整合（五）
               </a>
             
           </div>
@@ -501,10 +396,6 @@ public class FruitRun {
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/12/04/springboot-JPA整合（五）/" rel="prev" title="springboot-JPA整合（五）">
-                springboot-JPA整合（五） <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -556,17 +447,8 @@ public class FruitRun {
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -637,22 +519,6 @@ public class FruitRun {
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#用途："><span class="nav-number">1.</span> <span class="nav-text">用途：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例代码"><span class="nav-number">2.</span> <span class="nav-text">示例代码</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
