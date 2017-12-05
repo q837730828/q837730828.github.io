@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo.jpg?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo.jpg?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Tags : springboot注解及其相关">
+<meta property="og:type" content="article">
+<meta property="og:title" content="springboot注解以及一些理解">
+<meta property="og:url" content="http://yoursite.com/2017/12/05/springboot注解以及一些理解/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="Tags : springboot注解及其相关">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-12-05T11:14:51.398Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="springboot注解以及一些理解">
+<meta name="twitter:description" content="Tags : springboot注解及其相关">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/05/springboot注解以及一些理解/"/>
+
+
+
+
+
+  <title>springboot注解以及一些理解 | Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/05/springboot注解以及一些理解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="老孩">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/headphoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">springboot注解以及一些理解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-05T18:45:50+08:00">
+                2017-12-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/12/05/springboot注解以及一些理解/" class="leancloud_visitors" data-flag-title="springboot注解以及一些理解">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><center><font color="#CC4A31">Tags : springboot注解及其相关</font></center><br><a id="more"></a></p>
+<h3 id="Controlle，-RestController"><a href="#Controlle，-RestController" class="headerlink" title="@Controlle，@RestController"></a>@Controlle，@RestController</h3><p>The @RequestMapping annotation provides “routing” information. It tells Spring that any HTTP request with the / path should be mapped to the home method. The @RestController annotation tells Spring to render the resulting string directly back to the caller.<br>（@requestmapping告诉spring，http请求路径，@restcontroller告诉spring，将产生的字符串直接返回给调用者）<br>The @RestController and @RequestMapping annotations are Spring MVC annotations.</p>
+<h3 id="Controller和-RestController的区别？"><a href="#Controller和-RestController的区别？" class="headerlink" title="@Controller和@RestController的区别？"></a>@Controller和@RestController的区别？</h3><p>官方文档：<br>@RestController is a stereotype annotation that combines @ResponseBody and @Controller.<br>意思是：<br>@RestController注解相当于@ResponseBody ＋ @Controller合在一起的作用。<br>1)如果只是使用@RestController注解Controller，则Controller中的方法无法返回jsp页面，配置的视图解析器InternalResourceViewResolver不起作用，返回的内容就是Return 里的内容。<br>例如：本来应该到success.jsp页面的，则其显示success.<br>2)如果需要返回到指定页面，则需要用 @Controller配合视图解析器InternalResourceViewResolver才行。<br>3)如果需要返回JSON，XML或自定义mediaType内容到页面，则需要在对应的方法上加上@ResponseBody注解。<br>@Configuration，@Bean<br>@Configuration可理解为用spring的时候xml里面的<beans>标签<br>@Bean可理解为用spring的时候xml里面的<bean>标签<br>Spring Boot不是spring的加强版，所以@Configuration和@Bean同样可以用在普通的spring项目中，而不是Spring Boot特有的，只是在spring用的时候，注意加上扫包配置</bean></beans></p>
+<p><context:component-scan base-package="com.xxx.xxx">，普通的spring项目好多注解都需要扫包，才有用，有时候自己注解用的挺6，但不起效果，就要注意这点。<br>Spring Boot则不需要，主要你保证你的启动Spring Boot main入口，在这些类的上层包就行。<br>如果通过注解来扫描包，有三种方法：<br>1.最简单的方法，当然是把它放到程序可以扫描到的package里，也就是@ComponentScan注解所指定的package里。<br>   平时自己创建的配置类通常用这种方法，简单明了。<br>2.如果没有在package扫描路径里，比如引入的第三方包，可以通过META-INF/spring.factories里用org.springframework.boot.autoconfigure.EnableAutoConfiguration来制定。<br>   spring-boot-autoconfigure包里的配置类都是通过这种方式引入的。<br>   当然，这个方式需要程序使用@EnableAutoConfiguration注解，这个注解是通过AutoConfigurationImportSelector来扫描spring.factories文件，把定义的配置类引入的。<br>3.使用@Import注解<br>   这个注解可以引入三种类<br>   a.使用了@Configuration注解的类<br>       这个比较简单，如果明确知道需要引入哪个配置类，直接引入就可以。<br>   b.ImportSelector的子类<br>       如果并不确定引入哪个配置类，需要根据@Import注解所标识的类或者另一个注解(通常是注解)里的定义信息选择配置类的话，用这种方式。<br>       实际上上面2种所描述的AutoConfigurationImportSelector就是用的这种方式。<br>       另外一个比较典型的是注解@EnableTransactionManagement</context:component-scan></p>
+<h3 id="ComponentScan"><a href="#ComponentScan" class="headerlink" title="@ComponentScan"></a>@ComponentScan</h3><p>扫描包</p>
+<h3 id="PropertySource"><a href="#PropertySource" class="headerlink" title="@PropertySource"></a>@PropertySource</h3><p>引入配置文件</p>
+<h3 id="EnableAutoConfiguration"><a href="#EnableAutoConfiguration" class="headerlink" title="@EnableAutoConfiguration"></a>@EnableAutoConfiguration</h3><p>@EnableAutoConfiguration<br>@Target（value = TYPE）<br>@Retention（value = RUNTIME）<br>@Documented<br>@Inherited<br>@AutoConfigurationPackage<br>@Import（value = EnableAutoConfigurationImportSelector.class）<br>public @interface EnableAutoConfiguration<br>This annotation tells Spring Boot to “guess” how you want to configure Spring, based on the jar dependencies that you have added. Since spring-boot-starter-web added Tomcat and Spring MVC, the auto-configuration assumes that you are developing a web application and sets up Spring accordingly.（@EnableAutoConfiguration注解基于你设置的依赖，猜测你想要的如何配置spring，自动配置假设你开发一个web应用并且设置相应的spring配置）<br>it implicitly defines a base “search package” for certain items. For example, if you are writing a JPA application, the package of the @EnableAutoConfiguration annotated class is used to search for @Entity items.（@EnableAutoConfiguration注解隐式定义了某些项目的默认搜索包，比如创建了一个jpa应用，这个注解就会用来搜索有@Entity 注解的类）。<br>启用spring应用程序上下文的自动配置，试图猜测和配置你可能需要的bean。自动配置类通常基于你的类路径和你定义的bean来应用。例如，如果你有tomcat-embedded.jar你的类路径，你可能需要一个 TomcatEmbeddedServletContainerFactory（除非你已经定义了你自己的 EmbeddedServletContainerFactorybean）。<br>使用SpringBootApplication，上下文的自动配置会自动启用，因此添加此注释不会产生额外的影响。<br>自动配置尝试尽可能地智能化，并且随着您定义更多自己的配置而退出。您始终可以手动执行exclude()任何您不想应用的配置（excludeName()如果您无权访问，请使用该配置）。你也可以通过spring.autoconfigure.exclude属性排除他们 。在用户定义的bean已经注册之后，总是应用自动配置。<br>尽量使用在根目录中，以便 all sub-packages and classes can be searched.</p>
+<h3 id="SpringBootApplication"><a href="#SpringBootApplication" class="headerlink" title="@SpringBootApplication"></a>@SpringBootApplication</h3><p>@SpringBootApplication<br>@Target（value = TYPE）<br>@Retention（value = RUNTIME）<br>@Documented<br>@Inherited<br>@SpringBootConfiguration<br>@EnableAutoConfiguration<br>@ComponentScan（excludeFilters = {@ ComponentScan.Filter（type = CUSTOM，classes = TypeExcludeFilter.class），}）<br>public @interface SpringBootApplication<br>表示configuration声明一个或多个类 @Bean的方法和也触发auto-configuration和component scanning。这是一个方便的注释，则等于@Configuration， @EnableAutoConfiguration和@ComponentScan一齐使用。</p>
+<h3 id="启动类中的main方法："><a href="#启动类中的main方法：" class="headerlink" title="启动类中的main方法："></a>启动类中的main方法：</h3><p>Our main method delegates to Spring Boot’s SpringApplication class by calling run. SpringApplication bootstraps our application, starting Spring, which, in turn, starts the auto-configured Tomcat web server. We need to pass Example.class as an argument to the run method to tell SpringApplication which is the primary Spring component. The args array is also passed through to expose any command-line arguments.（这个main方法代表通过调用run（）启动springboot默认的配置类springapplication，里面有相应的tomcat配置）</p>
+<h3 id="Springboot配置maven中的parent。（Using-Spring-Boot-with-the-Parent-POM）"><a href="#Springboot配置maven中的parent。（Using-Spring-Boot-with-the-Parent-POM）" class="headerlink" title="Springboot配置maven中的parent。（Using Spring Boot with the Parent POM）"></a>Springboot配置maven中的parent。（Using Spring Boot with the Parent POM）</h3><p>Maven users can inherit from the spring-boot-starter-parent project to obtain sensible defaults. The parent project provides the following features:<br>Java 1.8 as the default compiler level.<br>UTF-8 source encoding.<br>A Dependency Management section, inherited from the spring-boot-dependencies pom, that manages the versions of common dependencies. This dependency management lets you omit <version> tags for those dependencies when used in your own pom.<br>Sensible resource filtering.<br>Sensible plugin configuration (exec plugin, Git commit ID, and shade).<br>Sensible resource filtering for application.properties and application.yml including profile-specific files (for example, application-foo.properties and application-foo.yml)</version></p>
+<pre><code>&lt;parent&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
+    &lt;version&gt;2.0.0.BUILD-SNAPSHOT&lt;/version&gt;
+&lt;/parent&gt;
+</code></pre><p>继承spring-boot-starter-parent后，默认提供了几个配置：<br>1，默认使用jdk1.8<br>2，使用utf-8<br>3，默认配置的version，依赖中不用再配置version<br>4，合理的资源过滤<br>5，合理的插件的配置<br>6，合理的资源文件application.properties and application.yml</p>
+<h3 id="Using-Spring-Boot-without-the-Parent-POM"><a href="#Using-Spring-Boot-without-the-Parent-POM" class="headerlink" title="Using Spring Boot without the Parent POM"></a>Using Spring Boot without the Parent POM</h3><p>If you do not want to use the spring-boot-starter-parent, you can still keep the benefit of the dependency management (but not the plugin management) by using a scope=import dependency, as follows:（配置springboot的依赖，但不配置插件）</p>
+<pre><code>&lt;dependencyManagement&gt;
+        &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;!-- Import dependency management from Spring Boot --&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-dependencies&lt;/artifactId&gt;
+            &lt;version&gt;2.0.0.BUILD-SNAPSHOT&lt;/version&gt;
+            &lt;type&gt;pom&lt;/type&gt;
+            &lt;scope&gt;import&lt;/scope&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+&lt;/dependencyManagement&gt;
+</code></pre><h3 id="Using-the-Spring-Boot-Maven-Plugin"><a href="#Using-the-Spring-Boot-Maven-Plugin" class="headerlink" title="Using the Spring Boot Maven Plugin"></a>Using the Spring Boot Maven Plugin</h3><pre><code>&lt;build&gt;
+    &lt;plugins&gt;
+        &lt;plugin&gt;
+            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+            &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+        &lt;/plugin&gt;
+    &lt;/plugins&gt;
+&lt;/build&gt;
+</code></pre><p>If you use the Spring Boot starter parent pom, you need to add only the plugin. There is no need to configure it unless you want to change the settings defined in the parent.（如果使用的springboot的parent pom，使用这个插件，除非要想自己改变默认的配置）</p>
+<h3 id="Configuration"><a href="#Configuration" class="headerlink" title="@Configuration"></a>@Configuration</h3><p>You need to opt-in to auto-configuration by adding the @EnableAutoConfiguration or @SpringBootApplication annotations to one of your @Configuration classes.<br>Note：You should only ever add one @EnableAutoConfiguration annotation. We generally recommend that you add it to your primary @Configuration class.<br>（你可以在你的@Configuration注解类中选择添加@EnableAutoConfiguration或者@SpringBootApplication注解。提示：你可以只添加@EnableAutoConfiguration或者@SpringBootApplication注解，但是我们建议在你的primary class（我的理解是启动类）中添加@Configuration注解）</p>
+<h3 id="按照规矩来可以省略-Autowired"><a href="#按照规矩来可以省略-Autowired" class="headerlink" title="按照规矩来可以省略@Autowired"></a>按照规矩来可以省略@Autowired</h3><p>we often find that using @ComponentScan (to find your beans) and using @Autowired (to do constructor injection) works well.<br>If you structure your code as suggested above (locating your application class in a root package), you can add @ComponentScan without any arguments. All of your application components (@Component, @Service, @Repository, @Controller etc.) are automatically registered as Spring Beans.<br>The following example shows a @Service Bean that uses constructor injection to obtain a required RiskAssessor bean:</p>
+<pre><code>package com.example.service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+@Service
+public class DatabaseAccountService implements AccountService {
+    private final RiskAssessor riskAssessor;
+
+    @Autowired
+    public DatabaseAccountService(RiskAssessor riskAssessor) {
+        this.riskAssessor = riskAssessor;
+    }
+    // ...
+}
+</code></pre><h3 id="If-a-bean-has-one-constructor-you-can-omit-the-Autowired-as-shown-in-the-following-example"><a href="#If-a-bean-has-one-constructor-you-can-omit-the-Autowired-as-shown-in-the-following-example" class="headerlink" title="If a bean has one constructor, you can omit the @Autowired, as shown in the following example:"></a>If a bean has one constructor, you can omit the @Autowired, as shown in the following example:</h3><pre><code>@Service
+public class DatabaseAccountService implements AccountService {
+
+    private final RiskAssessor riskAssessor;
+
+    public DatabaseAccountService(RiskAssessor riskAssessor) {
+        this.riskAssessor = riskAssessor;
+    }
+
+    // ...
+
+}
+</code></pre><h3 id="Running-Your-Application"><a href="#Running-Your-Application" class="headerlink" title="Running Your Application"></a>Running Your Application</h3><p>使用jar打包和使用springboot提供的默认服务很方便。但是如果将应用打包成war包的话，需要指定自己的服务。也就是说使用springboot提供的tomcat服务器，应用必须打包成jar包才能跑起来。</p>
+<p>如果在第二次启动web应用提示端口被占用是，可以使用relaunch启动，而不是run。</p>
+<h3 id="EnableJpaRepositories"><a href="#EnableJpaRepositories" class="headerlink" title="@EnableJpaRepositories"></a>@EnableJpaRepositories</h3><p>@EnableJpaRepositories<br>@EnableJpaRepositories注解用于Srping JPA的代码配置，用于取代xml形式的配置文件，@EnableJpaRepositories支持的配置形式丰富多用，本篇文章详细讲解。<br>@EnableJpaRepositories(<br>     basePackages = {},<br>     basePackageClasses = {},<br>     includeFilters = {},<br>     excludeFilters = {},<br>     repositoryImplementationPostfix = “Impl”,<br>     namedQueriesLocation = “”,//META-INF/jpa-named-queries.properties<br>     queryLookupStrategy=QueryLookupStrategy.Key.CREATE_IF_NOT_FOUND, //QueryLookupStrategy.Key.x<br>     repositoryFactoryBeanClass=JpaRepositoryFactoryBean.class, //class<br>     entityManagerFactoryRef=”entityManagerFactory”,<br>     transactionManagerRef=”transactionManager”,<br>     considerNestedRepositories=false,<br>     enableDefaultTransactions=true)<br>简单配置：@EnableJpaRepositories(“com.liukai”)，repository所在包</p>
+<h3 id="Autowired、-Resource、-Qualifier、-Service、-Controller、-Repository、-Component。"><a href="#Autowired、-Resource、-Qualifier、-Service、-Controller、-Repository、-Component。" class="headerlink" title="@Autowired、@Resource、@Qualifier、@Service、@Controller、@Repository、@Component。"></a>@Autowired、@Resource、@Qualifier、@Service、@Controller、@Repository、@Component。</h3><p>Autowired是自动注入，自动从spring的上下文找到合适的bean来注入<br>Resource用来指定名称注入<br>Qualifier和Autowired配合使用，指定bean的名称<br>javax.annotation.Resource注解实现的效果和@Autowired+@Qualifier的效果是一样的。<br>Service，Controller，Repository分别标记类是Service层类，Controller层类，数据存储层的类，spring扫描注解配置时，会标记这些类要生成bean。<br>Component是一种泛指，标记类是组件，spring扫描注解配置时，会标记这些类要生成bean。<br>上面的Autowired和Resource是用来修饰字段，构造函数，或者设置方法，并做注入的。而Service，Controller，Repository，Component则是用来修饰类，标记这些类要生成bean。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/05/springboot-redis整合（六）/" rel="next" title="springboot-redis整合（六）">
+                <i class="fa fa-chevron-left"></i> springboot-redis整合（六）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/headphoto.jpg"
+                alt="老孩" />
+            
+              <p class="site-author-name" itemprop="name">老孩</p>
+              <p class="site-description motion-element" itemprop="description">向终身学习者致敬</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/q837730828" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="837730828" target="_blank" title="QQ">
+                    
+                      <i class="fa fa-fw fa-QQ"></i>QQ</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Controlle，-RestController"><span class="nav-number">1.</span> <span class="nav-text">@Controlle，@RestController</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Controller和-RestController的区别？"><span class="nav-number">2.</span> <span class="nav-text">@Controller和@RestController的区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ComponentScan"><span class="nav-number">3.</span> <span class="nav-text">@ComponentScan</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PropertySource"><span class="nav-number">4.</span> <span class="nav-text">@PropertySource</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EnableAutoConfiguration"><span class="nav-number">5.</span> <span class="nav-text">@EnableAutoConfiguration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SpringBootApplication"><span class="nav-number">6.</span> <span class="nav-text">@SpringBootApplication</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动类中的main方法："><span class="nav-number">7.</span> <span class="nav-text">启动类中的main方法：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Springboot配置maven中的parent。（Using-Spring-Boot-with-the-Parent-POM）"><span class="nav-number">8.</span> <span class="nav-text">Springboot配置maven中的parent。（Using Spring Boot with the Parent POM）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Using-Spring-Boot-without-the-Parent-POM"><span class="nav-number">9.</span> <span class="nav-text">Using Spring Boot without the Parent POM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Using-the-Spring-Boot-Maven-Plugin"><span class="nav-number">10.</span> <span class="nav-text">Using the Spring Boot Maven Plugin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configuration"><span class="nav-number">11.</span> <span class="nav-text">@Configuration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#按照规矩来可以省略-Autowired"><span class="nav-number">12.</span> <span class="nav-text">按照规矩来可以省略@Autowired</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#If-a-bean-has-one-constructor-you-can-omit-the-Autowired-as-shown-in-the-following-example"><span class="nav-number">13.</span> <span class="nav-text">If a bean has one constructor, you can omit the @Autowired, as shown in the following example:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Running-Your-Application"><span class="nav-number">14.</span> <span class="nav-text">Running Your Application</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EnableJpaRepositories"><span class="nav-number">15.</span> <span class="nav-text">@EnableJpaRepositories</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Autowired、-Resource、-Qualifier、-Service、-Controller、-Repository、-Component。"><span class="nav-number">16.</span> <span class="nav-text">@Autowired、@Resource、@Qualifier、@Service、@Controller、@Repository、@Component。</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">老孩</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("G06wnJmKUmE3DcnYCr7GfbE4-gzGzoHsz", "AROYBIJC25VP5QR20gLTS36X");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
