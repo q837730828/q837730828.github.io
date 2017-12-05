@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo.jpg?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo.jpg?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Spring AOP使用了两种代理机制：一种是基于JDK的动态代理；另一种是基于CGLib的动态代理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="框架基础理论知识-动态代理">
+<meta property="og:url" content="http://yoursite.com/2017/12/05/框架基础理论知识-动态代理/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="Spring AOP使用了两种代理机制：一种是基于JDK的动态代理；另一种是基于CGLib的动态代理">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2017/12/05/框架基础理论知识-动态代理/DynamicProxy/1.png">
+<meta property="og:updated_time" content="2017-12-05T12:42:50.175Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="框架基础理论知识-动态代理">
+<meta name="twitter:description" content="Spring AOP使用了两种代理机制：一种是基于JDK的动态代理；另一种是基于CGLib的动态代理">
+<meta name="twitter:image" content="http://yoursite.com/2017/12/05/框架基础理论知识-动态代理/DynamicProxy/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/05/框架基础理论知识-动态代理/"/>
+
+
+
+
+
+  <title>框架基础理论知识-动态代理 | Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/05/框架基础理论知识-动态代理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="老孩">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/headphoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">框架基础理论知识-动态代理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-05T19:45:11+08:00">
+                2017-12-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/12/05/框架基础理论知识-动态代理/" class="leancloud_visitors" data-flag-title="框架基础理论知识-动态代理">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><center><font color="#CC4A31">Spring AOP使用了两种代理机制：一种是基于JDK的动态代理；另一种是基于CGLib的动态代理</font></center><br><a id="more"></a><br>Spring AOP使用动态代理技术在运行期织入增强的代码，为了揭示Spring AOP底层的工作机理，有必要对涉及到的Java知识进行学习。Spring AOP使用了两种代理机制：一种是基于JDK的动态代理；另一种是基于CGLib的动态代理。之所以需要两种代理机制，很大程度上是因为JDK本身只提供接口的代理，而不支持类的代理。</p>
+<h2 id="带有横切逻辑的实例"><a href="#带有横切逻辑的实例" class="headerlink" title="带有横切逻辑的实例"></a>带有横切逻辑的实例</h2><p>1，通过下面的代码测试拥有性能监视能力的ForumServiceImpl业务方法：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.baobaotao.proxy;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestForumService</span> </span>&#123;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;  </span><br><span class="line">        ForumService forumService = <span class="keyword">new</span> ForumServiceImpl();  </span><br><span class="line">        forumService .removeForum(<span class="number">10</span>);  </span><br><span class="line">       forumService .removeTopic(<span class="number">1012</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>2，用于记录性能监视信息的MethodPerformance类的代码如所示<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.baobaotao.proxy;  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MethodPerformance</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> begin;  </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> end;  </span><br><span class="line">    <span class="keyword">private</span> String serviceMethod;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MethodPerformance</span><span class="params">(String serviceMethod)</span></span>&#123;  </span><br><span class="line">       <span class="keyword">this</span>.serviceMethod = serviceMethod;  </span><br><span class="line">  </span><br><span class="line">       <span class="comment">//①记录目标类方法开始执行点的系统时间    </span></span><br><span class="line">       <span class="keyword">this</span>.begin = System.currentTimeMillis();   </span><br><span class="line">   </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printPerformance</span><span class="params">()</span></span>&#123;  </span><br><span class="line">       </span><br><span class="line">        <span class="comment">//②获取目标类方法执行完成后的系统时间，并进而计算出目标类方法执行时间  </span></span><br><span class="line">        end = System.currentTimeMillis();   </span><br><span class="line">        <span class="keyword">long</span> elapse = end - begin;  </span><br><span class="line">   </span><br><span class="line">        <span class="comment">//③报告目标类方法的执行时间  </span></span><br><span class="line">        System.out.println(serviceMethod+<span class="string">"花费"</span>+elapse+<span class="string">"毫秒。"</span>);    </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>3,PerformanceMonitor是性能监视的实现类，我们给出一个非常简单的实现版本，其代码如下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.baobaotao.proxy;  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PerformanceMonitor</span> </span>&#123;  </span><br><span class="line">     <span class="comment">//①通过一个ThreadLocal保存调用线程相关的性能监视信息  </span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> ThreadLocal&lt;MethodPerformace&gt; performanceRecord =          </span><br><span class="line">                                <span class="keyword">new</span> ThreadLocal&lt;MethodPerformance&gt;();  </span><br><span class="line">      </span><br><span class="line">    <span class="comment">//②启动对某一目标方法的性能监视  </span></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">begin</span><span class="params">(String method)</span> </span>&#123;  </span><br><span class="line">        System.out.println(<span class="string">"begin monitor..."</span>);  </span><br><span class="line">        MethodPerformance mp = <span class="keyword">new</span> MethodPerformance(method);  </span><br><span class="line">        performanceRecord.set(mp);  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">end</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        System.out.println(<span class="string">"end monitor..."</span>);  </span><br><span class="line">        MethodPerformance mp = performanceRecord.get();  </span><br><span class="line">  </span><br><span class="line">         <span class="comment">//③打印出方法性能监视的结果信息。  </span></span><br><span class="line">        mp.printPerformance();  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>ThreadLocal是将非线程安全类改造为线程安全类的法宝</strong>，后面将详细介绍这个Java基础知识。PerformanceMonitor提供了两个方法：通过调用begin(String method)方法开始对某个目标类方法的监视，method为目标类方法的全限定名；而end()方法结束对目标类方法的监视，并给出性能监视的信息。这两个方法必须配套使用</p>
+<p>4，包含性能监视横切代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.baobaotao.proxy;  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ForumServiceImpl</span> <span class="keyword">implements</span> <span class="title">ForumService</span> </span>&#123;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeTopic</span><span class="params">(<span class="keyword">int</span> topicId)</span> </span>&#123;  </span><br><span class="line">              </span><br><span class="line">         <span class="comment">//①-1开始对该方法进行性能监视  </span></span><br><span class="line">        PerformanceMonitor.begin(  </span><br><span class="line">                            <span class="string">"com.baobaotao.proxy.ForumServiceImpl. removeTopic"</span>);  </span><br><span class="line">        System.out.println(<span class="string">"模拟删除Topic记录:"</span>+topicId);  </span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            Thread.currentThread().sleep(<span class="number">20</span>);  </span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;  </span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);  </span><br><span class="line">        &#125;         </span><br><span class="line">  </span><br><span class="line">         <span class="comment">//①-2结束对该方法进行性能监视  </span></span><br><span class="line">        PerformanceMonitor.end();  </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeForum</span><span class="params">(<span class="keyword">int</span> forumId)</span> </span>&#123;  </span><br><span class="line">          <span class="comment">//②-1开始对该方法进行性能监视  </span></span><br><span class="line">        PerformanceMonitor.begin(  </span><br><span class="line"><span class="string">"com.baobaotao.proxy.ForumServiceImpl. removeForum"</span>);  </span><br><span class="line">        System.out.println(<span class="string">"模拟删除Forum记录:"</span>+forumId);  </span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            Thread.currentThread().sleep(<span class="number">40</span>);  </span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;  </span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);  </span><br><span class="line">        &#125;         </span><br><span class="line">  </span><br><span class="line">         <span class="comment">//②-2结束对该方法进行性能监视  </span></span><br><span class="line">        PerformanceMonitor.end();  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p> <strong>4部分代码中粗体表示的代码就是具有横切逻辑特征的代码，每个Service类和每个业务方法体的前后都执行相同的代码逻辑：方法调用前启动PerformanceMonitor，方法调用后通知PerformanceMonitor结束性能监视并给记录性能监视结果</strong></p>
+<p><strong>正如4部分实例所示，当某个方法需要进行性能监视，就必须调整方法代码，在方法体前后分别添加上开启性能监视和结束性能监视的代码。这些非业务逻辑的性能监视代码破坏了ForumServiceImpl业务逻辑的纯粹性。我们希望通过代理的方式，将业务类方法中开启和结束性能监视的这些横切代码从业务类中完全移除。并通过JDK动态代理技术或CGLib动态代理技术将横切代码动态织入到目标方法的相应位置。</strong></p>
+<h2 id="JDK动态代理"><a href="#JDK动态代理" class="headerlink" title="JDK动态代理"></a>JDK动态代理</h2><h3 id="先织入横切逻辑再创建代理"><a href="#先织入横切逻辑再创建代理" class="headerlink" title="先织入横切逻辑再创建代理"></a>先织入横切逻辑再创建代理</h3><p>JDK 1.3以后，Java提供了动态代理的技术，允许开发者在运行期创建接口的代理实例。在Sun刚推出动态代理时，还很难想象它有多大的实际用途，现在我们终于发现动态代理是实现AOP的绝好底层技术</p>
+<p>JDK的动态代理主要涉及到java.lang.reflect包中的两个类：<strong>Proxy和InvocationHandler</strong>。其中InvocationHandler是一个接口，可以通过实现该接口定义横切逻辑，并通过反射机制调用目标类的代码，动态将横切逻辑和业务逻辑编织在一起。<br>而Proxy利用InvocationHandler动态创建一个符合某一接口的实例，生成目标类的代理对象。这样讲一定很抽象，我们马上着手使用Proxy和InvocationHandler这两个魔法戒对上一节中的性能监视代码进行革新。</p>
+<p>1，首先，我们从业务类ForumServiceImpl中删除性能监视的横切代码，使ForumServiceImpl只负责具体的业务逻辑，<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.baobaotao.proxy;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ForumServiceImpl</span> <span class="keyword">implements</span> <span class="title">ForumService</span> </span>&#123;  </span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeTopic</span><span class="params">(<span class="keyword">int</span> topicId)</span> </span>&#123;  </span><br><span class="line">                                ①  </span><br><span class="line">        System.out.println(<span class="string">"模拟删除Topic记录:"</span>+topicId);  </span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            Thread.currentThread().sleep(<span class="number">20</span>);  </span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;  </span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);  </span><br><span class="line">        &#125;  </span><br><span class="line">                              ①  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeForum</span><span class="params">(<span class="keyword">int</span> forumId)</span> </span>&#123;  </span><br><span class="line">                          ②  </span><br><span class="line">        System.out.println(<span class="string">"模拟删除Forum记录:"</span>+forumId);  </span><br><span class="line">        <span class="keyword">try</span> &#123;  </span><br><span class="line">            Thread.currentThread().sleep(<span class="number">40</span>);  </span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;  </span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(e);  </span><br><span class="line">        &#125;  </span><br><span class="line">                          ②  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在代码清单中的①和②处，原来的性能监视代码被移除了，我们只保留了真正的业务逻辑。</p>
+<p>2，从业务类中移除的性能监视横切代码当然不能漂浮在空气中，它还得找到一个安身之所，InvocationHandler就是横切代码的安家乐园，我们将性能监视的代码安置在PerformanceHandler中<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.baobaotao.proxy;  </span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationHandler;  </span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PerformanceHandler</span> <span class="keyword">implements</span> <span class="title">InvocationHandler</span> </span>&#123;<span class="comment">//①实现InvocationHandler  </span></span><br><span class="line">    <span class="keyword">private</span> Object target;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">PerformanceHandler</span><span class="params">(Object target)</span></span>&#123; <span class="comment">//②target为目标的业务类  </span></span><br><span class="line">        <span class="keyword">this</span>.target = target;  </span><br><span class="line">    &#125;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> ③  </span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> Throwable </span>&#123;  </span><br><span class="line">        PerformanceMonitor.begin(target.getClass().getName()+<span class="string">"."</span>+ method. getName());③-<span class="number">1</span>  </span><br><span class="line">        Object obj = method.invoke(target, args);<span class="comment">// ③-2通过反射方法调用业务类的目标方法  </span></span><br><span class="line">        PerformanceMonitor.end();③-<span class="number">1</span>  </span><br><span class="line">        <span class="keyword">return</span> obj;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>③处invoke()方法中粗体所示部分的代码为性能监视的横切代码，我们发现，横切代码只出现一次，而不是原来那样星洒各处。③-2处的method.invoke()语句通过Java反射机制间接调用目标对象的方法，这样InvocationHandler的invoke()方法就将横切逻辑代码（③-1）和业务类方法的业务逻辑代码（③-2）编织到一起了，<strong>所以我们可以将InvocationHandler看成是一个编织器。</strong>下面，我们对这段代码做进一步的说明。</p>
+<p>首先，我们实现InvocationHandler接口，该接口定义了一个 invoke(Object proxy, Method method, Object[] args)的方法，proxy是最终生成的代理实例，一般不会用到；method是被代理目标实例的某个具体方法，通过它可以发起目标实例方法的反射调用；args是通过被代理实例某一个方法的入参，在方法反射调用时使用。<br>此外，我们在构造函数里通过target传入希望被代理的目标对象，如②处所示，在InvocationHandler接口方法invoke(Object proxy, Method method, Object[] args)里，将目标实例传给method.invoke()方法，调用目标实例的方法，如③所示</p>
+<p>3，我们通过Proxy结合PerformanceHandler创建ForumService接口的代理实例，<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.baobaotao.proxy;  </span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestForumService</span> </span>&#123;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;  </span><br><span class="line">                 </span><br><span class="line">               <span class="comment">//①希望被代理的目标业务类  </span></span><br><span class="line">        ForumService target = <span class="keyword">new</span> ForumServiceImpl();   </span><br><span class="line">          </span><br><span class="line">               <span class="comment">//②将目标业务类和横切代码编织到一起  </span></span><br><span class="line">        PerformanceHandler handler = <span class="keyword">new</span> PerformanceHandler(target);  </span><br><span class="line">          </span><br><span class="line">                <span class="comment">//③根据编织了目标业务类逻辑和性能监视横切逻辑的InvocationHandler实例创建代理实例  </span></span><br><span class="line">        ForumService proxy = (ForumService) Proxy.newProxyInstance(    </span><br><span class="line">                target.getClass().getClassLoader(),  </span><br><span class="line">                target.getClass().getInterfaces(),  </span><br><span class="line">                handler);  </span><br><span class="line">  </span><br><span class="line">                <span class="comment">//④调用代理实例  </span></span><br><span class="line">        proxy.removeForum(<span class="number">10</span>);     </span><br><span class="line">        proxy.removeTopic(<span class="number">1012</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>上面的代码完成业务类代码和横切代码的编织工作并生成了代理实例。在②处，我们让PerformanceHandler将性能监视横切逻辑编织到ForumService实例中，然后在③处，通过Proxy的newProxyInstance()静态方法为编织了业务类逻辑和性能监视逻辑的handler创建一个符合ForumService接口的代理实例。</strong>该方法的第一个入参为类加载器；第二个入参为创建代理实例所需要实现的一组接口；第三个参数是整合了业务逻辑和横切逻辑的编织器对象。</p>
+<p>按照③处的设置方式，这个代理实例实现了目标业务类的所有接口，即Forum ServiceImpl的ForumService接口。这样，我们就可以按照调用ForumService接口实例相同的方式调用代理实例，如④所示。运行以上的代码，输出以下信息：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">begin monitor... </span><br><span class="line">模拟删除Forum记录:<span class="number">10</span> </span><br><span class="line">end monitor... </span><br><span class="line">com.baobaotao.proxy.ForumServiceImpl.removeForum花费<span class="number">47</span>毫秒。 </span><br><span class="line"></span><br><span class="line">begin monitor... </span><br><span class="line">模拟删除Topic记录:<span class="number">1012</span> </span><br><span class="line">end monitor... </span><br><span class="line">com.baobaotao.proxy.ForumServiceImpl.removeTopic花费<span class="number">26</span>毫秒。</span><br></pre></td></tr></table></figure></p>
+<p>我们发现，程序的运行效果和直接在业务类中编写性能监视逻辑的效果一致，但是在这里，原来分散的横切逻辑代码已经被我们抽取到PerformanceHandler中。当其他业务类（如UserService、SystemService等）的业务方法也需要使用性能监视时，我们只要按照代码清单TestForumService相似的方式，分别为它们创建代理对象就可以了。下面，我们通过时序图描述通过创建代理对象进行业务方法调用的整体逻辑，以进一步认识代理对象的本质，如图<br><img src="DynamicProxy/1.png" alt="图片"><br>我们在上图中使用虚线的方式对通过Proxy创建的ForumService代理实例加以凸显，ForumService代理实例内部利用PerformaceHandler整合横切逻辑和业务逻辑。调用者调用代理对象的removeForum()和removeTopic()方法时，上图的内部调用时序清晰地告诉我们实际上所发生的一切。</p>
+<h2 id="CGLib动态代理"><a href="#CGLib动态代理" class="headerlink" title="CGLib动态代理"></a>CGLib动态代理</h2><h2 id="先建立代理再植入横切逻辑"><a href="#先建立代理再植入横切逻辑" class="headerlink" title="先建立代理再植入横切逻辑"></a>先建立代理再植入横切逻辑</h2><p>使用JDK创建代理有一个限制，即它只能为接口创建代理实例，这一点我们可从Proxy的接口newProxyInstance(ClassLoader loader, Class[] interfaces, InvocationHandler h)的方法签名中就看得很清楚：第二个入参interfaces就是需要代理实例实现的接口列表。虽然面向接口编程的思想被很多大师级人物（包括Rod Johnson）推崇，但在实际开发中，许多开发者也对此深感困惑：难道对一个简单业务表的操作也需要老老实实地创建5个类（领域对象类、Dao接口，Dao实现类，Service接口和Service实现类）吗？难道不能直接通过实现类构建程序吗？对于这个问题，我们很难给出一个孰好孰劣的准确判断，但我们确实发现有很多不使用接口的项目也取得了非常好的效果（包括大家所熟悉的SpringSide开源项目）。<br><strong>对于没有通过接口定义业务方法的类，如何动态创建代理实例呢？JDK的代理技术显然已经黔驴技穷，CGLib作为一个替代者，填补了这个空缺</strong><br><strong>CGLib采用非常底层的字节码技术，可以为一个类创建子类，并在子类中采用方法拦截的技术拦截所有父类方法的调用，并顺势织入横切逻辑。</strong>下面，我们采用CGLib技术，编写一个可以为任何类创建织入性能监视横切逻辑代理对象的代理创建器，如代码<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.baobaotao.proxy;  </span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;  </span><br><span class="line"><span class="keyword">import</span> net.sf.cglib.proxy.Enhancer;  </span><br><span class="line"><span class="keyword">import</span> net.sf.cglib.proxy.MethodInterceptor;  </span><br><span class="line"><span class="keyword">import</span> net.sf.cglib.proxy.MethodProxy;  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CglibProxy</span> <span class="keyword">implements</span> <span class="title">MethodInterceptor</span> </span>&#123;  </span><br><span class="line">    <span class="keyword">private</span> Enhancer enhancer = <span class="keyword">new</span> Enhancer();  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">getProxy</span><span class="params">(Class clazz)</span> </span>&#123;  </span><br><span class="line">        enhancer.setSuperclass(clazz); <span class="comment">//① 设置需要创建子类的类  </span></span><br><span class="line">        enhancer.setCallback(<span class="keyword">this</span>);   </span><br><span class="line">        <span class="keyword">return</span> enhancer.create(); <span class="comment">//②通过字节码技术动态创建子类实例  </span></span><br><span class="line">   </span><br><span class="line">    &#125;  </span><br><span class="line">  </span><br><span class="line">        <span class="comment">//③拦截父类所有方法的调用  </span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">intercept</span><span class="params">(Object obj, Method method, Object[] args,   </span></span></span><br><span class="line"><span class="function"><span class="params">            MethodProxy proxy)</span> <span class="keyword">throws</span> Throwable </span>&#123;  </span><br><span class="line">        PerformanceMonitor.begin(obj.getClass().getName()+<span class="string">"."</span>+method. getName());<span class="comment">//③-1  </span></span><br><span class="line">        Object result=proxy.invokeSuper(obj, args); ③-<span class="number">2</span>   </span><br><span class="line">        PerformanceMonitor.end();<span class="comment">//③-1通过代理类调用父类中的方法  </span></span><br><span class="line">        <span class="keyword">return</span> result;  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在上面代码中，用户可以通过getProxy(Class clazz)为一个类创建动态代理对象，该代理对象通过扩展clazz创建代理对象。在这个代理对象中，我们织入性能监视的横切逻辑（③-1）。intercept(Object obj, Method method, Object[] args,MethodProxy proxy)是CGLib定义的Interceptor接口的方法，它拦截所有目标类方法的调用，obj表示目标类的实例；method为目标类方法的反射对象；args为方法的动态入参；而proxy为代理类实例。</p>
+<p>我们通过CglibProxy为ForumServiceImpl类创建代理对象，并测试代理对象的方法，<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.baobaotao.proxy;  </span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;  </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestForumService</span> </span>&#123;  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;  </span><br><span class="line">      CglibProxy proxy = <span class="keyword">new</span> CglibProxy();  </span><br><span class="line">      ForumServiceImpl forumService = ①   </span><br><span class="line">                (ForumServiceImpl )proxy.getProxy(ForumServiceImpl.class);  </span><br><span class="line">      forumService.removeForum(<span class="number">10</span>);  </span><br><span class="line">      forumService.removeTopic(<span class="number">1023</span>);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在①中，我们通过CglibProxy为ForumServiceImpl动态创建了一个织入性能监视逻辑的代理对象，并调用代理类的业务方法。运行上面的代码，输入以下信息：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">begin monitor... </span><br><span class="line">模拟删除Forum记录:<span class="number">10</span> </span><br><span class="line">end monitor... </span><br><span class="line">com.baobaotao.proxy.ForumServiceImpl$$EnhancerByCGLIB$$<span class="number">2</span>a9199c0.removeForum花费<span class="number">47</span>毫秒。 </span><br><span class="line">begin monitor... </span><br><span class="line">模拟删除Topic记录:<span class="number">1023</span> </span><br><span class="line">end monitor... </span><br><span class="line">com.baobaotao.proxy.ForumServiceImpl$$EnhancerByCGLIB$$<span class="number">2</span>a9199c0.removeTopic花费<span class="number">16</span>毫秒。</span><br></pre></td></tr></table></figure></p>
+<p>观察以上的输出，除了发现两个业务方法中都织入了性能监控的逻辑外，我们还发现代理类的名字是com.baobaotao.proxy.ForumServiceImpl$$EnhancerByCGLIB$$2a9199c0，这个特殊的类就是CGLib为ForumServiceImpl动态创建的子类</p>
+<h2 id="代理知识小结"><a href="#代理知识小结" class="headerlink" title="代理知识小结"></a>代理知识小结</h2><p>Spring AOP的底层就是通过使用JDK动态代理或CGLib动态代理技术为目标Bean织入横切逻辑。在这里，我们对前面两节动态创建代理对象作一个小结。 </p>
+<p>我们虽然通过PerformanceHandler或CglibProxy实现了性能监视横切逻辑的动态织入，但这种实现方式存在三个明显需要改进的地方： </p>
+<p>1）目标类的所有方法都添加了性能监视横切逻辑，而有时，这并不是我们所期望的，我们可能只希望对业务类中的某些特定方法添加横切逻辑； pointcut<br>2）我们通过硬编码的方式指定了织入横切逻辑的织入点，即在目标类业务方法的开始和结束前织入代码； advice<br>3）我们手工编写代理实例的创建过程，为不同类创建代理时，需要分别编写相应的创建代码，无法做到通用。 Advisor</p>
+<p><strong>以上三个问题，在AOP中占用重要的地位，因为Spring AOP的主要工作就是围绕以上三点展开：Spring AOP通过Pointcut（切点）指定在哪些类的哪些方法上织入横切逻辑，通过Advice（增强）描述横切逻辑和方法的具体织入点（方法前、方法后、方法的两端等）。此外，Spring通过Advisor（切面）将Pointcut和Advice两者组装起来。有了Advisor的信息，Spring就可以利用JDK或CGLib的动态代理技术采用统一的方式为目标Bean创建织入切面的代理对象了。</strong></p>
+<p><strong>JDK动态代理所创建的代理对象，在JDK 1.3下，性能强差人意。虽然在高版本的JDK中，动态代理对象的性能得到了很大的提高，但是有研究表明，CGLib所创建的动态代理对象的性能依旧比JDK的所创建的代理对象的性能高不少（大概10倍）。但CGLib在创建代理对象时所花费的时间却比JDK动态代理多（大概8倍），所以对于singleton的代理对象或者具有实例池的代理，因为无须频繁创建代理对象，所以比较适合用CGLib动态代理技术，反之适合用JDK动态代理技术。值得一提的是，由于CGLib采用动态创建子类的方式生成代理对象，所以不能对目标类中的final方法进行代理。</strong></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/05/springboot注解以及一些理解/" rel="next" title="springboot注解以及一些理解">
+                <i class="fa fa-chevron-left"></i> springboot注解以及一些理解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/headphoto.jpg"
+                alt="老孩" />
+            
+              <p class="site-author-name" itemprop="name">老孩</p>
+              <p class="site-description motion-element" itemprop="description">向终身学习者致敬</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/q837730828" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="837730828" target="_blank" title="QQ">
+                    
+                      <i class="fa fa-fw fa-QQ"></i>QQ</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#带有横切逻辑的实例"><span class="nav-number">1.</span> <span class="nav-text">带有横切逻辑的实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JDK动态代理"><span class="nav-number">2.</span> <span class="nav-text">JDK动态代理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#先织入横切逻辑再创建代理"><span class="nav-number">2.1.</span> <span class="nav-text">先织入横切逻辑再创建代理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CGLib动态代理"><span class="nav-number">3.</span> <span class="nav-text">CGLib动态代理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#先建立代理再植入横切逻辑"><span class="nav-number">4.</span> <span class="nav-text">先建立代理再植入横切逻辑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代理知识小结"><span class="nav-number">5.</span> <span class="nav-text">代理知识小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">老孩</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("G06wnJmKUmE3DcnYCr7GfbE4-gzGzoHsz", "AROYBIJC25VP5QR20gLTS36X");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
