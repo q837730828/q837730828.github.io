@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Blog">
 <meta property="og:description" content="Tags : springboot, Redis, mysql">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-05T09:30:19.476Z">
+<meta property="og:updated_time" content="2017-12-10T05:26:35.717Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="springboot-redis整合（六）">
 <meta name="twitter:description" content="Tags : springboot, Redis, mysql">
@@ -312,172 +312,16 @@
       
         <p><center><font color="#CC4A31">Tags : springboot, Redis, mysql</font></center><br><a id="more"></a></p>
 <p><font color="#CC4A31">前提：启动redis服务（redis-server.exe redis.windows.conf）</font></p>
-<h2 id="What：什么是Redis"><a href="#What：什么是Redis" class="headerlink" title="What：什么是Redis"></a>What：什么是Redis</h2><h2 id="when："><a href="#when：" class="headerlink" title="when："></a>when：</h2><h2 id="where"><a href="#where" class="headerlink" title="where"></a>where</h2><h2 id="why："><a href="#why：" class="headerlink" title="why："></a>why：</h2><h2 id="how："><a href="#how：" class="headerlink" title="how："></a>how：</h2><h3 id="第一步，添加相关依赖。"><a href="#第一步，添加相关依赖。" class="headerlink" title="第一步，添加相关依赖。"></a>第一步，添加相关依赖。</h3><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;
-        xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-        xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
-    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
-
-    &lt;parent&gt;
-        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
-        &lt;version&gt;1.3.3.RELEASE&lt;/version&gt;
-    &lt;/parent&gt;
-
-    &lt;groupId&gt;com.liukai&lt;/groupId&gt;
-    &lt;artifactId&gt;SpringBoot&lt;/artifactId&gt;
-    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
-
-    &lt;dependencies&gt;
-
-        &lt;!-- spring-boot --&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-log4j&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
-            &lt;scope&gt;test&lt;/scope&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-redis&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;mysql&lt;/groupId&gt;
-            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
-            &lt;version&gt;5.1.35&lt;/version&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
-            &lt;artifactId&gt;druid&lt;/artifactId&gt;
-            &lt;version&gt;1.0.14&lt;/version&gt;
-        &lt;/dependency&gt;
-    &lt;/dependencies&gt;
-&lt;/project&gt;
-</code></pre><h3 id="第二步：数据源配置"><a href="#第二步：数据源配置" class="headerlink" title="第二步：数据源配置"></a>第二步：数据源配置</h3><p>（两种方式，这里使用手动配置，不是用springboot的默认配置）</p>
+<h2 id="What：什么是Redis"><a href="#What：什么是Redis" class="headerlink" title="What：什么是Redis"></a>What：什么是Redis</h2><h2 id="when："><a href="#when：" class="headerlink" title="when："></a>when：</h2><h2 id="where"><a href="#where" class="headerlink" title="where"></a>where</h2><h2 id="why："><a href="#why：" class="headerlink" title="why："></a>why：</h2><h2 id="how："><a href="#how：" class="headerlink" title="how："></a>how：</h2><h3 id="第一步，添加相关依赖。"><a href="#第一步，添加相关依赖。" class="headerlink" title="第一步，添加相关依赖。"></a>第一步，添加相关依赖。</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span>?&gt;</span><br><span class="line">&lt;project xmlns=<span class="string">"http://maven.apache.org/POM/4.0.0"</span></span><br><span class="line">        xmlns:xsi=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span><br><span class="line">        xsi:schemaLocation=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span><br><span class="line">    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line"></span><br><span class="line">    &lt;parent&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;1.3.3.RELEASE&lt;/version&gt;</span><br><span class="line">    &lt;/parent&gt;</span><br><span class="line"></span><br><span class="line">    &lt;groupId&gt;com.liukai&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;SpringBoot&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line"></span><br><span class="line">        &lt;!-- spring-boot --&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-log4j&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;</span><br><span class="line">            &lt;scope&gt;test&lt;/scope&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-redis&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;5.1.35&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;com.alibaba&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;druid&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;1.0.14&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="第二步：数据源配置"><a href="#第二步：数据源配置" class="headerlink" title="第二步：数据源配置"></a>第二步：数据源配置</h3><p>（两种方式，这里使用手动配置，不是用springboot的默认配置）</p>
 <h4 id="springboot默认配置"><a href="#springboot默认配置" class="headerlink" title="springboot默认配置"></a>springboot默认配置</h4><p>在src/main/resources/application.properties 中配置数据源信息。</p>
-<pre><code>spring.redis.host=localhost
-spring.redis.port=6379
-spring.redis.password=
-spring.redis.database=1
-spring.redis.pool.max-active=8
-spring.redis.pool.max-wait=-1
-spring.redis.pool.max-idle=500
-spring.redis.pool.min-idle=0
-spring.redis.timeout=0
-</code></pre><h4 id="手动创建"><a href="#手动创建" class="headerlink" title="手动创建"></a>手动创建</h4><p>在src/main/resources/config/redis.properties 中配置数据源信息。<font color="#CC4A31">注意这里尽量不要在resources文件下直接建配置文件。</font></p>
-<pre><code>#redis
-redis.host=localhost
-redis.port=6379
-redis.password=
-redis.database=1
-</code></pre><p>配置类：</p>
-<pre><code>@Configuration
-@PropertySource(&quot;classpath:config/redis.properties&quot;)
-public class RedisConfig {
-
-    @Autowired
-    private Environment env;
-
-    @Bean
-    public RedisConnectionFactory redisConnectionFactory(){
-        JedisPoolConfig jedisPoolConfig = new JedisPoolConfig();
-        JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
-        jedisConnectionFactory.setHostName(env.getProperty(&quot;redis.host&quot;).trim());
-        jedisConnectionFactory.setPort(Integer.parseInt(env.getProperty(&quot;redis.port&quot;).trim()));
-        jedisConnectionFactory.setPassword(env.getProperty(&quot;redis.password&quot;).trim());
-        jedisConnectionFactory.setDatabase(Integer.parseInt(env.getProperty(&quot;redis.database&quot;).trim()));
-        jedisConnectionFactory.setUsePool(true);
-        jedisConnectionFactory.setPoolConfig(jedisPoolConfig);
-        return jedisConnectionFactory;
-    }
-
-    @Bean
-    public RedisTemplate redisTemplate(){
-        RedisTemplate&lt;String, String&gt; redisTemplate = new RedisTemplate&lt;String, String&gt;();
-        redisTemplate.setConnectionFactory(redisConnectionFactory());
-        redisTemplate.afterPropertiesSet();
-        return redisTemplate;
-    }
-}
-</code></pre><p>dao：</p>
-<pre><code>/**
-* 使用redisTemplate操作
-*/
-@Repository
-public class RedisBaseDao {
-
-    @Resource(name = &quot;redisTemplate&quot;)
-    protected ValueOperations&lt;String, String&gt; valueOperations;
-
-    public void addValue(String key, String value){
-        valueOperations.set(key, value);
-    }
-
-    public String getValue(String key){
-        return valueOperations.get(key);
-    }
-}
-
-@Repository
-public class ValueRedisDao {
-
-    @Autowired
-    public RedisBaseDao redisBaseDao;
-
-    private String getKey(){
-        return &quot;param&quot;;
-    }
-
-    public void save(String param){
-        redisBaseDao.addValue(this.getKey(), param);
-    }
-
-    public String getParam(){
-        return redisBaseDao.getValue(this.getKey());
-    }
-}
-</code></pre><p>启动类：</p>
-<pre><code>@Configuration
-@SpringBootApplication
-public class AuthorApplication extends SpringBootServletInitializer{
-
-    public static void main(String[] args) {
-        SpringApplication.run(AuthorApplication.class, args);
-    }
-
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(AuthorApplication.class);
-    }
-}
-</code></pre><p>Test：</p>
-<pre><code>@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(AuthorApplication.class)
-public class test {
-
-    @Autowired
-    private ValueRedisDao valueRedisDao;
-
-    @Test
-    public void getvalue(){
-        this.valueRedisDao.save(&quot;liukai&quot;);
-        System.out.println(this.valueRedisDao.getParam());
-    }
-}
-</code></pre><p>总结：通过配置方式可以了解springboot启动redis的方式，看看怎么启动？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">spring.redis.host=localhost</span><br><span class="line">spring.redis.port=<span class="number">6379</span></span><br><span class="line">spring.redis.password=</span><br><span class="line">spring.redis.database=<span class="number">1</span></span><br><span class="line">spring.redis.pool.max-active=<span class="number">8</span></span><br><span class="line">spring.redis.pool.max-wait=-<span class="number">1</span></span><br><span class="line">spring.redis.pool.max-idle=<span class="number">500</span></span><br><span class="line">spring.redis.pool.min-idle=<span class="number">0</span></span><br><span class="line">spring.redis.timeout=<span class="number">0</span></span><br></pre></td></tr></table></figure>
+<h4 id="手动创建"><a href="#手动创建" class="headerlink" title="手动创建"></a>手动创建</h4><p>在src/main/resources/config/redis.properties 中配置数据源信息。<font color="#CC4A31">注意这里尽量不要在resources文件下直接建配置文件。</font><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#redis</span><br><span class="line">redis.host=localhost</span><br><span class="line">redis.port=<span class="number">6379</span></span><br><span class="line">redis.password=</span><br><span class="line">redis.database=<span class="number">1</span></span><br></pre></td></tr></table></figure></p>
+<p>配置类：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@PropertySource</span>(<span class="string">"classpath:config/redis.properties"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> Environment env;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisConnectionFactory <span class="title">redisConnectionFactory</span><span class="params">()</span></span>&#123;</span><br><span class="line">        JedisPoolConfig jedisPoolConfig = <span class="keyword">new</span> JedisPoolConfig();</span><br><span class="line">        JedisConnectionFactory jedisConnectionFactory = <span class="keyword">new</span> JedisConnectionFactory();</span><br><span class="line">        jedisConnectionFactory.setHostName(env.getProperty(<span class="string">"redis.host"</span>).trim());</span><br><span class="line">        jedisConnectionFactory.setPort(Integer.parseInt(env.getProperty(<span class="string">"redis.port"</span>).trim()));</span><br><span class="line">        jedisConnectionFactory.setPassword(env.getProperty(<span class="string">"redis.password"</span>).trim());</span><br><span class="line">        jedisConnectionFactory.setDatabase(Integer.parseInt(env.getProperty(<span class="string">"redis.database"</span>).trim()));</span><br><span class="line">        jedisConnectionFactory.setUsePool(<span class="keyword">true</span>);</span><br><span class="line">        jedisConnectionFactory.setPoolConfig(jedisPoolConfig);</span><br><span class="line">        <span class="keyword">return</span> jedisConnectionFactory;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RedisTemplate <span class="title">redisTemplate</span><span class="params">()</span></span>&#123;</span><br><span class="line">        RedisTemplate&lt;String, String&gt; redisTemplate = <span class="keyword">new</span> RedisTemplate&lt;String, String&gt;();</span><br><span class="line">        redisTemplate.setConnectionFactory(redisConnectionFactory());</span><br><span class="line">        redisTemplate.afterPropertiesSet();</span><br><span class="line">        <span class="keyword">return</span> redisTemplate;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>dao：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* 使用redisTemplate操作</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RedisBaseDao</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span>(name = <span class="string">"redisTemplate"</span>)</span><br><span class="line">    <span class="keyword">protected</span> ValueOperations&lt;String, String&gt; valueOperations;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addValue</span><span class="params">(String key, String value)</span></span>&#123;</span><br><span class="line">        valueOperations.set(key, value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getValue</span><span class="params">(String key)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> valueOperations.get(key);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ValueRedisDao</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">public</span> RedisBaseDao redisBaseDao;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> String <span class="title">getKey</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"param"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">save</span><span class="params">(String param)</span></span>&#123;</span><br><span class="line">        redisBaseDao.addValue(<span class="keyword">this</span>.getKey(), param);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getParam</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> redisBaseDao.getValue(<span class="keyword">this</span>.getKey());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>启动类：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AuthorApplication</span> <span class="keyword">extends</span> <span class="title">SpringBootServletInitializer</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(AuthorApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> SpringApplicationBuilder <span class="title">configure</span><span class="params">(SpringApplicationBuilder application)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> application.sources(AuthorApplication.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Test：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith</span>(SpringJUnit4ClassRunner.class)</span><br><span class="line"><span class="meta">@SpringApplicationConfiguration</span>(AuthorApplication.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> ValueRedisDao valueRedisDao;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getvalue</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.valueRedisDao.save(<span class="string">"liukai"</span>);</span><br><span class="line">        System.out.println(<span class="keyword">this</span>.valueRedisDao.getParam());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>总结：通过配置方式可以了解springboot启动redis的方式，看看怎么启动？</p>
 
       
     </div>
@@ -595,7 +439,7 @@ public class test {
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

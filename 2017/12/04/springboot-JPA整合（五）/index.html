@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Blog">
 <meta property="og:description" content="Tags : springboot, JPA, mysql">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-05T01:59:11.171Z">
+<meta property="og:updated_time" content="2017-12-10T05:23:26.814Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="springboot-JPA整合（五）">
 <meta name="twitter:description" content="Tags : springboot, JPA, mysql">
@@ -312,219 +312,18 @@
       
         <p><center><font color="#CC4A31">Tags : springboot, JPA, mysql</font></center><br><a id="more"></a></p>
 <h2 id="What：什么是JPA"><a href="#What：什么是JPA" class="headerlink" title="What：什么是JPA"></a>What：什么是JPA</h2><p>JPA － Java Persistence API，是从JDK5开始提供的，用来描述对象 &lt;–&gt; 关系表映射关系，并持久化的标准。也就是说，在java中，他只是一套标准接口，没了具体实现，她什么也实现不了。常见的实现有hibernate，spring data jpa。<br>JPA是orm框架标准，主流的orm框架都实现了这个标准。<br>Mybatis - 另一个思路的持久化层框架，与上述的JPA思路不同，他不是依靠ORM描述映射关系来与数据库交互的。<br>MyBatis没有实现JPA，他和orm框架的设计思路完全不一样。<br>MyBatis是拥抱sql，而orm则更靠近面向对象，不建议写sql，实在要写推荐你写hql代替。<br>    <font color="#CC4A31">Mybatis是sql mapping框架而不是orm框架，当然orm和Mybatis都是持久层框架。</font><br>Hibernate是全自动ORM框架，而Mybatis是半自动的。hibernate完全可以通过对象关系模型实现对数据库的操作，拥有完整的JavaBean对象与数据库的映射结构来自动生成sql。而mybatis仅有基本的字段映射，对象数据以及对象实际关系仍然需要通过手写sql来实现和管理。</p>
-<h2 id="when："><a href="#when：" class="headerlink" title="when："></a>when：</h2><h2 id="where"><a href="#where" class="headerlink" title="where"></a>where</h2><h2 id="why："><a href="#why：" class="headerlink" title="why："></a>why：</h2><h2 id="how："><a href="#how：" class="headerlink" title="how："></a>how：</h2><h3 id="第一步，添加相关依赖。"><a href="#第一步，添加相关依赖。" class="headerlink" title="第一步，添加相关依赖。"></a>第一步，添加相关依赖。</h3><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot;
-                xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-                xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;
-    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
-
-    &lt;parent&gt;
-        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;
-        &lt;version&gt;1.3.3.RELEASE&lt;/version&gt;
-    &lt;/parent&gt;
-
-    &lt;groupId&gt;com.liukai&lt;/groupId&gt;
-    &lt;artifactId&gt;SpringBoot-JPA&lt;/artifactId&gt;
-    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
-    &lt;packaging&gt;jar&lt;/packaging&gt;
-
-    &lt;dependencies&gt;
-        &lt;!-- spring-boot --&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-log4j&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;
-            &lt;scope&gt;test&lt;/scope&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
-            &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;
-        &lt;/dependency&gt;
-
-        &lt;dependency&gt;
-            &lt;groupId&gt;mysql&lt;/groupId&gt;
-            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
-            &lt;version&gt;5.1.35&lt;/version&gt;
-        &lt;/dependency&gt;
-        &lt;dependency&gt;
-            &lt;groupId&gt;com.alibaba&lt;/groupId&gt;
-            &lt;artifactId&gt;druid&lt;/artifactId&gt;
-            &lt;version&gt;1.0.14&lt;/version&gt;
-        &lt;/dependency&gt;
-    &lt;/dependencies&gt;
-&lt;/project&gt;
-</code></pre><h3 id="第二步：数据源配置"><a href="#第二步：数据源配置" class="headerlink" title="第二步：数据源配置"></a>第二步：数据源配置</h3><p>（使用 Spring Boot 默认配置）<br>使用 Spring Boot 默认配置，不需要在创建 dataSource 和 jdbcTemplate 的 Bean。<br>在 src/main/resources/application.properties 中配置数据源信息。</p>
-<pre><code>datasourcespring.datasource.driver-class-name=com.mysql.jdbc.Driver
-spring.datasource.url=jdbc:mysql://localhost:3306/springboot_db
-spring.datasource.username=root
-spring.datasource.password=root
-</code></pre><p>###第三步：脚本初始化###</p>
-<pre><code>CREATE TABLE `t_author` (
-`id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT &apos;用户ID&apos;,
-`real_name` varchar(32) NOT NULL COMMENT &apos;用户名称&apos;,
-`nick_name` varchar(32) NOT NULL COMMENT &apos;用户匿名&apos;,
-PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-</code></pre><p>###第四步：entity，dao，service，controller 整合JPA有两种方案###</p>
-<h4 id="方案一-通过继承JpaRepository接口"><a href="#方案一-通过继承JpaRepository接口" class="headerlink" title="方案一 通过继承JpaRepository接口"></a>方案一 通过继承JpaRepository接口</h4><p>Entity：（因为和mybatis实现方式不同，需要配置相应的java注解）</p>
-<pre><code>@Entity
-@Table(name = &quot;t_author&quot;)
-public class Author{
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
-    @Column(name=&quot;real_name&quot;)
-    private String realName;
-
-    @Column(name=&quot;nick_name&quot;)
-    private String nickName;
-
-    // SET和GET方法
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
-    public String getRealName() {
-        return realName;
-    }
-    public void setRealName(String realName) {
-        this.realName = realName;
-    }
-    public String getNickName() {
-        return nickName;
-    }
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
-    }
-}
-</code></pre><p>DAO:<font color="#CC4A31">差别主要在这里</font></p>
-<pre><code>public interface AuthorRepository extends CrudRepository&lt;Author, Long&gt; {
-
-    List&lt;Author&gt; findAll();
-
-    @Query(&quot;from Author where id = :id&quot;)
-    Author findAuthor(@Param(&quot;id&quot;) Long id);
-}
-</code></pre><p>Service:</p>
-<pre><code>@Service
-public class AuthorService {
-    @Autowired
-    private AuthorRepository authorRepository;
-
-    public List&lt;Author&gt; findAll() {
-        return this.authorRepository.findAll();
-    }
-
-    public Author findAuthor(Long id){
-        return this.authorRepository.findAuthor(id);
-    }
-}
-</code></pre><p>controller:</p>
-<pre><code>@RestController
-@RequestMapping
-public class AuthorController {
-
-    @Autowired
-    private AuthorService authorService;
-
-    /**
-    * 查询用户列表
-    */
-    @RequestMapping(method = RequestMethod.GET)
-    public Map&lt;String, Object&gt; getAuthorList(HttpServletRequest request) {
-        List&lt;Author&gt; authorList = this.authorService.findAll();
-        Map&lt;String, Object&gt; param = new HashMap&lt;String, Object&gt;();
-        param.put(&quot;total&quot;, authorList.size());
-        param.put(&quot;rows&quot;, authorList);
-        return param;
-    }
-
-
-    /**
-    * 查询用户信息
-    */
-    @RequestMapping(value = &quot;/{userId:\\d+}&quot;, method = RequestMethod.GET)
-    public Author getAuthor(@PathVariable Long userId, HttpServletRequest request) {
-        Author author = this.authorService.findAuthor(userId);
-        if (author == null) {
-            throw new RuntimeException(&quot;查询错误&quot;);
-        }
-        return author;
-    }
-}
-</code></pre><p>启动类：</p>
-<pre><code>@Configuration
-@SpringBootApplication
-public class AuthorApplication extends SpringBootServletInitializer{
-
-    public static void main(String[] args) {
-        SpringApplication.run(AuthorApplication.class, args);
-    }
-
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(AuthorApplication.class);
-    }
-}
-</code></pre><h4 id="方案二-通过调用EntityManager类方法"><a href="#方案二-通过调用EntityManager类方法" class="headerlink" title="方案二 通过调用EntityManager类方法"></a>方案二 通过调用EntityManager类方法</h4><p>entity：</p>
-<pre><code>@Entity
-@Table(name = &quot;t_author&quot;)
-public class Author{
-@Id
-@GeneratedValue(strategy = GenerationType.AUTO)
-private Long id;
-
-@Column(name=&quot;real_name&quot;)
-private String realName;
-
-@Column(name=&quot;nick_name&quot;)
-private String nickName;
-
-// SET和GET方法
-}
-</code></pre><p>dao：</p>
-<pre><code>public interface AuthorDao {
-    List&lt;Author&gt; findAll();
-    Author findAuthor(Long id);
-}
-
-@Repository
-public class AuthorDaoImpl implements AuthorDao {
-//差别主要在这里
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    @Override
-    public List&lt;Author&gt; findAll() {
-        return this.entityManager
-        .createQuery(&quot;select t from Author t&quot;, Author.class)
-        .getResultList();
-    }
-    @Override
-    public Author findAuthor(Long id){
-        return this.entityManager
-        .createQuery(&quot;select t from Author t where id = ?&quot;, Author.class)
-        .setParameter(1, id)
-        .getSingleResult();
-    }
-}
-</code></pre><p>service和controller和方案一相同。</p>
+<h2 id="when："><a href="#when：" class="headerlink" title="when："></a>when：</h2><h2 id="where"><a href="#where" class="headerlink" title="where"></a>where</h2><h2 id="why："><a href="#why：" class="headerlink" title="why："></a>why：</h2><h2 id="how："><a href="#how：" class="headerlink" title="how："></a>how：</h2><h3 id="第一步，添加相关依赖。"><a href="#第一步，添加相关依赖。" class="headerlink" title="第一步，添加相关依赖。"></a>第一步，添加相关依赖。</h3><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span>?&gt;</span><br><span class="line">&lt;project xmlns=<span class="string">"http://maven.apache.org/POM/4.0.0"</span></span><br><span class="line">                xmlns:xsi=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span><br><span class="line">                xsi:schemaLocation=<span class="string">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span>&gt;</span><br><span class="line">    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line"></span><br><span class="line">    &lt;parent&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;1.3.3.RELEASE&lt;/version&gt;</span><br><span class="line">    &lt;/parent&gt;</span><br><span class="line"></span><br><span class="line">    &lt;groupId&gt;com.liukai&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;SpringBoot-JPA&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;</span><br><span class="line">    &lt;packaging&gt;jar&lt;/packaging&gt;</span><br><span class="line"></span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line">        &lt;!-- spring-boot --&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-log4j&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;</span><br><span class="line">            &lt;scope&gt;test&lt;/scope&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line"></span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;5.1.35&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;com.alibaba&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;druid&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;1.0.14&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line">&lt;/project&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="第二步：数据源配置"><a href="#第二步：数据源配置" class="headerlink" title="第二步：数据源配置"></a>第二步：数据源配置</h3><p>（使用 Spring Boot 默认配置）<br>使用 Spring Boot 默认配置，不需要在创建 dataSource 和 jdbcTemplate 的 Bean。<br>在 src/main/resources/application.properties 中配置数据源信息。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">datasourcespring.datasource.driver-<span class="class"><span class="keyword">class</span>-<span class="title">name</span></span>=com.mysql.jdbc.Driver</span><br><span class="line">spring.datasource.url=jdbc:mysql:<span class="comment">//localhost:3306/springboot_db</span></span><br><span class="line">spring.datasource.username=root</span><br><span class="line">spring.datasource.password=root</span><br></pre></td></tr></table></figure></p>
+<p>###第三步：脚本初始化###<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE `t_author` (</span><br><span class="line">`id` bigint(<span class="number">20</span>) unsigned NOT NULL AUTO_INCREMENT COMMENT <span class="string">'用户ID'</span>,</span><br><span class="line">`real_name` varchar(<span class="number">32</span>) NOT NULL COMMENT <span class="string">'用户名称'</span>,</span><br><span class="line">`nick_name` varchar(<span class="number">32</span>) NOT NULL COMMENT <span class="string">'用户匿名'</span>,</span><br><span class="line"><span class="function">PRIMARY <span class="title">KEY</span> <span class="params">(`id`)</span></span></span><br><span class="line"><span class="function">) ENGINE</span>=InnoDB AUTO_INCREMENT=<span class="number">1</span> DEFAULT CHARSET=utf8;</span><br></pre></td></tr></table></figure></p>
+<p>###第四步：entity，dao，service，controller 整合JPA有两种方案###</p>
+<h4 id="方案一-通过继承JpaRepository接口"><a href="#方案一-通过继承JpaRepository接口" class="headerlink" title="方案一 通过继承JpaRepository接口"></a>方案一 通过继承JpaRepository接口</h4><p>Entity：（因为和mybatis实现方式不同，需要配置相应的java注解）<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="meta">@Table</span>(name = <span class="string">"t_author"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Author</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="meta">@GeneratedValue</span>(strategy = GenerationType.AUTO)</span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Column</span>(name=<span class="string">"real_name"</span>)</span><br><span class="line">    <span class="keyword">private</span> String realName;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Column</span>(name=<span class="string">"nick_name"</span>)</span><br><span class="line">    <span class="keyword">private</span> String nickName;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// SET和GET方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Long <span class="title">getId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> id;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setId</span><span class="params">(Long id)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.id = id;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getRealName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> realName;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setRealName</span><span class="params">(String realName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.realName = realName;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getNickName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> nickName;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setNickName</span><span class="params">(String nickName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.nickName = nickName;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>DAO:<font color="#CC4A31">差别主要在这里</font><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">AuthorRepository</span> <span class="keyword">extends</span> <span class="title">CrudRepository</span>&lt;<span class="title">Author</span>, <span class="title">Long</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">List&lt;Author&gt; <span class="title">findAll</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Query</span>(<span class="string">"from Author where id = :id"</span>)</span><br><span class="line">    <span class="function">Author <span class="title">findAuthor</span><span class="params">(@Param(<span class="string">"id"</span>)</span> Long id)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Service:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AuthorService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> AuthorRepository authorRepository;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Author&gt; <span class="title">findAll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.authorRepository.findAll();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Author <span class="title">findAuthor</span><span class="params">(Long id)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.authorRepository.findAuthor(id);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>controller:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AuthorController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> AuthorService authorService;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 查询用户列表</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="meta">@RequestMapping</span>(method = RequestMethod.GET)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Map&lt;String, Object&gt; <span class="title">getAuthorList</span><span class="params">(HttpServletRequest request)</span> </span>&#123;</span><br><span class="line">        List&lt;Author&gt; authorList = <span class="keyword">this</span>.authorService.findAll();</span><br><span class="line">        Map&lt;String, Object&gt; param = <span class="keyword">new</span> HashMap&lt;String, Object&gt;();</span><br><span class="line">        param.put(<span class="string">"total"</span>, authorList.size());</span><br><span class="line">        param.put(<span class="string">"rows"</span>, authorList);</span><br><span class="line">        <span class="keyword">return</span> param;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 查询用户信息</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="meta">@RequestMapping</span>(value = <span class="string">"/&#123;userId:\\d+&#125;"</span>, method = RequestMethod.GET)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Author <span class="title">getAuthor</span><span class="params">(@PathVariable Long userId, HttpServletRequest request)</span> </span>&#123;</span><br><span class="line">        Author author = <span class="keyword">this</span>.authorService.findAuthor(userId);</span><br><span class="line">        <span class="keyword">if</span> (author == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"查询错误"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> author;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>启动类：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AuthorApplication</span> <span class="keyword">extends</span> <span class="title">SpringBootServletInitializer</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(AuthorApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> SpringApplicationBuilder <span class="title">configure</span><span class="params">(SpringApplicationBuilder application)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> application.sources(AuthorApplication.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="方案二-通过调用EntityManager类方法"><a href="#方案二-通过调用EntityManager类方法" class="headerlink" title="方案二 通过调用EntityManager类方法"></a>方案二 通过调用EntityManager类方法</h4><p>entity：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="meta">@Table</span>(name = <span class="string">"t_author"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Author</span></span>&#123;</span><br><span class="line"><span class="meta">@Id</span></span><br><span class="line"><span class="meta">@GeneratedValue</span>(strategy = GenerationType.AUTO)</span><br><span class="line"><span class="keyword">private</span> Long id;</span><br><span class="line"> </span><br><span class="line"><span class="meta">@Column</span>(name=<span class="string">"real_name"</span>)</span><br><span class="line"><span class="keyword">private</span> String realName;</span><br><span class="line"> </span><br><span class="line"><span class="meta">@Column</span>(name=<span class="string">"nick_name"</span>)</span><br><span class="line"><span class="keyword">private</span> String nickName;</span><br><span class="line"> </span><br><span class="line"><span class="comment">// SET和GET方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>dao：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">AuthorDao</span> </span>&#123;</span><br><span class="line">    <span class="function">List&lt;Author&gt; <span class="title">findAll</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function">Author <span class="title">findAuthor</span><span class="params">(Long id)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="meta">@Repository</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AuthorDaoImpl</span> <span class="keyword">implements</span> <span class="title">AuthorDao</span> </span>&#123;</span><br><span class="line"><span class="comment">//差别主要在这里</span></span><br><span class="line">    <span class="meta">@PersistenceContext</span></span><br><span class="line">    <span class="keyword">private</span> EntityManager entityManager;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Author&gt; <span class="title">findAll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.entityManager</span><br><span class="line">        .createQuery(<span class="string">"select t from Author t"</span>, Author.class)</span><br><span class="line">        .getResultList();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Author <span class="title">findAuthor</span><span class="params">(Long id)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.entityManager</span><br><span class="line">        .createQuery(<span class="string">"select t from Author t where id = ?"</span>, Author.class)</span><br><span class="line">        .setParameter(<span class="number">1</span>, id)</span><br><span class="line">        .getSingleResult();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>service和controller和方案一相同。</p>
 <p>总结：两种实现方式的区别在dao层。什么是jpa？什么是orm？spring data jpa是什么？和hibernate和mybitas有什么关系？</p>
 
       
@@ -643,7 +442,7 @@ public class AuthorDaoImpl implements AuthorDao {
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

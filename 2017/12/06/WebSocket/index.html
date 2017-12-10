@@ -79,17 +79,22 @@
 
 
 
-<meta name="description" content="本博客为了学习使用，博客内容大多来自学习别人的博客或者相关书籍。记录平常遇到的问题和学到的东西。谨记！">
+<meta name="description" content="Tags : WebSocket">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello">
-<meta property="og:url" content="http://yoursite.com/2017/11/25/hello-world/index.html">
+<meta property="og:title" content="WebSocket">
+<meta property="og:url" content="http://yoursite.com/2017/12/06/WebSocket/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="本博客为了学习使用，博客内容大多来自学习别人的博客或者相关书籍。记录平常遇到的问题和学到的东西。谨记！">
+<meta property="og:description" content="Tags : WebSocket">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-06T07:11:47.886Z">
+<meta property="og:image" content="http://yoursite.com/2017/12/06/WebSocket/websocket/1.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/06/WebSocket/websocket/2.jpg">
+<meta property="og:image" content="http://yoursite.com/2017/12/06/WebSocket/websocket/3.png">
+<meta property="og:image" content="http://yoursite.com/2017/12/06/WebSocket/websocket/4.jpg">
+<meta property="og:updated_time" content="2017-12-06T07:53:30.647Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello">
-<meta name="twitter:description" content="本博客为了学习使用，博客内容大多来自学习别人的博客或者相关书籍。记录平常遇到的问题和学到的东西。谨记！">
+<meta name="twitter:title" content="WebSocket">
+<meta name="twitter:description" content="Tags : WebSocket">
+<meta name="twitter:image" content="http://yoursite.com/2017/12/06/WebSocket/websocket/1.png">
 
 
 
@@ -119,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/11/25/hello-world/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/12/06/WebSocket/"/>
 
 
 
 
 
-  <title>Hello | Blog</title>
+  <title>WebSocket | Blog</title>
   
 
 
@@ -232,7 +237,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/25/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/06/WebSocket/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="老孩">
@@ -249,7 +254,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Hello</h1>
+          <h1 class="post-title" itemprop="name headline">WebSocket</h1>
         
 
         <div class="post-meta">
@@ -261,8 +266,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-25T17:57:36+08:00">
-                2017-11-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-06T15:07:48+08:00">
+                2017-12-06
               </time>
             
 
@@ -279,7 +284,7 @@
 
           
           
-             <span id="/2017/11/25/hello-world/" class="leancloud_visitors" data-flag-title="Hello">
+             <span id="/2017/12/06/WebSocket/" class="leancloud_visitors" data-flag-title="WebSocket">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -310,7 +315,23 @@
       
 
       
-        <p><center><font color="#CC4A31">本博客为了学习使用，博客内容大多来自学习别人的博客或者相关书籍。记录平常遇到的问题和学到的东西。谨记！</font></center><br><a id="more"></a><br>写博客写着写着才知道大神是怎么学习的。真是好记性不如烂博客。</p>
+        <p><center><font color="#CC4A31">Tags : WebSocket</font></center><br><a id="more"></a></p>
+<h2 id="what"><a href="#what" class="headerlink" title="what"></a>what</h2><p>它的最大特点就是，服务器可以主动向客户端推送信息，客户端也可以主动向服务器发送信息，是真正的双向平等对话，属于服务器推送技术的一种。<br><img src="websocket/1.png" alt="和http协议对比图片"><br>其他特点包括：<br>（1）建立在 TCP 协议之上，服务器端的实现比较容易。<br>（2）与 HTTP 协议有着良好的兼容性。默认端口也是80和443，并且握手阶段采用 HTTP 协议，因此握手时不容易屏蔽，能通过各种 HTTP 代理服务器。<br>（3）数据格式比较轻量，性能开销小，通信高效。<br>（4）可以发送文本，也可以发送二进制数据。<br>（5）没有同源限制，客户端可以与任意服务器通信。<br>（6）协议标识符是ws（如果加密，则为wss），服务器网址就是 URL。</p>
+<blockquote>
+<p>ws://example.com:80/some/path<br><img src="websocket/2.jpg" alt="解析"></p>
+<h2 id="when："><a href="#when：" class="headerlink" title="when："></a>when：</h2><p>WebSocket 协议在2008年诞生，2011年成为国际标准。所有浏览器都已经支持了。</p>
+<h2 id="where"><a href="#where" class="headerlink" title="where"></a>where</h2><p>经常使用在市场数据分发（股票行情），网上聊天/通讯系统（网络聊天），拍卖，网上博彩和游戏，体育赛事结果，监测设备和传感器网络监控。</p>
+<h2 id="why："><a href="#why：" class="headerlink" title="why："></a>why：</h2><h4 id="我们已经有了-HTTP-协议，为什么还需要另一个协议？它能带来什么好处？"><a href="#我们已经有了-HTTP-协议，为什么还需要另一个协议？它能带来什么好处？" class="headerlink" title="我们已经有了 HTTP 协议，为什么还需要另一个协议？它能带来什么好处？"></a>我们已经有了 HTTP 协议，为什么还需要另一个协议？它能带来什么好处？</h4><p>答案很简单，因为 HTTP 协议有一个缺陷：通信只能由客户端发起。<br>这种单向请求的特点，注定了如果服务器有连续的状态变化，客户端要获知就非常麻烦。我们只能使用”轮询”：每隔一段时候，就发出一个询问，了解服务器有没有新的信息。最典型的场景就是聊天室。</p>
+<h4 id="什么是http长轮询？"><a href="#什么是http长轮询？" class="headerlink" title="什么是http长轮询？"></a>什么是http长轮询？</h4><p>由于http协议，没有客户端首先提出请求的情况下，服务器没有独立地将数据发送或推送到客户端的机制。为了克服这个缺陷，Web应用程序开发人员可以实现一种称为HTTP长轮询的技术，客户端轮询请求新信息的服务器。服务器保持请求打开，直到新数据可用。一旦可用，服务器响应并发送新的信息。当客户端收到新的信息时，立即发送另一个请求，重复该操作。这有效地模拟了服务器推送功能。<br>轮询的效率低，非常浪费资源（因为必须不停连接，或者 HTTP 连接始终打开）。因此，工程师们一直在思考，有没有更好的方法。WebSocket 就是这样发明的。</p>
+<h2 id="how："><a href="#how：" class="headerlink" title="how："></a>how：</h2><p>HTML5 WebSocket<br><a href="http://www.ruanyifeng.com/blog/2017/05/websocket.html" target="_blank" rel="noopener">来自阮一峰老师的的网络日志</a></p>
+</blockquote>
+<h2 id="简单学习websocket原理："><a href="#简单学习websocket原理：" class="headerlink" title="简单学习websocket原理："></a>简单学习websocket原理：</h2><p>Websocket是应用层第七层上的一个应用层协议，它必须依赖 HTTP 协议进行一次握手 ，握手成功后，数据就直接从 TCP 通道传输，与 HTTP 无关了。<br>Websocket的数据传输是frame形式传输的，比如会将一条消息分为几个frame，按照先后顺序传输出去。这样做会有几个好处：<br>1）大数据的传输可以分片传输，不用考虑到数据大小导致的长度标志位不足够的情况。<br>2）和http的chunk一样，可以边生成数据边传递消息，即提高传输效率<br><img src="websocket/3.png" alt="websocket数据帧格式图"><br>FIN：1bit，指示这个消息是否为最后片段，1是，0否。如果不是最后片段，则服务端需要将所有消息接受完并组装成一个完整的消息才可以。（t-io中目前只支持FIN=1）</p>
+<p>RSV123每个长度为1bit，目前就都是固定 0。</p>
+<p>opcode：4bit，数据操作类型。<br>    %x0 代表一个继续帧<br>    %x1 代表一个文本帧<br>    %x2 代表一个二进制帧<br>    %x3-7 保留用于未来的非控制帧<br>    %x8 代表连接关闭<br>    %x9 代表ping<br>    %xA 代表pong<br>    %xB-F 保留用于未来的控制帧</p>
+<p>MASK:1bit,是否掩码，1掩码，0非掩码。从客户端发送到服务端的这个值必须为1，否则服务端不接受。服务端返回到客户端的这个值必须为 0.</p>
+<p>Payload len:负载数据的长度，7bit。由于7bit只能存储0-127，所以为了能够表示准确的长度，在这个值为0-125区间的时候，payload length的长度就是该值。当 值为126的时候，后边两个字节（16位）的值表示长度。当值为127的时候，后边8字节（64位）的值表示长度。</p>
+<p>Mask key：掩码，0或4个bit。值取决于MASK是否为1.在有掩码的情况下，数据就要根据掩码来解析。否则不用解析。解析规则为：每个字节的值与掩码的索引（字节索引值对4取模）异或运算。（array[i] = array[i] ^ mask[i % 4]）</p>
+<h2 id="WebSocket-和-Socket的区别与联系"><a href="#WebSocket-和-Socket的区别与联系" class="headerlink" title="WebSocket 和 Socket的区别与联系"></a>WebSocket 和 Socket的区别与联系</h2><p>首先，Socket 其实并不是一个协议。它工作在 OSI 模型会话层（第5层），是为了方便大家直接使用更底层协议（一般是 TCP 或 UDP ）而存在的一个抽象层。Socket是对TCP/IP协议的封装，Socket本身并不是协议，而是一个调用接口(API)。<br>Socket通常也称作”套接字”，用于描述IP地址和端口，是一个通信链的句柄。网络上的两个程序通过一个双向的通讯连接实现数据的交换，这个双向链路的一端称为一个Socket，一个Socket由一个IP地址和一个端口号唯一确定。应用程序通常通过”套接字”向网络发出请求或者应答网络请求。<br>Socket在通讯过程中，服务端监听某个端口是否有连接请求，客户端向服务端发送连接请求，服务端收到连接请求向客户端发出接收消息，这样一个连接就建立起来了。客户端和服务端也都可以相互发送消息与对方进行通讯，直到双方连接断开。<br>所以基于WebSocket和基于Socket都可以开发出IM社交聊天类的app<br><img src="websocket/4.jpg" alt="图片"></p>
 
       
     </div>
@@ -335,14 +356,18 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/12/05/框架基础理论知识-动态代理/" rel="next" title="框架基础理论知识-动态代理">
+                <i class="fa fa-chevron-left"></i> 框架基础理论知识-动态代理
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/11/27/springboot基础（一）/" rel="prev" title="springboot基础（一）">
-                springboot基础（一） <i class="fa fa-chevron-right"></i>
+              <a href="/2017/12/06/理解响应式编程/" rel="prev" title="理解响应式编程">
+                理解响应式编程 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -395,8 +420,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -467,6 +501,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#what"><span class="nav-number">1.</span> <span class="nav-text">what</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#when："><span class="nav-number">2.</span> <span class="nav-text">when：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#where"><span class="nav-number">3.</span> <span class="nav-text">where</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#why："><span class="nav-number">4.</span> <span class="nav-text">why：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#我们已经有了-HTTP-协议，为什么还需要另一个协议？它能带来什么好处？"><span class="nav-number">4.0.1.</span> <span class="nav-text">我们已经有了 HTTP 协议，为什么还需要另一个协议？它能带来什么好处？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是http长轮询？"><span class="nav-number">4.0.2.</span> <span class="nav-text">什么是http长轮询？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#how："><span class="nav-number">5.</span> <span class="nav-text">how：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简单学习websocket原理："><span class="nav-number">6.</span> <span class="nav-text">简单学习websocket原理：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WebSocket-和-Socket的区别与联系"><span class="nav-number">7.</span> <span class="nav-text">WebSocket 和 Socket的区别与联系</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

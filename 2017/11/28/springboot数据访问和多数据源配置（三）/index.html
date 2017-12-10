@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Blog">
 <meta property="og:description" content="Tags : springboot, mysql">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-01T10:11:50.620Z">
+<meta property="og:updated_time" content="2017-12-10T05:31:08.784Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="springboot数据访问和多数据源配置（三）">
 <meta name="twitter:description" content="Tags : springboot, mysql">
@@ -312,73 +312,12 @@
       
         <p><center><font color="#CC4A31">Tags : springboot, mysql</font></center><br><a id="more"></a></p>
 <h2 id="what：多数据源"><a href="#what：多数据源" class="headerlink" title="what：多数据源"></a>what：多数据源</h2><h2 id="when："><a href="#when：" class="headerlink" title="when："></a>when：</h2><h2 id="where："><a href="#where：" class="headerlink" title="where："></a>where：</h2><h2 id="why："><a href="#why：" class="headerlink" title="why："></a>why：</h2><h2 id="how："><a href="#how：" class="headerlink" title="how："></a>how：</h2><h3 id="第一步：pom-xml和前面的一样（搞个连接）"><a href="#第一步：pom-xml和前面的一样（搞个连接）" class="headerlink" title="第一步：pom.xml和前面的一样（搞个连接）"></a>第一步：pom.xml和前面的一样（搞个连接）</h3><h3 id="第二步：配置数据源（数据库自己和前面一样，一个链接）"><a href="#第二步：配置数据源（数据库自己和前面一样，一个链接）" class="headerlink" title="第二步：配置数据源（数据库自己和前面一样，一个链接）"></a>第二步：配置数据源（数据库自己和前面一样，一个链接）</h3><p>在 src/main/resources/application.properties 中配置数据源信息。</p>
-<pre><code>#mysql
-spring.datasource.one.driver-class-name=com.mysql.jdbc.Driver
-spring.datasource.one.url=jdbc:mysql://localhost:3307/springboot_db1
-spring.datasource.one.username=root
-spring.datasource.one.password=root
-
-spring.datasource.two.driver-class-name=com.mysql.jdbc.Driver
-spring.datasource.two.url=jdbc:mysql://localhost:3307/springboot_db2
-spring.datasource.two.username=root
-spring.datasource.two.password=root
-</code></pre><p>通过 Java Config 创建 dataSource 和 jdbcTemplate。<br>我们设定主数据源为 spring.datasource.one 开头的配置，并添加 @Primary ，这样我们还可以享受 Spring Boot 提供的自动配置 DataSource 的机能。此外，第二数据源配置为 spring.datasource.two 开头的配置。</p>
-<pre><code>/**
- * 多数据源的处理思想。一种是多种数据源选一个数据源可以通过配置禁止springboot自动注入多个数据源
- * 另一种是下面方法配置多个数据源
- */
-@Configuration
-@EnableTransactionManagement
-public class BaseConfig {
-@Bean(name = &quot;oneDataSource&quot;)
-@Qualifier(&quot;oneDataSource&quot;)
-@Primary
-@ConfigurationProperties(prefix = &quot;spring.datasource.one&quot;)
-public DataSource oneDataSource(){
-    return DataSourceBuilder.create().build();
-}
-
-@Bean(name = &quot;twoDataSource&quot;)
-@Qualifier(&quot;twoDataSource&quot;)
-@ConfigurationProperties(prefix = &quot;spring.datasource.two&quot;)
-public DataSource twoDataSource(){
-    return DataSourceBuilder.create().build();
-}
-
-@Bean(name = &quot;oneJdbcTemplate&quot;)
-public JdbcTemplate oneJdbcTemplate(@Qualifier(&quot;oneDataSource&quot;) DataSource dataSource) {
-    return new JdbcTemplate(dataSource);
-}
-
-@Bean(name = &quot;twoJdbcTemplate&quot;)
-public JdbcTemplate twoJdbcTemplate(@Qualifier(&quot;twoDataSource&quot;) DataSource dataSource) {
-    return new JdbcTemplate(dataSource);
-}
-}
-</code></pre><h3 id="第三步：单元测试"><a href="#第三步：单元测试" class="headerlink" title="第三步：单元测试"></a>第三步：单元测试</h3><pre><code>@RunWith(SpringJUnit4ClassRunner.class)
-@SpringApplicationConfiguration(WebMain.class)
-public class JdbcTest {
-@Resource(name=&quot;oneJdbcTemplate&quot;)
-protected JdbcTemplate jdbcTemplate1;
-@Resource(name=&quot;twoJdbcTemplate&quot;)
-protected JdbcTemplate jdbcTemplate2;
-
-@Test
-public void test() throws Exception {
-    jdbcTemplate1.update(&quot;insert into t_author(id, real_name, nick_name) values(?, ?, ?)&quot;, 10, &quot;梁桂钊&quot;, &quot;LiangGzone&quot;);
-    jdbcTemplate2.update(&quot;insert into t_author(id, real_name, nick_name) values(?, ?, ?)&quot;, 10, &quot;梁桂钊&quot;, &quot;LiangGzone&quot;);
-}
-}
-</code></pre><h3 id="第四步：不要忘记启动类"><a href="#第四步：不要忘记启动类" class="headerlink" title="第四步：不要忘记启动类"></a>第四步：不要忘记启动类</h3><pre><code>@RestController
-@EnableAutoConfiguration
-@ComponentScan(basePackages = { &quot;com.liukai.config&quot; })
-public class WebMain {
-
-public static void main(String[] args) throws Exception {
-    SpringApplication.run(WebMain.class, args);
-}
-}
-</code></pre><h1 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h1><p>注意第三步中配置多数据源的方法和注解。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#mysql</span><br><span class="line">spring.datasource.one.driver-<span class="class"><span class="keyword">class</span>-<span class="title">name</span></span>=com.mysql.jdbc.Driver</span><br><span class="line">spring.datasource.one.url=jdbc:mysql:<span class="comment">//localhost:3307/springboot_db1</span></span><br><span class="line">spring.datasource.one.username=root</span><br><span class="line">spring.datasource.one.password=root</span><br><span class="line"> </span><br><span class="line">spring.datasource.two.driver-<span class="class"><span class="keyword">class</span>-<span class="title">name</span></span>=com.mysql.jdbc.Driver</span><br><span class="line">spring.datasource.two.url=jdbc:mysql:<span class="comment">//localhost:3307/springboot_db2</span></span><br><span class="line">spring.datasource.two.username=root</span><br><span class="line">spring.datasource.two.password=root</span><br></pre></td></tr></table></figure>
+<p>通过 Java Config 创建 dataSource 和 jdbcTemplate。<br>我们设定主数据源为 spring.datasource.one 开头的配置，并添加 @Primary ，这样我们还可以享受 Spring Boot 提供的自动配置 DataSource 的机能。此外，第二数据源配置为 spring.datasource.two 开头的配置。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 多数据源的处理思想。一种是多种数据源选一个数据源可以通过配置禁止springboot自动注入多个数据源</span></span><br><span class="line"><span class="comment"> * 另一种是下面方法配置多个数据源</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableTransactionManagement</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseConfig</span> </span>&#123;</span><br><span class="line">   <span class="meta">@Bean</span>(name = <span class="string">"oneDataSource"</span>)</span><br><span class="line">   <span class="meta">@Qualifier</span>(<span class="string">"oneDataSource"</span>)</span><br><span class="line">   <span class="meta">@Primary</span></span><br><span class="line">   <span class="meta">@ConfigurationProperties</span>(prefix = <span class="string">"spring.datasource.one"</span>)</span><br><span class="line">   <span class="function"><span class="keyword">public</span> DataSource <span class="title">oneDataSource</span><span class="params">()</span></span>&#123;</span><br><span class="line">       <span class="keyword">return</span> DataSourceBuilder.create().build();</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Bean</span>(name = <span class="string">"twoDataSource"</span>)</span><br><span class="line">   <span class="meta">@Qualifier</span>(<span class="string">"twoDataSource"</span>)</span><br><span class="line">   <span class="meta">@ConfigurationProperties</span>(prefix = <span class="string">"spring.datasource.two"</span>)</span><br><span class="line">   <span class="function"><span class="keyword">public</span> DataSource <span class="title">twoDataSource</span><span class="params">()</span></span>&#123;</span><br><span class="line">       <span class="keyword">return</span> DataSourceBuilder.create().build();</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Bean</span>(name = <span class="string">"oneJdbcTemplate"</span>)</span><br><span class="line">   <span class="function"><span class="keyword">public</span> JdbcTemplate <span class="title">oneJdbcTemplate</span><span class="params">(@Qualifier(<span class="string">"oneDataSource"</span>)</span> DataSource dataSource) </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> <span class="keyword">new</span> JdbcTemplate(dataSource);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Bean</span>(name = <span class="string">"twoJdbcTemplate"</span>)</span><br><span class="line">   <span class="function"><span class="keyword">public</span> JdbcTemplate <span class="title">twoJdbcTemplate</span><span class="params">(@Qualifier(<span class="string">"twoDataSource"</span>)</span> DataSource dataSource) </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> <span class="keyword">new</span> JdbcTemplate(dataSource);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="第三步：单元测试"><a href="#第三步：单元测试" class="headerlink" title="第三步：单元测试"></a>第三步：单元测试</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith</span>(SpringJUnit4ClassRunner.class)</span><br><span class="line"><span class="meta">@SpringApplicationConfiguration</span>(WebMain.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JdbcTest</span> </span>&#123;</span><br><span class="line">   <span class="meta">@Resource</span>(name=<span class="string">"oneJdbcTemplate"</span>)</span><br><span class="line">   <span class="keyword">protected</span> JdbcTemplate jdbcTemplate1;</span><br><span class="line">   <span class="meta">@Resource</span>(name=<span class="string">"twoJdbcTemplate"</span>)</span><br><span class="line">   <span class="keyword">protected</span> JdbcTemplate jdbcTemplate2;</span><br><span class="line"></span><br><span class="line">   <span class="meta">@Test</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">       jdbcTemplate1.update(<span class="string">"insert into t_author(id, real_name, nick_name) values(?, ?, ?)"</span>, <span class="number">10</span>, <span class="string">"梁桂钊"</span>, <span class="string">"LiangGzone"</span>);</span><br><span class="line">       jdbcTemplate2.update(<span class="string">"insert into t_author(id, real_name, nick_name) values(?, ?, ?)"</span>, <span class="number">10</span>, <span class="string">"梁桂钊"</span>, <span class="string">"LiangGzone"</span>);</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="第四步：不要忘记启动类"><a href="#第四步：不要忘记启动类" class="headerlink" title="第四步：不要忘记启动类"></a>第四步：不要忘记启动类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@EnableAutoConfiguration</span></span><br><span class="line"><span class="meta">@ComponentScan</span>(basePackages = &#123; <span class="string">"com.liukai.config"</span> &#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebMain</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">	SpringApplication.run(WebMain.class, args);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h1><p>注意第三步中配置多数据源的方法和注解。</p>
 
       
     </div>
@@ -496,7 +435,7 @@ public static void main(String[] args) throws Exception {
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

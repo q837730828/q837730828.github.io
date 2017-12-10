@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Blog">
 <meta property="og:description" content="Tags : 通过反射给自定义类设置属性生成json格式的数据">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-01T11:50:30.925Z">
+<meta property="og:updated_time" content="2017-12-10T05:33:12.949Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="自己写了个乱七八糟的小工具">
 <meta name="twitter:description" content="Tags : 通过反射给自定义类设置属性生成json格式的数据">
@@ -313,128 +313,7 @@
         <p><center><font color="#CC4A31">Tags : 通过反射给自定义类设置属性生成json格式的数据</font></center><br><a id="more"></a></p>
 <p>###不完善的地方###<br>对于自定义类中的字段：容器只写了List，再遇到其他再加。数组一般不用了就没写。还有一些字段值会生成null，到时候自己手动加数据吧，比new个对象再挨个set值或者直接拼写json格式数据方便多了。</p>
 <p>###用法###<br>只需要配置你对应类的位置就可以了。使用的阿里的fastjson包。（代码乱七八糟，还未完善，有时间兴趣可以完善下）</p>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><pre><code>public class BeanInstantiation {
-
-    public static void main(String[] args) throws Exception{
-        Random rand = new Random(47);
-        int nextInt = rand.nextInt(10);
-        Long nextLong = rand.nextLong();
-
-        List list = new ArrayList();
-        list.add(&quot;12&quot;);
-        list.add(&quot;12123&quot;);
-
-        Class&lt;Object&gt; clazz =  (Class&lt;Object&gt;) Class.forName(&quot;填写包的位置（当然是可以访问到的位置）&quot;);
-
-        Object obj = m(clazz, nextInt, nextLong, list);
-        String jsonString = JSONObject.toJSONString(obj, true);
-        System.out.println(jsonString);
-    }
-
-
-
-    /**
-    * 返回null的要处理一下，包装类的问题。包装类的处理在泛型那里也可以处理。
-    * @param clazz
-    * @param nextInt
-    * @param nextLong
-    * @param list
-    * @return
-    * @throws Exception
-    */
-    public static Object m(Class clazz, int nextInt, Long nextLong,List list) throws Exception{
-
-        if(clazz == null){
-            return null;
-        }
-        //不能传入包装类
-        if(clazz.getName() == &quot;java.lang.Integer&quot;){
-            return null;
-        }
-        if(clazz.getName() == &quot;java.lang.Long&quot;){
-            return null;
-        }
-
-
-        Object obj = clazz.newInstance();
-
-
-        if(obj.equals(&quot;&quot;)){
-            System.out.println(&quot;=======inner中list有泛型=======&quot;);
-            return null;
-        }
-        Field[] files = clazz.getDeclaredFields();
-        for(Field file: files){
-            file.setAccessible(true);
-            String typeName = file.getType().getName();
-            String filename = file.getName();
-
-            if(typeName.equals(&quot;java.lang.String&quot;)){
-                //file.set
-                file.set(obj, &quot;这是一个&quot;+filename);
-            }
-            else if(typeName.equals(&quot;int&quot;)){
-                file.set(obj, nextInt);
-            }
-            else if(typeName.equals(&quot;java.lang.Integer&quot;)){
-                file.set(obj, nextInt);
-            }
-            else if(typeName.equals(&quot;java.lang.Long&quot;)){
-                file.set(obj, nextLong);
-            }
-            //是否可以将泛型和myname中的自定义对象一起在下面这个if中实现
-            //获得list中的对象
-            else if(typeName.equals(&quot;java.util.List&quot;)){
-
-                Type genericType = file.getGenericType();
-
-                System.out.println(&quot;genericType:&quot;+genericType);
-                if(genericType == null){
-                    continue;
-                }
-                if(genericType instanceof ParameterizedType){
-                    ParameterizedType pt = (ParameterizedType)genericType;
-                    //class com.liukai.LK
-                    Class&lt;?&gt; genericClazz = (Class&lt;?&gt;)pt.getActualTypeArguments()[0];
-
-                    String genericName = genericClazz.getName();
-                    System.out.println(&quot;genericClazz:&quot; + genericClazz);
-                    System.out.println(&quot;genericName:&quot; + genericName);
-                    //对泛型反射
-                    Class clazz2 = Class.forName(genericName);
-
-
-                    //递归，给对象set
-                    Object m = m(clazz2, nextInt,nextLong,list);
-
-                    /*Object setvalue = setvalue(clazz2);*/
-                    List&lt;Object&gt; arrayList = new ArrayList&lt;&gt;();
-                    arrayList.add(m);
-
-                    file.set(obj, arrayList);
-                }else{
-                    file.set(obj, list);
-                }
-
-            }
-            //处理自定义对象
-            else{
-                System.out.println(&quot;-------------&quot;+typeName);
-                System.out.println(&quot;-------------&quot;+typeName);
-                Class clazz2 = Class.forName(typeName);
-                Object m = m(clazz2, nextInt,nextLong,list);
-                file.set(obj, m);
-            }
-
-
-            System.out.println(typeName);
-
-        }
-
-        return obj;
-    }
-}
-</code></pre>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BeanInstantiation</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        Random rand = <span class="keyword">new</span> Random(<span class="number">47</span>);</span><br><span class="line">        <span class="keyword">int</span> nextInt = rand.nextInt(<span class="number">10</span>);</span><br><span class="line">        Long nextLong = rand.nextLong();</span><br><span class="line">        </span><br><span class="line">        List list = <span class="keyword">new</span> ArrayList();</span><br><span class="line">        list.add(<span class="string">"12"</span>);</span><br><span class="line">        list.add(<span class="string">"12123"</span>);</span><br><span class="line">        </span><br><span class="line">        Class&lt;Object&gt; clazz =  (Class&lt;Object&gt;) Class.forName(<span class="string">"填写包的位置（当然是可以访问到的位置）"</span>);</span><br><span class="line">        </span><br><span class="line">        Object obj = m(clazz, nextInt, nextLong, list);</span><br><span class="line">        String jsonString = JSONObject.toJSONString(obj, <span class="keyword">true</span>);</span><br><span class="line">        System.out.println(jsonString);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * 返回null的要处理一下，包装类的问题。包装类的处理在泛型那里也可以处理。</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> clazz</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> nextInt</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> nextLong</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@param</span> list</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">    * <span class="doctag">@throws</span> Exception</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">m</span><span class="params">(Class clazz, <span class="keyword">int</span> nextInt, Long nextLong,List list)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(clazz == <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//不能传入包装类</span></span><br><span class="line">        <span class="keyword">if</span>(clazz.getName() == <span class="string">"java.lang.Integer"</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(clazz.getName() == <span class="string">"java.lang.Long"</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        Object obj = clazz.newInstance();</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span>(obj.equals(<span class="string">""</span>))&#123;</span><br><span class="line">            System.out.println(<span class="string">"=======inner中list有泛型======="</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        Field[] files = clazz.getDeclaredFields();</span><br><span class="line">        <span class="keyword">for</span>(Field file: files)&#123;</span><br><span class="line">            file.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">            String typeName = file.getType().getName();</span><br><span class="line">            String filename = file.getName();</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span>(typeName.equals(<span class="string">"java.lang.String"</span>))&#123;</span><br><span class="line">                <span class="comment">//file.set</span></span><br><span class="line">                file.set(obj, <span class="string">"这是一个"</span>+filename);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(typeName.equals(<span class="string">"int"</span>))&#123;</span><br><span class="line">                file.set(obj, nextInt);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(typeName.equals(<span class="string">"java.lang.Integer"</span>))&#123;</span><br><span class="line">                file.set(obj, nextInt);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(typeName.equals(<span class="string">"java.lang.Long"</span>))&#123;</span><br><span class="line">                file.set(obj, nextLong);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//是否可以将泛型和myname中的自定义对象一起在下面这个if中实现</span></span><br><span class="line">            <span class="comment">//获得list中的对象</span></span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(typeName.equals(<span class="string">"java.util.List"</span>))&#123;</span><br><span class="line">                </span><br><span class="line">                Type genericType = file.getGenericType();</span><br><span class="line">                </span><br><span class="line">                System.out.println(<span class="string">"genericType:"</span>+genericType);</span><br><span class="line">                <span class="keyword">if</span>(genericType == <span class="keyword">null</span>)&#123;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(genericType <span class="keyword">instanceof</span> ParameterizedType)&#123;</span><br><span class="line">                    ParameterizedType pt = (ParameterizedType)genericType;</span><br><span class="line">                    <span class="comment">//class com.liukai.LK</span></span><br><span class="line">                    Class&lt;?&gt; genericClazz = (Class&lt;?&gt;)pt.getActualTypeArguments()[<span class="number">0</span>];</span><br><span class="line">                    </span><br><span class="line">                    String genericName = genericClazz.getName();</span><br><span class="line">                    System.out.println(<span class="string">"genericClazz:"</span> + genericClazz);</span><br><span class="line">                    System.out.println(<span class="string">"genericName:"</span> + genericName);</span><br><span class="line">                    <span class="comment">//对泛型反射</span></span><br><span class="line">                    Class clazz2 = Class.forName(genericName);</span><br><span class="line">                    </span><br><span class="line">                    </span><br><span class="line">                    <span class="comment">//递归，给对象set</span></span><br><span class="line">                    Object m = m(clazz2, nextInt,nextLong,list);</span><br><span class="line">                    </span><br><span class="line">                    <span class="comment">/*Object setvalue = setvalue(clazz2);*/</span></span><br><span class="line">                    List&lt;Object&gt; arrayList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">                    arrayList.add(m);</span><br><span class="line">                    </span><br><span class="line">                    file.set(obj, arrayList);</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    file.set(obj, list);</span><br><span class="line">                &#125;</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//处理自定义对象</span></span><br><span class="line">            <span class="keyword">else</span>&#123;</span><br><span class="line">                System.out.println(<span class="string">"-------------"</span>+typeName);</span><br><span class="line">                System.out.println(<span class="string">"-------------"</span>+typeName);</span><br><span class="line">                Class clazz2 = Class.forName(typeName);</span><br><span class="line">                Object m = m(clazz2, nextInt,nextLong,list);</span><br><span class="line">                file.set(obj, m);</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            </span><br><span class="line">            System.out.println(typeName);</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> obj;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -551,7 +430,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
