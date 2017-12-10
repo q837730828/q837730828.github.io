@@ -79,20 +79,20 @@
 
 
 
-<meta name="description" content="文章出处  引子：被誉为“中国大数据第一人”的涂子沛先生在其成名作《数据之巅》里提到，摩尔定律、社交媒体、数据挖掘是大数据的三大成因。IBM的研究称，整个人类文明所获得的全部数据中，有90%是过去两年内产生的。在此背景下，包括NoSQL，Hadoop, Spark, Storm, Kylin在内的大批新技术应运而生。其">
+<meta name="description" content="spring5-响应式web框架">
 <meta property="og:type" content="article">
 <meta property="og:title" content="spring5-响应式web框架前瞻">
 <meta property="og:url" content="http://yoursite.com/2017/12/07/spring5-响应式web框架前瞻/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="文章出处  引子：被誉为“中国大数据第一人”的涂子沛先生在其成名作《数据之巅》里提到，摩尔定律、社交媒体、数据挖掘是大数据的三大成因。IBM的研究称，整个人类文明所获得的全部数据中，有90%是过去两年内产生的。在此背景下，包括NoSQL，Hadoop, Spark, Storm, Kylin在内的大批新技术应运而生。其中以RxJava和Reactor为代表的响应式（Reactive）编程技术针对的">
+<meta property="og:description" content="spring5-响应式web框架">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2017/12/07/spring5-响应式web框架前瞻/spring5/reactive-manifesto.png">
-<meta property="og:image" content="http://yoursite.com/2017/12/07/spring5-响应式web框架前瞻/spring5/webflux-overview.png">
-<meta property="og:updated_time" content="2017-12-07T01:22:00.549Z">
+<meta property="og:image" content="http://p0qcso2ei.bkt.clouddn.com/reactive-manifesto.png">
+<meta property="og:image" content="http://p0qcso2ei.bkt.clouddn.com/webflux-overview.png">
+<meta property="og:updated_time" content="2017-12-10T05:48:30.164Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spring5-响应式web框架前瞻">
-<meta name="twitter:description" content="文章出处  引子：被誉为“中国大数据第一人”的涂子沛先生在其成名作《数据之巅》里提到，摩尔定律、社交媒体、数据挖掘是大数据的三大成因。IBM的研究称，整个人类文明所获得的全部数据中，有90%是过去两年内产生的。在此背景下，包括NoSQL，Hadoop, Spark, Storm, Kylin在内的大批新技术应运而生。其中以RxJava和Reactor为代表的响应式（Reactive）编程技术针对的">
-<meta name="twitter:image" content="http://yoursite.com/2017/12/07/spring5-响应式web框架前瞻/spring5/reactive-manifesto.png">
+<meta name="twitter:description" content="spring5-响应式web框架">
+<meta name="twitter:image" content="http://p0qcso2ei.bkt.clouddn.com/reactive-manifesto.png">
 
 
 
@@ -313,18 +313,18 @@
       
 
       
-        <p><a href="http://blog.csdn.net/emac/article/details/72814591" target="_blank" rel="noopener">文章出处</a></p>
+        <p><center><font color="#CC4A31">spring5-响应式web框架</font></center><br><a id="more"></a><br><a href="http://blog.csdn.net/emac/article/details/72814591" target="_blank" rel="noopener">文章出处</a></p>
 <blockquote>
 <p>引子：被誉为“中国大数据第一人”的涂子沛先生在其成名作《数据之巅》里提到，摩尔定律、社交媒体、数据挖掘是大数据的三大成因。IBM的研究称，整个人类文明所获得的全部数据中，有90%是过去两年内产生的。在此背景下，包括NoSQL，Hadoop, Spark, Storm, Kylin在内的大批新技术应运而生。其中以RxJava和Reactor为代表的响应式（Reactive）编程技术针对的就是经典的大数据4V定义（Volume，Variety，Velocity，Value）中的Velocity，即高并发问题，而在即将发布的Spring 5中，也引入了响应式编程的支持。在接下来的几周，我会围绕响应式编程分三期与你分享我的一些学习心得。作为第一篇，首先从Spring 5谈起。</p>
 </blockquote>
-<p>1 响应式宣言<br>和敏捷宣言一样，说起响应式编程，必先提到响应式宣言。<br><img src="spring5/reactive-manifesto.png" alt="响应式宣言图片"><br>不知道是不是为了向敏捷宣言致敬，响应式宣言中也包含了4组关键词：</p>
+<p>1 响应式宣言<br>和敏捷宣言一样，说起响应式编程，必先提到响应式宣言。<br><img src="http://p0qcso2ei.bkt.clouddn.com/reactive-manifesto.png" alt="响应式宣言图片"><br>不知道是不是为了向敏捷宣言致敬，响应式宣言中也包含了4组关键词：</p>
 <ul>
 <li>Responsive: 可响应的。要求系统尽可能做到在任何时候都能及时响应。</li>
 <li>Resilient: 可恢复的。要求系统即使出错了，也能保持可响应性。</li>
 <li>Elastic: 可伸缩的。要求系统在各种负载下都能保持可响应性。</li>
 <li>Message Driven: 消息驱动的。要求系统通过异步消息连接各个组件。<br>可以看到，对于任何一个响应式系统，首先要保证的就是可响应性，否则就称不上是响应式系统。从这个意义上来说，动不动就蓝屏的Windows系统显然不是一个响应式系统。</li>
 </ul>
-<p>2 Spring 5前瞻<br>作为Java世界首个响应式Web框架，Spring 5最大的亮点莫过于提供了完整的端到端响应式编程的支持。<br><img src="spring5/webflux-overview.png" alt="spring5框架图片"><br>左侧是传统的基于Servlet的Spring Web MVC框架，右侧是5.0版本新引入的基于Reactive Streams的Spring WebFlux框架，从上到下依次是Router Functions，WebFlux，Reactive Streams三个新组件。</p>
+<p>2 Spring 5前瞻<br>作为Java世界首个响应式Web框架，Spring 5最大的亮点莫过于提供了完整的端到端响应式编程的支持。<br><img src="http://p0qcso2ei.bkt.clouddn.com/webflux-overview.png" alt="spring5框架图片"><br>左侧是传统的基于Servlet的Spring Web MVC框架，右侧是5.0版本新引入的基于Reactive Streams的Spring WebFlux框架，从上到下依次是Router Functions，WebFlux，Reactive Streams三个新组件。</p>
 <ul>
 <li>Router Functions: 对标@Controller，@RequestMapping等标准的Spring MVC注解，提供一套函数式风格的API，用于创建Router，Handler和Filter。</li>
 <li>WebFlux: 核心组件，协调上下游各个组件提供响应式编程支持。</li>

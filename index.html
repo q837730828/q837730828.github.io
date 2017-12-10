@@ -443,29 +443,14 @@
 
       
         
-          
-            <p><a href="http://blog.csdn.net/emac/article/details/72814591" target="_blank" rel="noopener">文章出处</a></p>
-<blockquote>
-<p>引子：被誉为“中国大数据第一人”的涂子沛先生在其成名作《数据之巅》里提到，摩尔定律、社交媒体、数据挖掘是大数据的三大成因。IBM的研究称，整个人类文明所获得的全部数据中，有90%是过去两年内产生的。在此背景下，包括NoSQL，Hadoop, Spark, Storm, Kylin在内的大批新技术应运而生。其中以RxJava和Reactor为代表的响应式（Reactive）编程技术针对的就是经典的大数据4V定义（Volume，Variety，Velocity，Value）中的Velocity，即高并发问题，而在即将发布的Spring 5中，也引入了响应式编程的支持。在接下来的几周，我会围绕响应式编程分三期与你分享我的一些学习心得。作为第一篇，首先从Spring 5谈起。</p>
-</blockquote>
-<p>1 响应式宣言<br>和敏捷宣言一样，说起响应式编程，必先提到响应式宣言。<br><img src="spring5/reactive-manifesto.png" alt="响应式宣言图片"><br>不知道是不是为了向敏捷宣言致敬，响应式宣言中也包含了4组关键词：</p>
-<ul>
-<li>Responsive: 可响应的。要求系统尽可能做到在任何时候都能及时响应。</li>
-<li>Resilient: 可恢复的。要求系统即使出错了，也能保持可响应性。</li>
-<li>Elastic: 可伸缩的。要求系统在各种负载下都能保持可响应性。</li>
-<li>Message Driven: 消息驱动的。要求系统通过异步消息连接各个组件。<br>可以看到，对于任何一个响应式系统，首先要保证的就是可响应性，否则就称不上是响应式系统。从这个意义上来说，动不动就蓝屏的Windows系统显然不是一个响应式系统。</li>
-</ul>
-<p>2 Spring 5前瞻<br>作为Java世界首个响应式Web框架，Spring 5最大的亮点莫过于提供了完整的端到端响应式编程的支持。<br><img src="spring5/webflux-overview.png" alt="spring5框架图片"><br>左侧是传统的基于Servlet的Spring Web MVC框架，右侧是5.0版本新引入的基于Reactive Streams的Spring WebFlux框架，从上到下依次是Router Functions，WebFlux，Reactive Streams三个新组件。</p>
-<ul>
-<li>Router Functions: 对标@Controller，@RequestMapping等标准的Spring MVC注解，提供一套函数式风格的API，用于创建Router，Handler和Filter。</li>
-<li>WebFlux: 核心组件，协调上下游各个组件提供响应式编程支持。</li>
-<li>Reactive Streams: 一种支持背压（Backpressure）的异步数据流处理标准，主流实现有RxJava和Reactor，Spring WebFlux默认集成的是Reactor。</li>
-</ul>
-<p>在Web容器的选择上，Spring WebFlux既支持像Tomcat，Jetty这样的的传统容器（前提是支持Servlet 3.1 Non-Blocking IO API），又支持像Netty，Undertow那样的异步容器。不管是何种容器，Spring WebFlux都会将其输入输出流适配成Flux<databuffer>格式，以便进行统一处理。</databuffer></p>
-<p>值得一提的是，除了新的Router Functions接口，Spring WebFlux同时支持使用老的Spring MVC注解声明Reactive Controller。和传统的MVC Controller不同，        Reactive Controller操作的是非阻塞的ServerHttpRequest和ServerHttpResponse，而不再是Spring MVC里的HttpServletRequest和HttpServletResponse。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RestaurantController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> RestaurantRepository restaurantRepository;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ReactiveMongoTemplate reactiveMongoTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">RestaurantController</span><span class="params">(RestaurantRepository restaurantRepository, ReactiveMongoTemplate reactiveMongoTemplate)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.restaurantRepository = restaurantRepository;</span><br><span class="line">        <span class="keyword">this</span>.reactiveMongoTemplate = reactiveMongoTemplate;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/reactive/restaurants"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Flux&lt;Restaurant&gt; <span class="title">findAll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> restaurantRepository.findAll();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/reactive/restaurants/&#123;id&#125;"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Mono&lt;Restaurant&gt; <span class="title">get</span><span class="params">(@PathVariable String id)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> restaurantRepository.findById(id);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping</span>(<span class="string">"/reactive/restaurants"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Flux&lt;Restaurant&gt; <span class="title">create</span><span class="params">(@RequestBody Restaurant[] restaurants)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> Flux.just(restaurants)</span><br><span class="line">                .log()</span><br><span class="line">                .flatMap(r -&gt; Mono.just(r).subscribeOn(Schedulers.parallel()), <span class="number">10</span>)</span><br><span class="line">                .flatMap(reactiveMongoTemplate::insert);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>3 小结<br>除了响应式编程支持，Spring 5还包括了很多Java程序员期待已久的特性，包括JDK 9，Junit 5，Servlet 4以及HTTP/2支持。</p>
-
-          
+          <p><center><font color="#CC4A31">spring5-响应式web框架</font></center><br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/07/spring5-响应式web框架前瞻/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -593,22 +578,14 @@
 
       
         
-          
-            <p>今天准备学习下springboot整合websocket，在spring官方文档查找相应的类和注解的解释时，发现有Web on Reactive Stack这个东西。然后就发现了响应式编程（RP）。然后又发现了函数式编程（FP），函数响应式编程（FRP），以及我们主流的面向对象编程（OOP）。</p>
-<h4 id="响应式编程（RP）"><a href="#响应式编程（RP）" class="headerlink" title="响应式编程（RP）"></a>响应式编程（RP）</h4><p>RxJava、Reactor。异步和非阻塞式的。面向解决高并发的问题。</p>
-<h4 id="函数式编程（FP）"><a href="#函数式编程（FP）" class="headerlink" title="函数式编程（FP）"></a>函数式编程（FP）</h4><p>JS、Scala、Erlang</p>
-<h4 id="函数响应式编程（FRP）"><a href="#函数响应式编程（FRP）" class="headerlink" title="函数响应式编程（FRP）"></a>函数响应式编程（FRP）</h4><h2 id="通熟易懂的理解响应式编程"><a href="#通熟易懂的理解响应式编程" class="headerlink" title="通熟易懂的理解响应式编程"></a>通熟易懂的理解响应式编程</h2><p>响应式编程(Reactive Programming 或称反应式编程)是一种流行的编程方法，编写代码是基于对变化的反应。它的灵感来自于我们的日常生活，也即我们如何采取行动以及与他人沟通。</p>
-<p>我们在执行日常生活活动时，我们会尽可能多任务，但大脑无法处理多任务，不管我们如何努力去做。我们人类实现多任务的唯一办法是在时间线上在任务之间切换。事实上，我们总是切换任务，即使我们没有意识到它。</p>
-<p>例如，要执行一个任务：在星巴克喝一杯咖啡饮料，你需要发出一个命令，等待它准备好，然后接受你的饮料。当你在等待的时候，你很可能会找到别的事情做。这是最简单的执行任务的反应(响应)形式，你会在你等待来自咖啡师的“响应”时做别的事情，当你的咖啡已经准备好后，会叫你的名字时。</p>
-<p>响应编程能够简化编程，它依赖于事件，代码运行的顺序不是代码行的顺序，而是和一个以上的事件有关，这些事件发生是以随着时间的推移的序列。我们把这一系列事件称为“流”。</p>
-<p>何为事件？例如，你知道某个名人总是在发送有趣微博，每次他推发一条微博我们可以称之为一个“事件”。如果你看看这位名人微博系列，你会发现其实是一个随着时间的推移（一系列的事件）发生的一序列的“事件”。</p>
-<p>响应式编程就是因为我们得“响应”这些事件而得以命名。例如，想象一下，你在等待某人发送一个很酷商品的促销码，当这条促销码发出时，你会立即响应，去购买这个很酷的商品。这正是什么响应性编程的原理。</p>
-<p>为了能够对事件作出反应，我们必须要监督它。 如果我们没有监听的情况下，我们永远不会知道什么时候它会有事件反应。 在微博上，可以设置监测微博的事件，我们遵循简并设置我们的电话，每次她发微博事件时就会第一时间通知我们。</p>
-<p>在响应式编程中，监视事件被称为侦听或订阅该事件。 这一点其实很相似订阅简讯。 当您订阅Web上发布的新闻，您得提供您的电子邮件地址，每次有新的时事通讯时候，您的电子邮件地址将得到该新闻的一个副本。 同样，我们使用某个函数订阅事件流，每当有一个新的事件时，流将激活这个函数，以使我们的代码能够对事件作出响应。 在这个比喻中，新闻通讯平台是事件流，电子报的每一个新闻是一个事件，你的电子邮件是您使用订阅事件流的函数。</p>
-<p>现在想象一个动态的通讯，您可以选择主题，并只会发送匹配主题的新闻项目。 你可根据自己的喜好过滤的通讯新闻，而这一点我们可以在事件流做的一样好。 想像你已经使用不同的电子邮件地址订阅多个通讯，以及后来决定你想要的通讯的所有新闻发送到一个新的单电子邮件地址。 简单可以做的是设置通讯新闻发送到新的电子邮件地址的转发邮件规则。 我们可以用事件流同样做到。</p>
-<p>将事件流可以和通常数组比较。 他们其实很相似。 数组是在空间值的序列，而事件流是随时间的值的序列。 在响应式编程中，所有函数操作都可以针对一个数组阵列上 - 比如过滤，reduce，mapping，结合，管道 - 也可以在事件流完成！ 我们可以过滤的事件流，reduce合并事件流的值，将事件流映射到另一个另外一个，结合组合事件流，将一个流的输入输出到另一个。</p>
-
-          
+          <p><center><font color="#CC4A31">理解响应式编程</font></center><br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/06/理解响应式编程/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
