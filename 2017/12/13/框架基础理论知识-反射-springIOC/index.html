@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="Tags : Redis">
+<meta name="description" content="center &amp;gt;Spring IOC的控制反转底层实现是反射">
 <meta property="og:type" content="article">
-<meta property="og:title" content="redis基础">
-<meta property="og:url" content="http://yoursite.com/2017/12/05/redis基础/index.html">
+<meta property="og:title" content="框架基础理论知识-反射-springIOC">
+<meta property="og:url" content="http://yoursite.com/2017/12/13/框架基础理论知识-反射-springIOC/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="Tags : Redis">
+<meta property="og:description" content="center &amp;gt;Spring IOC的控制反转底层实现是反射">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-05T09:03:45.293Z">
+<meta property="og:updated_time" content="2017-12-13T10:05:53.606Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="redis基础">
-<meta name="twitter:description" content="Tags : Redis">
+<meta name="twitter:title" content="框架基础理论知识-反射-springIOC">
+<meta name="twitter:description" content="center &amp;gt;Spring IOC的控制反转底层实现是反射">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/12/05/redis基础/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/12/13/框架基础理论知识-反射-springIOC/"/>
 
 
 
 
 
-  <title>redis基础 | Blog</title>
+  <title>框架基础理论知识-反射-springIOC | Blog</title>
   
 
 
@@ -232,7 +232,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/05/redis基础/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/13/框架基础理论知识-反射-springIOC/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="老孩">
@@ -249,7 +249,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">redis基础</h1>
+          <h1 class="post-title" itemprop="name headline">框架基础理论知识-反射-springIOC</h1>
         
 
         <div class="post-meta">
@@ -261,8 +261,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-05T11:54:57+08:00">
-                2017-12-05
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-13T17:41:05+08:00">
+                2017-12-13
               </time>
             
 
@@ -279,7 +279,7 @@
 
           
           
-             <span id="/2017/12/05/redis基础/" class="leancloud_visitors" data-flag-title="redis基础">
+             <span id="/2017/12/13/框架基础理论知识-反射-springIOC/" class="leancloud_visitors" data-flag-title="框架基础理论知识-反射-springIOC">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -310,13 +310,45 @@
       
 
       
-        <p><center><font color="#CC4A31">Tags : Redis</font></center><br><a id="more"></a></p>
-<p>##Redis<br>Remote dictionary system（远程字典服务器）是一个由Salvatore Sanfilippo写的key-value存储系统，该软件使用C语言编写。<br>它通常被称为数据结构服务器，因为值（value）可以是 字符串(String), 哈希(Map), 列表(list), 集合(sets) 和 有序集合(sorted sets)等类型。</p>
-<p>##Redis和其他key-value产品比有以下特点：<br>1，支持数据的持久化，可以将内存中的数据保存在磁盘中，重启的时候可以再次加载使用。<br>2，不仅仅支持简单的key-value数据类型，同时还支持list，set，zset，hash等数据结构的存储。<br>3，支持数据的备份。即master-slave模式的数据备份。<br>4，Redis支持主从模式，可以配置集群，这样更利于支撑起大型的项目，这也是Redis的一大亮点。</p>
-<p>##Redis的优势：<br>性能极高，读的速度是：110000次/s，些的速度是81000次/s。<br>丰富的数据类型<br>原子<br>丰富的特性</p>
-<p>##Redis应用场景，它能做什么<br>众多语言都支持Redis，因为Redis交换数据快，所以在服务器中常用来存储一些需要频繁调取的数据，这样可以大大节省系统直接读取磁盘来获得数据的I/O开销，更重要的是可以极大提升速度。<br>拿大型网站来举个例子，比如a网站首页一天有100万人访问，其中有一个板块为推荐新闻。要是直接从数据库查询，那么一天就要多消耗100万次数据库请求。上面已经说过，Redis支持丰富的数据类型，所以这完全可以用Redis来完成，将这种热点数据存到Redis（内存）中，要用的时候，直接从内存取，极大的提高了速度和节约了服务器的开销。</p>
-<p>##Redis与其他key-value存储有什么不同？<br>Redis有着更为复杂的数据结构并且提供对他们的原子性操作，这是一个不同于其他数据库的进化路径。Redis的数据类型都是基于基本数据结构的同时对程序员透明，无需进行额外的抽象。<br>Redis运行在内存中但是可以持久化到磁盘，所以在对不同数据集进行高速读写时需要权衡内存，因为数据量不能大于硬件内存。在内存数据库方面的另一个优点是，相比在磁盘上相同的复杂的数据结构，在内存中操作起来非常简单，这样Redis可以做很多内部复杂性很强的事情。同时，在磁盘格式方面他们是紧凑的以追加的方式产生的，因为他们并不需要进行随机访问。 </p>
-<p>##启动服务：打开redis所在目录，cmd输入redis-server.exe redis.windows.conf 。<br><a href="http://www.runoob.com/redis/redis-install.html" target="_blank" rel="noopener">http://www.runoob.com/redis/redis-install.html</a></p>
+        <p>center &gt;<font color="#CC4A31">Spring IOC的控制反转底层实现是反射</font><br><a id="more"></a></p>
+<h2 id="类装载器ClassLoader"><a href="#类装载器ClassLoader" class="headerlink" title="类装载器ClassLoader"></a>类装载器ClassLoader</h2><p>类装载器就是寻找类的节码文件并构造出类在JVM内部表示对象的组件。在Java中，类装载器把一个类装入JVM中，要经过以下步骤：<br>[1.]装载：查找和导入Class文件<br>[2.]链接：执行校验、准备和解析步骤，其中解析步骤是可以选择的：<br>&emsp;&emsp;[2.1]校验：检查载入Class文件数据的正确性；<br>&emsp;&emsp;[2.2]准备：给类的静态变量分配存储空间；<br>&emsp;&emsp;[2.3]解析：将符号引用转成直接引用；<br>[3.]初始化：对类的静态变量、静态代码块执行初始化工作。 </p>
+<blockquote>
+<p><strong>类装载工作由ClassLoader及其子类负责，ClassLoader是一个重要的Java运行时系统组件，它负责在运行时查找和装入Class字节码文件。JVM在运行时会产生三个ClassLoader：根装载器、ExtClassLoader（扩展类装载器）和AppClassLoader（系统类装载器）。其中，根装载器不是ClassLoader的子类，它使用C++编写，因此我们在Java中看不到它，根装载器负责装载JRE的核心类库，如JRE目标下的rt.jar、charsets.jar等。ExtClassLoader和AppClassLoader都是ClassLoader的子类。其中ExtClassLoader负责装载JRE扩展目录ext中的JAR类包；AppClassLoader负责装载Classpath路径下的类包</strong></p>
+</blockquote>
+<p>这三个类装载器之间存在父子层级关系，即根装载器是ExtClassLoader的父装载器，ExtClassLoader是AppClassLoader的父装载器。默认情况下，使用AppClassLoader装载应用程序的类，我们可以做一个实验：<br>public class ClassLoaderTest {<br>    public static void main(String[] args) {<br>        ClassLoader loader = Thread.currentThread().getContextClassLoader();<br>        System.out.println(“current loader:”+loader);<br>        System.out.println(“parent loader:”+loader.getParent());<br>        System.out.println(“grandparent loader:”+loader.getParent(). getParent());<br>    }<br>}<br>结果：<br>current loader:sun.misc.Launcher$AppClassLoader@131f71a<br>parent loader:sun.misc.Launcher$ExtClassLoader@15601ea<br>     //①根装载器在Java中访问不到，所以返回null<br>grandparent loader:null</p>
+<p>通过以上的输出信息，我们知道当前的ClassLoader是AppClassLoader，父ClassLoader是ExtClassLoader，祖父ClassLoader是根类装载器，因为在Java中无法获得它的句柄，所以仅返回null。 </p>
+<blockquote>
+<p><strong>JVM装载类时使用“全盘负责委托机制”，“全盘负责”是指当一个ClassLoader装载一个类时，除非显式地使用另一个ClassLoader，该类所依赖及引用的类也由这个ClassLoader载入；“委托机制”是指先委托父装载器寻找目标类，只有在找不到的情况下才从自己的类路径中查找并装载目标类。这一点是从安全角度考虑的，试想如果有人编写了一个恶意的基础类（如java.lang.String）并装载到JVM中将会引起多么可怕的后果。但是由于有了“全盘负责委托机制”，java.lang.String永远是由根装载器来装载的，这样就避免了上述事件的发生</strong></p>
+</blockquote>
+<p>ClassLoader重要方法<br>在Java中，ClassLoader是一个抽象类，位于java.lang包中。下面对该类的一些重要接口方法进行介绍： </p>
+<h4 id="1，Class-loadClass-String-name"><a href="#1，Class-loadClass-String-name" class="headerlink" title="1，Class loadClass(String name)"></a>1，Class loadClass(String name)</h4><pre><code>name参数指定类装载器需要装载类的名字，必须使用全限定类名，如com.baobaotao. beans.Car。该方法有一个重载方法loadClass(String name ,boolean resolve)，resolve参数告诉类装载器是否需要解析该类。在初始化类之前，应考虑进行类解析的工作，但并不是所有的类都需要解析，如果JVM只需要知道该类是否存在或找出该类的超类，那么就不需要进行解析。 
+</code></pre><h4 id="2，Class-defineClass-String-name-byte-b-int-off-int-len"><a href="#2，Class-defineClass-String-name-byte-b-int-off-int-len" class="headerlink" title="2，Class defineClass(String name, byte[] b, int off, int len)"></a>2，Class defineClass(String name, byte[] b, int off, int len)</h4><p>   将类文件的字节数组转换成JVM内部的java.lang.Class对象。字节数组可以从本地文件系统、远程网络获取。name为字节数组对应的全限定类名。 </p>
+<h4 id="3，Class-findSystemClass-String-name"><a href="#3，Class-findSystemClass-String-name" class="headerlink" title="3，Class findSystemClass(String name)"></a>3，Class findSystemClass(String name)</h4><p>   从本地文件系统载入Class文件，如果本地文件系统不存在该Class文件，将抛出ClassNotFoundException异常。该方法是JVM默认使用的装载机制。 </p>
+<h4 id="4，Class-findLoadedClass-String-name"><a href="#4，Class-findLoadedClass-String-name" class="headerlink" title="4，Class findLoadedClass(String name)"></a>4，Class findLoadedClass(String name)</h4><p>  调用该方法来查看ClassLoader是否已装入某个类。如果已装入，那么返回java.lang.Class对象，否则返回null。如果强行装载已存在的类，将会抛出链接错误。 </p>
+<h4 id="5，ClassLoader-getParent"><a href="#5，ClassLoader-getParent" class="headerlink" title="5，ClassLoader getParent()"></a>5，ClassLoader getParent()</h4><p>   获取类装载器的父装载器，除根装载器外，所有的类装载器都有且仅有一个父装载器，ExtClassLoader的父装载器是根装载器，因为根装载器非Java编写，所以无法获得，将返回null。</p>
+<p>Java反射机制 </p>
+<p><strong>Class反射对象描述类语义结构，可以从Class对象中获取构造函数、成员变量、方法类等类元素的反射对象，并以编程的方式通过这些反射对象对目标类对象进行操作。</strong>这些反射对象类在java.reflect包中定义，下面是最主要的三个反射类：<br><strong>1，Constructor：</strong>类的构造函数反射类，通过Class#getConstructors()方法可以获得类的所有构造函数反射对象数组。在JDK5.0中，还可以通过getConstructor(Class… parameterTypes)获取拥有特定入参的构造函数反射对象。Constructor的一个主要方法是newInstance(Object[] initargs)，通过该方法可以创建一个对象类的实例，相当于new关键字。在JDK5.0中该方法演化为更为灵活的形式：newInstance (Object… initargs)。<br><strong>2，Method：</strong>类方法的反射类，通过Class#getDeclaredMethods()方法可以获取类的所有方法反射类对象数组Method[]。在JDK5.0中可以通过getDeclaredMethod(String name, Class… parameterTypes)获取特定签名的方法，name为方法名；Class…为方法入参类型列表。Method最主要的方法是invoke(Object obj, Object[] args)，obj表示操作的目标对象；args为方法入参，代码清单3 10③处演示了这个反射类的使用方法。在JDK 5.0中，该方法的形式调整为invoke(Object obj, Object… args)。此外，Method还有很多用于获取类方法更多信息的方法：<br>      1）Class getReturnType()：获取方法的返回值类型；<br>      2）Class[] getParameterTypes()：获取方法的入参类型数组；<br>      3）Class[] getExceptionTypes()：获取方法的异常类型数组；<br>      4）Annotation[][] getParameterAnnotations()：获取方法的注解信息，JDK 5.0中的新方法；<br><strong>3，Field：</strong>类的成员变量的反射类，通过Class#getDeclaredFields()方法可以获取类的成员变量反射对象数组，通过Class#getDeclaredField(String name)则可获取某个特定名称的成员变量反射对象。Field类最主要的方法是set(Object obj, Object value)，obj表示操作的目标对象，通过value为目标对象的成员变量设置值。如果成员变量为基础类型，用户可以使用Field类中提供的带类型名的值设置方法，如setBoolean(Object obj, boolean value)、setInt(Object obj, int value)等。 </p>
+<p>此外，Java还为包提供了Package反射类，在JDK 5.0中还为注解提供了AnnotatedElement反射类。总之，Java的反射体系保证了可以通过程序化的方式访问目标类中所有的元素，对于private或protected的成员变量和方法，只要JVM的安全机制允许，也可以通过反射进行调用，请看下面的例子<br>```java<br>    package com.baobaotao.reflect;<br>    public class PrivateCar {<br>        //①private成员变量：使用传统的类实例调用方式，只能在本类中访问<br>        private String color;<br>        //②protected方法：使用传统的类实例调用方式，只能在子类和本包中访问<br>        protected void drive(){<br>            System.out.println(“drive private car! the color is:”+color);<br>       }<br>    }  </p>
+<pre><code>public class PrivateCarReflect {  
+    public static void main(String[] args) throws Throwable{  
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();  
+        Class clazz = loader.loadClass(&quot;com.baobaotao.reflect.PrivateCar&quot;);  
+        PrivateCar pcar = (PrivateCar)clazz.newInstance();  
+
+        Field colorFld = clazz.getDeclaredField(&quot;color&quot;);  
+        //①取消Java语言访问检查以访问private变量  
+        colorFld.setAccessible(true);   
+        colorFld.set(pcar,&quot;红色&quot;);  
+
+        Method driveMtd = clazz.getDeclaredMethod(&quot;drive&quot;,(Class[])null);  
+        //Method driveMtd = clazz.getDeclaredMethod(&quot;drive&quot;); JDK5.0下使用
+
+        //②取消Java语言访问检查以访问protected方法  
+        driveMtd.setAccessible(true);   
+        driveMtd.invoke(pcar,(Object[])null);  
+  }  
+}  
+</code></pre><p>在访问private、protected成员变量和方法时必须通过setAccessible(boolean access)方法取消Java语言检查，否则将抛出IllegalAccessException。如果JVM的安全管理器设置了相应的安全机制，调用该方法将抛出SecurityException。</p>
 
       
     </div>
@@ -341,8 +373,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/12/05/什么是NoSql/" rel="next" title="什么是NoSql">
-                <i class="fa fa-chevron-left"></i> 什么是NoSql
+              <a href="/2017/12/12/shiro之身份验证和授权/" rel="next" title="shiro之身份验证和授权">
+                <i class="fa fa-chevron-left"></i> shiro之身份验证和授权
               </a>
             
           </div>
@@ -350,10 +382,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/12/05/springboot-redis整合（六）/" rel="prev" title="springboot-redis整合（六）">
-                springboot-redis整合（六） <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -405,8 +433,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -477,6 +514,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#类装载器ClassLoader"><span class="nav-number">1.</span> <span class="nav-text">类装载器ClassLoader</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1，Class-loadClass-String-name"><span class="nav-number">1.0.1.</span> <span class="nav-text">1，Class loadClass(String name)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2，Class-defineClass-String-name-byte-b-int-off-int-len"><span class="nav-number">1.0.2.</span> <span class="nav-text">2，Class defineClass(String name, byte[] b, int off, int len)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3，Class-findSystemClass-String-name"><span class="nav-number">1.0.3.</span> <span class="nav-text">3，Class findSystemClass(String name)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4，Class-findLoadedClass-String-name"><span class="nav-number">1.0.4.</span> <span class="nav-text">4，Class findLoadedClass(String name)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5，ClassLoader-getParent"><span class="nav-number">1.0.5.</span> <span class="nav-text">5，ClassLoader getParent()</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

@@ -79,17 +79,16 @@
 
 
 
-<meta name="description" content="Tags : Redis">
-<meta property="og:type" content="article">
-<meta property="og:title" content="redis基础">
-<meta property="og:url" content="http://yoursite.com/2017/12/05/redis基础/index.html">
+<meta name="description" content="向终身学习者致敬">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Blog">
+<meta property="og:url" content="http://yoursite.com/archives/2017/12/page/3/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="Tags : Redis">
+<meta property="og:description" content="向终身学习者致敬">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-05T09:03:45.293Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="redis基础">
-<meta name="twitter:description" content="Tags : Redis">
+<meta name="twitter:title" content="Blog">
+<meta name="twitter:description" content="向终身学习者致敬">
 
 
 
@@ -119,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/12/05/redis基础/"/>
+  <link rel="canonical" href="http://yoursite.com/archives/2017/12/page/3/"/>
 
 
 
 
 
-  <title>redis基础 | Blog</title>
+  <title>归档 | Blog</title>
   
 
 
@@ -144,7 +143,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-left page-archive">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -218,162 +217,78 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
+  
+  
+  
+  <div class="post-block archive">
+    <div id="posts" class="posts-collapse">
+      <span class="archive-move-on"></span>
 
-  
+      <span class="archive-page-counter">
+        
+        
+        
+          
+        
+        嗯..! 目前共计 26 篇日志。 继续努力。
+      </span>
 
-  
-  
-  
+      
+
+        
+        
+        
+
+        
+          
+          <div class="collection-title">
+            <h1 class="archive-year" id="archive-year-2017">2017</h1>
+          </div>
+        
+        
+
+        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/05/redis基础/">
+    <header class="post-header">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="老孩">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/headphoto.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Blog">
-    </span>
-
-    
-      <header class="post-header">
-
+      <h2 class="post-title">
         
-        
-          <h1 class="post-title" itemprop="name headline">redis基础</h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
+            <a class="post-title-link" href="/2017/12/01/培训的日子没时间写博客/" itemprop="url">
               
-                <span class="post-meta-item-text">发表于</span>
+                <span itemprop="name">培训的日子没时间写博客</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-05T11:54:57+08:00">
-                2017-12-05
-              </time>
-            
+            </a>
+        
+      </h2>
 
-            
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated"
+              datetime="2017-12-01T18:18:20+08:00"
+              content="2017-12-01" >
+          12-01
+        </time>
+      </div>
 
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/12/05/redis基础/" class="leancloud_visitors" data-flag-title="redis基础">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <p><center><font color="#CC4A31">Tags : Redis</font></center><br><a id="more"></a></p>
-<p>##Redis<br>Remote dictionary system（远程字典服务器）是一个由Salvatore Sanfilippo写的key-value存储系统，该软件使用C语言编写。<br>它通常被称为数据结构服务器，因为值（value）可以是 字符串(String), 哈希(Map), 列表(list), 集合(sets) 和 有序集合(sorted sets)等类型。</p>
-<p>##Redis和其他key-value产品比有以下特点：<br>1，支持数据的持久化，可以将内存中的数据保存在磁盘中，重启的时候可以再次加载使用。<br>2，不仅仅支持简单的key-value数据类型，同时还支持list，set，zset，hash等数据结构的存储。<br>3，支持数据的备份。即master-slave模式的数据备份。<br>4，Redis支持主从模式，可以配置集群，这样更利于支撑起大型的项目，这也是Redis的一大亮点。</p>
-<p>##Redis的优势：<br>性能极高，读的速度是：110000次/s，些的速度是81000次/s。<br>丰富的数据类型<br>原子<br>丰富的特性</p>
-<p>##Redis应用场景，它能做什么<br>众多语言都支持Redis，因为Redis交换数据快，所以在服务器中常用来存储一些需要频繁调取的数据，这样可以大大节省系统直接读取磁盘来获得数据的I/O开销，更重要的是可以极大提升速度。<br>拿大型网站来举个例子，比如a网站首页一天有100万人访问，其中有一个板块为推荐新闻。要是直接从数据库查询，那么一天就要多消耗100万次数据库请求。上面已经说过，Redis支持丰富的数据类型，所以这完全可以用Redis来完成，将这种热点数据存到Redis（内存）中，要用的时候，直接从内存取，极大的提高了速度和节约了服务器的开销。</p>
-<p>##Redis与其他key-value存储有什么不同？<br>Redis有着更为复杂的数据结构并且提供对他们的原子性操作，这是一个不同于其他数据库的进化路径。Redis的数据类型都是基于基本数据结构的同时对程序员透明，无需进行额外的抽象。<br>Redis运行在内存中但是可以持久化到磁盘，所以在对不同数据集进行高速读写时需要权衡内存，因为数据量不能大于硬件内存。在内存数据库方面的另一个优点是，相比在磁盘上相同的复杂的数据结构，在内存中操作起来非常简单，这样Redis可以做很多内部复杂性很强的事情。同时，在磁盘格式方面他们是紧凑的以追加的方式产生的，因为他们并不需要进行随机访问。 </p>
-<p>##启动服务：打开redis所在目录，cmd输入redis-server.exe redis.windows.conf 。<br><a href="http://www.runoob.com/redis/redis-install.html" target="_blank" rel="noopener">http://www.runoob.com/redis/redis-install.html</a></p>
-
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/12/05/什么是NoSql/" rel="next" title="什么是NoSql">
-                <i class="fa fa-chevron-left"></i> 什么是NoSql
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/12/05/springboot-redis整合（六）/" rel="prev" title="springboot-redis整合（六）">
-                springboot-redis整合（六） <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+    </header>
   </article>
 
 
 
-    <div class="post-spread">
       
+
     </div>
   </div>
+  
+  
+  
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/archives/2017/12/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/archives/2017/12/">1</a><a class="page-number" href="/archives/2017/12/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
+
+
 
 
           </div>
@@ -381,10 +296,6 @@
 
 
           
-
-  
-
-
 
         </div>
         
@@ -617,10 +528,6 @@
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
-
-
 
   
 
