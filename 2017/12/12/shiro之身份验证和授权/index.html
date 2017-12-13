@@ -79,12 +79,12 @@
 
 
 
-<meta name="description" content="首先，要先登录成功(token)，然后才能查询用户权限。 基本概念：身份验证，即在应用中谁能证明他就是他本人。一般提供如他们的身份 ID 一些标识信息来表明他就是他本人，如提供身份证，用户名 / 密码来证明。(其实就是登录验证)在 shiro 中，用户需要提供 principals （身份）和 credentials（">
+<meta name="description" content="Tags : Apache Shiro">
 <meta property="og:type" content="article">
 <meta property="og:title" content="shiro之身份验证和授权">
 <meta property="og:url" content="http://yoursite.com/2017/12/12/shiro之身份验证和授权/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="首先，要先登录成功(token)，然后才能查询用户权限。 基本概念：身份验证，即在应用中谁能证明他就是他本人。一般提供如他们的身份 ID 一些标识信息来表明他就是他本人，如提供身份证，用户名 / 密码来证明。(其实就是登录验证)在 shiro 中，用户需要提供 principals （身份）和 credentials（证明）给 shiro，从而应用能验证用户身份：principals：身份，即主体">
+<meta property="og:description" content="Tags : Apache Shiro">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://p0qcso2ei.bkt.clouddn.com/authentication.png">
 <meta property="og:image" content="http://p0qcso2ei.bkt.clouddn.com/realm.png">
@@ -98,10 +98,10 @@
 <meta property="og:image" content="http://p0qcso2ei.bkt.clouddn.com/shiro002.jpg">
 <meta property="og:image" content="http://p0qcso2ei.bkt.clouddn.com/manage.png">
 <meta property="og:image" content="http://p0qcso2ei.bkt.clouddn.com/shiro.png">
-<meta property="og:updated_time" content="2017-12-13T06:02:14.658Z">
+<meta property="og:updated_time" content="2017-12-13T06:10:27.535Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="shiro之身份验证和授权">
-<meta name="twitter:description" content="首先，要先登录成功(token)，然后才能查询用户权限。 基本概念：身份验证，即在应用中谁能证明他就是他本人。一般提供如他们的身份 ID 一些标识信息来表明他就是他本人，如提供身份证，用户名 / 密码来证明。(其实就是登录验证)在 shiro 中，用户需要提供 principals （身份）和 credentials（证明）给 shiro，从而应用能验证用户身份：principals：身份，即主体">
+<meta name="twitter:description" content="Tags : Apache Shiro">
 <meta name="twitter:image" content="http://p0qcso2ei.bkt.clouddn.com/authentication.png">
 
 
@@ -323,7 +323,7 @@
       
 
       
-        <p>首先，要先登录成功(token)，然后才能查询用户权限。</p>
+        <p><center><font color="#CC4A31">Tags : Apache Shiro</font></center><br><a id="more"></a><br>要先登录成功(token)，然后才能查询用户权限。</p>
 <p>基本概念：<br><strong>身份验证</strong>，即在应用中谁能证明他就是他本人。一般提供如他们的身份 ID 一些标识信息来表明他就是他本人，如提供身份证，用户名 / 密码来证明。(其实就是登录验证)<br>在 shiro 中，用户需要提供 principals （身份）和 credentials（证明）给 shiro，从而应用能验证用户身份：<br><strong>principals：</strong>身份，即主体的标识属性，可以是任何东西，如用户名、邮箱等，唯一即可。一个主体可以有多个 principals，但只有一个 Primary principals，一般是用户名 / 密码 / 手机号。<strong>shiro提供了PrincipalCollection接口</strong>，不清楚还提供了其他的相似接口没有。<br><strong>credentials：</strong>证明 / 凭证，即只有主体知道的安全值，如密码 / 数字证书等。<br>最常见的 principals 和 credentials 组合就是用户名 / 密码了。接下来先进行一个基本的身份认证。<br>另外两个相关的概念是之前提到的 Subject 及 Realm，分别是主体及验证主体的数据源。</p>
 <p><strong>授权</strong>，也叫访问控制，即在应用中控制谁能访问哪些资源（如访问页面/编辑数据/页面操作等）。在授权中需了解的几个关键对象：主体（Subject）、资源（Resource）、权限（Permission）、角色（Role）。<br><strong>主体</strong>，即访问应用的用户，在 Shiro 中使用 Subject 代表该用户。用户只有授权后才允许访问相应的资源。<br><strong>资源</strong>,在应用中用户可以访问的任何东西，比如访问 JSP 页面、查看/编辑某些数据、访问某个业务方法、打印文本等等都是资源。用户只要授权后才能访问。<br><strong>权限</strong>安全策略中的原子授权单位，通过权限我们可以表示在应用中用户有没有操作某个资源的权力。即权限表示在应用中用户能不能访问某个资源，如： 访问用户列表页面<br>查看/新增/修改/删除用户数据（即很多时候都是 CRUD（增查改删）式权限控制）打印文档等等。<br><strong>角色</strong>,角色代表了操作集合，可以理解为权限的集合，一般情况下我们会赋予用户角色而不是权限，即这样用户可以拥有一组权限，赋予权限时比较方便。典型的如：项目经理、技术总监、CTO、开发工程师等都是角色，不同的角色拥有一组不同的权限。<br><strong>隐式角色：</strong><br><strong>显示角色：</strong><br><strong>RBAC</strong>,基于角色的访问控制<br><strong>RBAC新解</strong>,基于资源的访问控制</p>
 <font color="#CC4A31"><strong>授权方式</strong><br>Shiro 支持三种方式的授权：<br>1,编程式：通过写 if/else 授权代码块完成：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Subject subject = SecurityUtils.getSubject();</span><br><span class="line"><span class="keyword">if</span>(subject.hasRole(“admin”)) &#123;</span><br><span class="line">    <span class="comment">//有权限</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">//无权限</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br>2,注解式：通过在执行的 Java 方法上放置相应的注解完成，web中一般是在controller那里注解：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">   <span class="meta">@RequestMapping</span>(<span class="string">"/info/&#123;id&#125;"</span>)</span><br><span class="line"><span class="meta">@RequiresPermissions</span>(<span class="string">"sys:config:info"</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> R <span class="title">info</span><span class="params">(@PathVariable(<span class="string">"id"</span>)</span> Long id)</span>&#123;</span><br><span class="line">	SysConfigEntity config = sysConfigService.queryObject(id);</span><br><span class="line">	<span class="keyword">return</span> R.ok().put(<span class="string">"config"</span>, config);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><br>3,JSP/GSP 标签：在 JSP/GSP 页面通过相应的标签完成：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;shiro:hasRole name=<span class="string">"admin"</span>&gt;</span><br><span class="line">&lt;!--有权限--&gt;</span><br><span class="line">&lt;/shiro:hasRole&gt;</span><br></pre></td></tr></table></figure><br><br></font>
