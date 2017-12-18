@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo.jpg?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo.jpg?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="数据库基础知识">
+<meta property="og:type" content="article">
+<meta property="og:title" content="框架基础知识-spring事务管理">
+<meta property="og:url" content="http://yoursite.com/2017/12/14/框架基础知识-spring事务管理/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="数据库基础知识">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://p0qcso2ei.bkt.clouddn.com/dirty%20read.png">
+<meta property="og:image" content="http://p0qcso2ei.bkt.clouddn.com/unrepeatable%20read.png">
+<meta property="og:image" content="http://p0qcso2ei.bkt.clouddn.com/phantom%20read.png">
+<meta property="og:image" content="http://p0qcso2ei.bkt.clouddn.com/%E7%AC%AC%E4%B8%80%E7%B1%BB%E4%B8%A2%E5%A4%B1%E6%9B%B4%E6%96%B0.png">
+<meta property="og:image" content="http://p0qcso2ei.bkt.clouddn.com/%E7%AC%AC%E4%BA%8C%E7%B1%BB%E4%B8%A2%E5%A4%B1%E6%9B%B4%E6%96%B0.png">
+<meta property="og:image" content="http://p0qcso2ei.bkt.clouddn.com/%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB.png">
+<meta property="og:updated_time" content="2017-12-15T02:15:49.299Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="框架基础知识-spring事务管理">
+<meta name="twitter:description" content="数据库基础知识">
+<meta name="twitter:image" content="http://p0qcso2ei.bkt.clouddn.com/dirty%20read.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/14/框架基础知识-spring事务管理/"/>
+
+
+
+
+
+  <title>框架基础知识-spring事务管理 | Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-test123">
+          <a href="/test123" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            test123
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-test456">
+          <a href="/test456" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            test456
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/14/框架基础知识-spring事务管理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="老孩">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/headphoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">框架基础知识-spring事务管理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-14T14:15:41+08:00">
+                2017-12-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/12/14/框架基础知识-spring事务管理/" class="leancloud_visitors" data-flag-title="框架基础知识-spring事务管理">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><center><font color="#CC4A31">数据库基础知识</font></center><br><a id="more"></a><br>Spring虽然提供了灵活方便的事务管理功能，但这些功能都是基于底层数据库本身的事务处理机制工作的。要深入了解Spring的事务管理和配置，有必要先对数据库事务的基础知识进行学习。</p>
+<h2 id="何为数据库事务"><a href="#何为数据库事务" class="headerlink" title="何为数据库事务"></a>何为数据库事务</h2><p><strong>一荣俱荣，一损俱损</strong>这句话很能体现事务的思想，很多复杂的事物要分步进行，但它们组成一个整体，要么整体生效，要么整体失效。这种思想反映到数据库上，就是多个SQL语句，要么所有执行成功，要么所有执行失败。<br>数据库事务有严格的定义，它必须同时满足 4 个特性：原子性（Atomic）、一致性（Consistency）、隔离性（Isolation）和持久性（Durabiliy），简称为ACID。下面是对每个特性的说明。<br><strong>原子性：</strong>表示组成一个事务的多个数据库操作是一个不可分割的原子单元，只有所有的操作执行成功，整个事务才提交，事务中任何一个数据库操作失败，已经执行的任何操作都必须撤销，让数据库返回到初始状态。<br><strong>一致性：</strong>事务操作成功后，数据库所处的状态和它的业务规则是一致的，即数据不会被破坏。如从A账户转账100元到B账户，不管操作成功与否，A和B的存款总额是不变的。<br><strong>隔离性：</strong>在并发数据操作时，不同的事务拥有各自的数据空间，它们的操作不会对对方产生干扰。准确地说，并非要求做到完全无干扰，数据库规定了多种事务隔离级别，不同隔离级别对应不同的干扰程度，隔离级别越高，数据一致性越好，但并发性越弱。<br><strong>持久性：</strong>一旦事务提交成功后，事务中所有的数据操作都必须被持久化到数据库中，即使提交事务后，数据库马上崩溃，在数据库重启时，也必须能保证能够通过某种机制恢复数据。<br><strong>在这些事务特性中，数据“一致性”是最终目标，其他的特性都是为达到这个目标的措施、要求或手段。</strong></p>
+<p>数据库管理系统一般采用<strong>重执行日志保证原子性、一致性和持久性</strong>，重执行日志记录了数据库变化的每一个动作，数据库在一个事务中执行一部分操作后发生错误退出，数据库即可以根据重执行日志撤销已经执行的操作。此外，对于已经提交的事务，即使数据库崩溃，在重启数据库时也能够根据日志对尚未持久化的数据进行相应的重执行操作。 </p>
+<p>和Java程序采用对象锁机制进行线程同步类似，数据库管理系统采用<strong>数据库锁机制保证事务的隔离性</strong>。当多个事务试图对相同的数据进行操作时，只有持有锁的事务才能操作数据，直到前一个事务完成后，后面的事务才有机会对数据进行操作。Oracle数据库还使用了数据版本的机制，在回滚段为数据的每个变化都保存一个版本，使数据的更改不影响数据的读取。 </p>
+<h2 id="数据并发的问题"><a href="#数据并发的问题" class="headerlink" title="数据并发的问题"></a>数据并发的问题</h2><p>一个数据库可能拥有多个访问客户端，这些客户端都可以并发方式访问数据库。数据库中的相同数据可能同时被多个事务访问，如果没有采取必要的隔离措施，就会导致各种并发问题，破坏数据的完整性。<strong>这些问题可以归结为5类，包括3类数据读问题（脏读、不可重复读和幻象读）以及2类数据更新问题（第一类丢失更新和第二类丢失更新）。</strong>下面，我们分别通过实例讲解引发问题的场景。</p>
+<h3 id="脏读（dirty-read）"><a href="#脏读（dirty-read）" class="headerlink" title="脏读（dirty read）"></a>脏读（dirty read）</h3><p>A事务读取B事务尚未提交的更改数据，并在这个数据的基础上操作。如果恰巧B事务回滚，那么A事务读到的数据根本是不被承认的。来看取款事务和转账事务并发时引发的脏读场景：<br><img src="http://p0qcso2ei.bkt.clouddn.com/dirty%20read.png" alt="脏读"></p>
+<p>在这个场景中，B希望取款500元而后又撤销了动作，而A往相同的账户中转账100元，就因为A事务读取了B事务尚未提交的数据，因而造成账户白白丢失了500元。<font color="#CC4A31">在Oracle数据库中，不会发生脏读的情况。</font></p>
+<blockquote>
+<p>引用<br>一个有结巴的人在饮料店柜台前转悠，老板很热情地迎上来说：“喝一瓶？”结巴连忙说：“我…喝…喝…”老板麻利地打开易拉罐递给结巴，结巴终于憋出了他的那句话：“我…喝…喝…喝不起啊！”</p>
+</blockquote>
+<h3 id="不可重复读（unrepeatable-read）"><a href="#不可重复读（unrepeatable-read）" class="headerlink" title="不可重复读（unrepeatable read）"></a>不可重复读（unrepeatable read）</h3><p>不可重复读是指A事务读取了B事务已经提交的更改数据。假设A在取款事务的过程中，B往该账户转账100元，A两次读取账户的余额发生不一致：<br><img src="http://p0qcso2ei.bkt.clouddn.com/unrepeatable%20read.png" alt="不可重复读"></p>
+<p><strong>在同一事务中</strong>，T4时间点和T7时间点读取账户存款余额不一样。</p>
+<h3 id="幻象读（phantom-read）"><a href="#幻象读（phantom-read）" class="headerlink" title="幻象读（phantom read）"></a>幻象读（phantom read）</h3><p>A事务读取B事务提交的新增数据，这时A事务将出现幻象读的问题。<strong>幻象读一般发生在计算统计数据的事务中</strong>，举一个例子，假设银行系统在同一个事务中，两次统计存款账户的总金额，在两次统计过程中，刚好新增了一个存款账户，并存入100元，这时，两次统计的总金额将不一致：<br><img src="http://p0qcso2ei.bkt.clouddn.com/phantom%20read.png" alt="幻象读"></p>
+<p>如果新增数据刚好满足事务的查询条件，这个新数据就进入了事务的视野，因而产生了两个统计不一致的情况。</p>
+<p><strong>幻象读和不可重复读是两个容易混淆的概念，前者是指读到了其他已经提交事务的新增数据，而后者是指读到了已经提交事务的更改数据（更改或删除），为了避免这两种情况，采取的对策是不同的，防止读取到更改数据，只需要对操作的数据添加行级锁，阻止操作中的数据发生变化，而防止读取到新增数据，则往往需要添加表级锁——将整个表锁定，防止新增数据（Oracle使用多版本数据的方式实现）。</strong></p>
+<h3 id="第一类丢失更新"><a href="#第一类丢失更新" class="headerlink" title="第一类丢失更新"></a>第一类丢失更新</h3><p>A事务撤销时，把已经提交的B事务的更新数据覆盖了。这种错误可能造成很严重的问题，通过下面的账户取款转账就可以看出来：<br><img src="http://p0qcso2ei.bkt.clouddn.com/%E7%AC%AC%E4%B8%80%E7%B1%BB%E4%B8%A2%E5%A4%B1%E6%9B%B4%E6%96%B0.png" alt="第一类丢失更新"><br>A事务在撤销时，“不小心”将B事务已经转入账户的金额给抹去了。</p>
+<h3 id="第二类丢失更新"><a href="#第二类丢失更新" class="headerlink" title="第二类丢失更新"></a>第二类丢失更新</h3><p>A事务覆盖B事务已经提交的数据，造成B事务所做操作丢失：<br><img src="http://p0qcso2ei.bkt.clouddn.com/%E7%AC%AC%E4%BA%8C%E7%B1%BB%E4%B8%A2%E5%A4%B1%E6%9B%B4%E6%96%B0.png" alt="第一类丢失更新"><br>上面的例子里由于支票转账事务覆盖了取款事务对存款余额所做的更新，导致银行最后损失了100元，相反如果转账事务先提交，那么用户账户将损失100元。</p>
+<h2 id="数据库锁机制"><a href="#数据库锁机制" class="headerlink" title="数据库锁机制"></a>数据库锁机制</h2><p>数据并发会引发很多问题，在一些场合下有些问题是允许的，但在另外一些场合下可能却是致命的。<strong>数据库通过锁的机制解决并发访问的问题</strong>，虽然不同的数据库在实现细节上存在差别，但原理基本上是一样的。 </p>
+<p><strong>按锁定的对象的不同，一般可以分为表锁定和行锁定，前者对整个表进行锁定，而后者对表中特定行进行锁定。</strong>从并发事务锁定的关系上看，可以分为共享锁定和独占锁定。共享锁定会防止独占锁定，但允许其他的共享锁定。而独占锁定既防止其他的独占锁定，也防止其他的共享锁定。为了更改数据，数据库必须在进行更改的行上施加行独占锁定，<strong>INSERT、UPDATE、DELETE和SELECT FOR UPDATE语句都会隐式采用必要的行锁定。</strong>下面我们介绍一下Oracle数据库常用的5种锁定。 </p>
+<p><strong>行共享锁定：</strong> <strong>一般通过SELECT语句隐式获得行共享锁定</strong>，在Oracle中用户也可以通过LOCK TABLE IN ROW SHARE MODE语句显式获得行共享锁定。行共享锁定并不防止对数据行进行更改的操作，但是可以防止其他会话获取独占性数据表锁定。允许进行多个并发的行共享和行独占性锁定，还允许进行数据表的共享或者采用共享行独占锁定。<br><strong>行独占锁定：</strong> <strong>通过一条INSERT、UPDATE或DELETE语句隐式获取</strong>，或者通过一条LOCK TABLE IN ROW EXCLUSIVE MODE语句显式获取。这个锁定可以防止其他会话获取一个共享锁定、共享行独占锁定或独占锁定。<br><strong>表共享锁定：</strong>通过LOCK TABLE IN SHARE MODE语句显式获得。这种锁定可以防止其他会话获取行独占锁定（INSERT、UPDATE或DELETE），或者防止其他表共享行独占锁定或表独占锁定，它允许在表中拥有多个行共享和表共享锁定。该锁定可以让会话具有对表事务级一致性访问，因为其他会话在用户提交或者回溯该事务并释放对该表的锁定之前不能更改这个被锁定的表。<br><strong>表共享行独占：</strong>通过LOCK TABLE IN SHARE ROW EXCLUSIVE MODE语句显式获得。这种锁定可以防止其他会话获取一个表共享、行独占或者表独占锁定，它允许其他行共享锁定。这种锁定类似于表共享锁定，只是一次只能对一个表放置一个表共享行独占锁定。如果A会话拥有该锁定，则B会话可以执行SELECT 操作，但如果B会话试图更新选择的行，则需要等待。<br><strong>表独占：</strong>通过LOCK TABLE IN EXCLUSIVE MODE显式获得。这个锁定防止其他会话对该表的任何其他锁定。 </p>
+<h2 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a>事务隔离级别</h2><p><strong>尽管数据库为用户提供了锁的DML操作方式，但直接使用锁管理是非常麻烦的，因此数据库为用户提供了自动锁机制。只要用户指定会话的事务隔离级别，数据库就会分析事务中的SQL语句，然后自动为事务操作的数据资源添加上适合的锁。此外数据库还会维护这些锁，当一个资源上的锁数目太多时，自动进行锁升级以提高系统的运行性能，而这一过程对用户来说完全是透明的。</strong><br>NSI/ISO SQL 92标准定义了4个等级的事务隔离级别，在相同数据环境下，使用相同的输入，执行相同的工作，根据不同的隔离级别，可以导致不同的结果。不同事务隔离级别能够解决的数据并发问题的能力是不同的，如表9-1所示。<br><img src="http://p0qcso2ei.bkt.clouddn.com/%E4%BA%8B%E5%8A%A1%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB.png" alt="事务隔离级别"></p>
+<p><strong>事务的隔离级别和数据库并发性是对立的，两者此增彼长。一般来说，使用READ UNCOMMITED隔离级别的数据库拥有最高的并发性和吞吐量，而使用SERIALIZABLE隔离级别的数据库并发性最低。</strong><br>SQL 92定义READ UNCOMMITED主要是为了提供非阻塞读的能力，Oracle虽然也支持READ UNCOMMITED，但它不支持脏读，因为Oracle使用多版本机制彻底解决了在非阻塞读时读到脏数据的问题并保证读的一致性，所以，Oracle的READ COMMITTED隔离级别就已经满足了SQL 92标准的REPEATABLE READ隔离级别。<br>SQL 92推荐使用REPEATABLE READ以保证数据的读一致性，不过用户可以根据应用的需要选择适合的隔离等级。</p>
+<h2 id="JDBC对事务支持"><a href="#JDBC对事务支持" class="headerlink" title="JDBC对事务支持"></a>JDBC对事务支持</h2><p>并不是所有的数据库都支持事务，即使支持事务的数据库也并非支持所有的事务隔离级别，用户可以通过Connection#getMetaData()方法获取DatabaseMetaData对象，并通过该对象的supportsTransactions()、supportsTransactionIsolationLevel(int level)方法查看底层数据库的事务支持情况。 </p>
+<p><strong>Connection默认情况下是自动提交的，也即每条执行的SQL都对应一个事务，为了能够将多条SQL当成一个事务执行，必须先通过Connection#setAutoCommit(false)阻止Connection自动提交，并可通过Connection#setTransactionIsolation()设置事务的隔离级别</strong>，Connection中定义了对应SQL 92标准4个事务隔离级别的常量。通过Connection#commit()提交事务，通过Connection#rollback()回滚事务。下面是典型的JDBC事务数据操作的代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Connection conn ;  </span><br><span class="line"><span class="keyword">try</span>&#123;  </span><br><span class="line">     conn ＝ DriverManager.getConnection();<span class="comment">//①获取数据连接  </span></span><br><span class="line">     conn.setAutoCommit(<span class="keyword">false</span>); <span class="comment">//②关闭自动提交的机制  </span></span><br><span class="line">     conn.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE); <span class="comment">//③设置事务隔离级别  </span></span><br><span class="line">  </span><br><span class="line">     Statement stmt = conn.createStatement();   </span><br><span class="line">      </span><br><span class="line">     <span class="keyword">int</span> rows = stmt.executeUpdate( <span class="string">"INSERT INTO t_topic VALUES(1,’tom’) "</span> );  </span><br><span class="line">     rows = stmt.executeUpdate( <span class="string">"UPDATE t_user set topic_nums = topic_nums +1 "</span>+  </span><br><span class="line"><span class="string">"WHERE user_id = 1"</span>);   </span><br><span class="line">       </span><br><span class="line">     conn.commit();<span class="comment">//④提交事务  </span></span><br><span class="line">&#125;<span class="keyword">catch</span>(Exception e)&#123;  </span><br><span class="line">     …  </span><br><span class="line">     conn.rollback();<span class="comment">//⑤回滚事务  </span></span><br><span class="line">&#125;<span class="keyword">finally</span>&#123;  </span><br><span class="line">   …  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在JDBC 2.0中，事务最终只能有两个操作：提交和回滚。但是，有些应用可能需要对事务进行更多的控制，而不是简单地提交或回滚。JDBC 3.0（JDK 1.4及以后的版本）引入了一个全新的保存点特性，Savepoint 接口允许用户将事务分割为多个阶段，用户可以指定回滚到事务的特定保存点。</p>
+<p>下面的代码使用了保存点的功能，在发生特定问题时，回滚到指定的保存点，而非回滚整个事务<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Statement stmt = conn.createStatement();   </span><br><span class="line"><span class="keyword">int</span> rows = stmt.executeUpdate( <span class="string">"INSERT INTO t_topic VALUES(1,’tom’)"</span>);  </span><br><span class="line">  </span><br><span class="line">Savepoint svpt = conn.setSavepoint(<span class="string">"savePoint1"</span>);<span class="comment">//①设置一个保存点  </span></span><br><span class="line">rows = stmt.executeUpdate( <span class="string">"UPDATE t_user set topic_nums = topic_nums +1 "</span>+  </span><br><span class="line">          <span class="string">"WHERE user_id = 1"</span>);   </span><br><span class="line">…  </span><br><span class="line"><span class="comment">//②回滚到①处的savePoint1，①之前的SQL操作，在整个事务提交后依然提交，  </span></span><br><span class="line"><span class="comment">//但①到②之间的SQL操作被撤销了  </span></span><br><span class="line">conn.rollback(svpt);   </span><br><span class="line">…  </span><br><span class="line">conn.commit();<span class="comment">//③提交事务</span></span><br></pre></td></tr></table></figure></p>
+<p>并非所有数据库都支持保存点功能，用户可以通过DatabaseMetaData#supportsSavepoints()方法查看是否支持。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/13/框架基础理论知识-反射-springIOC/" rel="next" title="框架基础理论知识-反射-springIOC">
+                <i class="fa fa-chevron-left"></i> 框架基础理论知识-反射-springIOC
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/14/hibernate的HQL编写注意/" rel="prev" title="hibernate的HQL编写注意">
+                hibernate的HQL编写注意 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/headphoto.jpg"
+                alt="老孩" />
+            
+              <p class="site-author-name" itemprop="name">老孩</p>
+              <p class="site-description motion-element" itemprop="description">向终身学习者致敬</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/q837730828" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="837730828" target="_blank" title="QQ">
+                    
+                      <i class="fa fa-fw fa-QQ"></i>QQ</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#何为数据库事务"><span class="nav-number">1.</span> <span class="nav-text">何为数据库事务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据并发的问题"><span class="nav-number">2.</span> <span class="nav-text">数据并发的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#脏读（dirty-read）"><span class="nav-number">2.1.</span> <span class="nav-text">脏读（dirty read）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不可重复读（unrepeatable-read）"><span class="nav-number">2.2.</span> <span class="nav-text">不可重复读（unrepeatable read）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#幻象读（phantom-read）"><span class="nav-number">2.3.</span> <span class="nav-text">幻象读（phantom read）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第一类丢失更新"><span class="nav-number">2.4.</span> <span class="nav-text">第一类丢失更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二类丢失更新"><span class="nav-number">2.5.</span> <span class="nav-text">第二类丢失更新</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库锁机制"><span class="nav-number">3.</span> <span class="nav-text">数据库锁机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事务隔离级别"><span class="nav-number">4.</span> <span class="nav-text">事务隔离级别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JDBC对事务支持"><span class="nav-number">5.</span> <span class="nav-text">JDBC对事务支持</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">老孩</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("G06wnJmKUmE3DcnYCr7GfbE4-gzGzoHsz", "AROYBIJC25VP5QR20gLTS36X");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

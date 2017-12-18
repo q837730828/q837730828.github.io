@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/logo.jpg?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/logo.jpg?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Tags : 因为在项目中遇到几个Hql编写的问题，总结下">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hibernate的HQL编写注意">
+<meta property="og:url" content="http://yoursite.com/2017/12/14/hibernate的HQL编写注意/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="Tags : 因为在项目中遇到几个Hql编写的问题，总结下">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-12-15T00:57:32.529Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="hibernate的HQL编写注意">
+<meta name="twitter:description" content="Tags : 因为在项目中遇到几个Hql编写的问题，总结下">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/12/14/hibernate的HQL编写注意/"/>
+
+
+
+
+
+  <title>hibernate的HQL编写注意 | Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-test123">
+          <a href="/test123" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            test123
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-test456">
+          <a href="/test456" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            test456
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/14/hibernate的HQL编写注意/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="老孩">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/headphoto.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">hibernate的HQL编写注意</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-14T18:13:51+08:00">
+                2017-12-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2017/12/14/hibernate的HQL编写注意/" class="leancloud_visitors" data-flag-title="hibernate的HQL编写注意">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><center><font color="#CC4A31">Tags : 因为在项目中遇到几个Hql编写的问题，总结下</font></center><br><a id="more"></a></p>
+<p><a href="http://carolli.iteye.com/blog/909542" target="_blank" rel="noopener">Hibernate的八大类HQL查询集合</a></p>
+<h3 id="一：属性查询（SimplePropertyQuery）"><a href="#一：属性查询（SimplePropertyQuery）" class="headerlink" title="一：属性查询（SimplePropertyQuery）"></a>一：属性查询（SimplePropertyQuery）</h3><p>1,单一属性查询<br>返回结果集属性列表，元素类型和实体类中相应的属性一致<br>2,多个属性查询，<br>返回集合中的元素是object数组,<br>其中 数组 元素的类型和对应属性在实体类中的类型一致<br>代码:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(Iterator iterator=list.iterator();iterator.hasNext();) </span><br><span class="line">&#123; </span><br><span class="line">    Object[] obj=(Object[])iterator.next(); </span><br><span class="line">    System.out.println(<span class="string">"sid:="</span>+obj[<span class="number">0</span>].toString()+<span class="string">"sname:="</span>+obj[<span class="number">1</span>]); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>3,通过hql来动态实例化对象   new Student(sid,sname)<br>代码:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List list=session.createQuery(<span class="string">"select new Student(sid,sname) from Student"</span>).list(); </span><br><span class="line"><span class="keyword">for</span> (Iterator iterator=list.iterator();iterator.hasNext();)&#123; </span><br><span class="line">    Student student=(Student) iterator.next(); </span><br><span class="line">    System.out.println(<span class="string">"sid:="</span>+student.getSid()+<span class="string">"   sname:="</span>+student.getSname()); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>4，采用别名查询<br>代码:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//List list=session.createQuery("select s.sid, s.sname from Student as s").list();</span></span><br><span class="line">List list=session.createQuery(<span class="string">"select s.sid, s.sname from Student s"</span>).list();</span><br></pre></td></tr></table></figure></p>
+<h3 id="二：简单对象查询（SimplyObjectQuery）"><a href="#二：简单对象查询（SimplyObjectQuery）" class="headerlink" title="二：简单对象查询（SimplyObjectQuery）"></a>二：简单对象查询（SimplyObjectQuery）</h3><p>1，返回对象集合（可以忽略select）<br>代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//List list=session.createQuery("from Student").list();</span></span><br><span class="line"><span class="comment">//List list=session.createQuery("from Student as s").list();</span></span><br><span class="line">List list=session.createQuery(<span class="string">"from Student s"</span>).list();</span><br></pre></td></tr></table></figure></p>
+<p>2，采用select查询对象 </p>
+<p><font color="#CC4A31"><strong>必须要使用别名</strong></font><br>代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//List list=session.createQuery("select s from Student as s").list(); </span></span><br><span class="line">List list=session.createQuery(<span class="string">"select s from Student s"</span>).list();</span><br></pre></td></tr></table></figure></p>
+<p>3，查询单一对象的操作<br>代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Object obj=session.createQuery(<span class="string">"select s from Student s where s.sid=:mysid"</span>) </span><br><span class="line">.setParameter(<span class="string">"mysid"</span>, <span class="number">12</span>) </span><br><span class="line">.uniqueResult();</span><br></pre></td></tr></table></figure></p>
+<p>4，分页查询 </p>
+<blockquote>
+<p>setFirstResult(int firstResult)<br>Set the first row to retrieve.<br>If not set, rows will be retrieved beginnning from row 0.<br>firstResult - a row number, numbered from 0 </p>
+</blockquote>
+<p>代码:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List list=session.createQuery(<span class="string">"select s from Student s"</span>) </span><br><span class="line">.setFirstResult(<span class="number">5</span>) </span><br><span class="line">.setMaxResults(<span class="number">5</span>) </span><br><span class="line">.list();</span><br></pre></td></tr></table></figure></p>
+<h4 id="三：简单条件查询（SimpleConditionQuery）"><a href="#三：简单条件查询（SimpleConditionQuery）" class="headerlink" title="三：简单条件查询（SimpleConditionQuery）"></a>三：简单条件查询（SimpleConditionQuery）</h4><p>1，可以拼凑字符串<br>代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List stuList=session.createQuery(<span class="string">"select s.sid, s.sname from Student as s where s.sname like '%1%'"</span>).list();</span><br></pre></td></tr></table></figure></p>
+<p>2，注意：可以采用?占位的方式来传递参数 </p>
+<blockquote>
+<p>参数的索引从0开始<br>传递的参数值不能用’’号括起来<br>注意方法链编程</p>
+</blockquote>
+<p>代码:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">Query query=ession.createQuery("select s.sid, s.sname from Student as s where s.sname like ?"); </span></span><br><span class="line"><span class="comment">query.setParameter(0, "%1%"); </span></span><br><span class="line"><span class="comment">List stuList=query.list(); </span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">List stuList=session.createQuery(<span class="string">"select s.sid, s.sname from Student as s where s.sname like ?"</span>)</span><br><span class="line">.setParameter(<span class="number">0</span>, <span class="string">"%1%"</span>) </span><br><span class="line">.list();</span><br></pre></td></tr></table></figure></p>
+<p>3，通过参数名(:参数名)传参的方式进行查询<br>代码:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*Object obj=session.createQuery("select s.sid, s.sname from Student as s where s.sname like :myname and s.sid=:myid") </span></span><br><span class="line"><span class="comment">.setParameter("myname", "%1%") </span></span><br><span class="line"><span class="comment">.setParameter("myid", 98) </span></span><br><span class="line"><span class="comment">.uniqueResult();//.list(); </span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">Object[] objs=(Object[])obj; </span></span><br><span class="line"><span class="comment">System.out.println("s.sid:="+objs[0].toString()+"  s.sname:="+objs[1].toString()); </span></span><br><span class="line"><span class="comment">*/</span> </span><br><span class="line">List stuList=session.createQuery(<span class="string">"select s.sid, s.sname from Student as s where s.sname like :myname and s.sid=:myid"</span>) </span><br><span class="line">.setParameter(<span class="string">"myname"</span>, <span class="string">"%1%"</span>) </span><br><span class="line">.setParameter(<span class="string">"myid"</span>, <span class="number">98</span>) </span><br><span class="line">.list();</span><br></pre></td></tr></table></figure></p>
+<p>4，传递多个参数的查询<br>支持in查询,需要setParameterList(“myids”, new Object[]{12,13,14})的方式进行参数传递<br>代码:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List stuList=session.createQuery(<span class="string">"select s.sid, s.sname from Student as s where s.id in(:myids)"</span>) </span><br><span class="line">.setParameterList(<span class="string">"myids"</span>, <span class="keyword">new</span> Object[]&#123;<span class="number">12</span>,<span class="number">13</span>,<span class="number">14</span>&#125;) </span><br><span class="line">.list();</span><br></pre></td></tr></table></figure></p>
+<p>5，查询2009年2月入学的学员信息 </p>
+<blockquote>
+<p>支持Sql函数查询</p>
+</blockquote>
+<p>代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List stuList=session.createQuery(<span class="string">"select s.sid, s.sname ,s.schoolDate from Student as s where year(s.schoolDate)=:myyear and month(s.schoolDate)=:mymonth"</span>) </span><br><span class="line">.setParameter(<span class="string">"myyear"</span>, <span class="number">2009</span>) </span><br><span class="line">.setParameter(<span class="string">"mymonth"</span>, <span class="number">2</span>) </span><br><span class="line">.list();</span><br></pre></td></tr></table></figure></p>
+<p>6，查询2009-02-10到2009-02-15号入学的学员信息 </p>
+<blockquote>
+<p>注意：在进行日期查询时<br>setParameter(“startDate”, formatter.parse(“2009-02-10 00:00:00”))<br>方法中第二个参数是一个Object对象(Date类型对象) </p>
+</blockquote>
+<p>代码:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SimpleDateFormat formatter=<span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>); </span><br><span class="line">List stuList=session.createQuery(<span class="string">"select s.sid, s.sname ,s.schoolDate from Student as s where s.schoolDate between :startDate and :endDate"</span>) </span><br><span class="line">.setParameter(<span class="string">"startDate"</span>, formatter.parse(<span class="string">"2009-02-10 00:00:00"</span>)) </span><br><span class="line">.setParameter(<span class="string">"endDate"</span>, formatter.parse(<span class="string">"2009-02-15 23:59:59"</span>)) </span><br><span class="line">.list();</span><br></pre></td></tr></table></figure></p>
+<h4 id="四：原生SQL语句查询（SqlQueryTest-4）"><a href="#四：原生SQL语句查询（SqlQueryTest-4）" class="headerlink" title="四：原生SQL语句查询（SqlQueryTest_4）"></a>四：原生SQL语句查询（SqlQueryTest_4）</h4><p>这里用的是createSQLQuery().list();<br>代码:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List stuList=session.createSQLQuery(<span class="string">"select * from Student"</span>).list();</span><br></pre></td></tr></table></figure></p>
+<h4 id="五：外置命名查询-NamedQueryTest-5"><a href="#五：外置命名查询-NamedQueryTest-5" class="headerlink" title="五：外置命名查询(NamedQueryTest_5)"></a>五：外置命名查询(NamedQueryTest_5)</h4><blockquote>
+<p>1.在映射文件中采用<query>标签来定义HQL语句，不必限定文件!!!注意：映射文件中的HQL语句不可以出错，否则会导致 QuerySyntaxException，特别是要查询的实体类名写错的情况。（Error in named query: selectAllStudents org.hibernate.hql.ast.QuerySyntaxException: Students is not mapped）。<br>2.在程序中通过session.getNamedQuery(hql_name)得到查询语句</query></p>
+</blockquote>
+<p>代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List list=session.getNamedQuery(<span class="string">"selectAllStudents"</span>) </span><br><span class="line">.setParameter(<span class="string">"mysid"</span>,<span class="number">12</span>).list();</span><br></pre></td></tr></table></figure></p>
+<h4 id="六：对象导航查询-ObjectNavQueryTest-6"><a href="#六：对象导航查询-ObjectNavQueryTest-6" class="headerlink" title="六：对象导航查询(ObjectNavQueryTest_6)"></a>六：对象导航查询(ObjectNavQueryTest_6)</h4><p>代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">List list= session.createQuery(<span class="string">"select s.sname from Student as s where s.clsInfo.cname like :myname"</span>) </span><br><span class="line">.setParameter(<span class="string">"myname"</span>, <span class="string">"%1%"</span>) </span><br><span class="line">.list();</span><br></pre></td></tr></table></figure></p>
+<h4 id="七：联合查询-JoinQueryTest-7"><a href="#七：联合查询-JoinQueryTest-7" class="headerlink" title="七：联合查询(JoinQueryTest_7)"></a>七：联合查询(JoinQueryTest_7)</h4><p>1,联合查询(内连接查询)<br>获取已经参加班级报名的所有学生名号和其所在班级名称<br>代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List list=session.createQuery(<span class="string">"select s.sname,c.cname from Student as s join s.clsInfo as c"</span>).list();</span><br></pre></td></tr></table></figure></p>
+<p>2,联合查询(左连接查询)<br>获取所有班级名称和其学员姓名<br>以班级信息表为主表，进行左外连接查询<br>代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">    List list=session.createQuery(<span class="string">"select c.cname ,s.sname from ClassInfo as c left join c.studentSet as s"</span>).list(); </span><br><span class="line"><span class="number">3</span>,联合查询(右连接查询)</span><br><span class="line">获取所有学员姓名和其所属班级名称 </span><br><span class="line">以学员信息表为主表，进行右外连接查询</span><br><span class="line">代码：</span><br><span class="line">```java</span><br><span class="line">    List list=session.createQuery(<span class="string">"select s.sname, c.cname  from ClassInfo as c right join c.studentSet as s"</span>).list();</span><br></pre></td></tr></table></figure></p>
+<h4 id="八：-StateQueryTest-8"><a href="#八：-StateQueryTest-8" class="headerlink" title="八：(StateQueryTest_8)"></a>八：(StateQueryTest_8)</h4><p>1,聚合函数使用<br>代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//List list=session.createQuery("select count(*) from Student").list(); </span></span><br><span class="line"><span class="comment">//long count=(Long) list.get(0); </span></span><br><span class="line"><span class="keyword">long</span> count=(Long) session.createQuery(<span class="string">"select count(*) from Student"</span>).uniqueResult();</span><br></pre></td></tr></table></figure></p>
+<p>2,分组查询<br>代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List list=session.createQuery(<span class="string">"select c.cname, count(s) from Student as s inner join s.clsInfo as c group by c.cname order by c.cname"</span>).list();</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/14/框架基础知识-spring事务管理/" rel="next" title="框架基础知识-spring事务管理">
+                <i class="fa fa-chevron-left"></i> 框架基础知识-spring事务管理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/headphoto.jpg"
+                alt="老孩" />
+            
+              <p class="site-author-name" itemprop="name">老孩</p>
+              <p class="site-description motion-element" itemprop="description">向终身学习者致敬</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/q837730828" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="837730828" target="_blank" title="QQ">
+                    
+                      <i class="fa fa-fw fa-QQ"></i>QQ</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一：属性查询（SimplePropertyQuery）"><span class="nav-number">1.</span> <span class="nav-text">一：属性查询（SimplePropertyQuery）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二：简单对象查询（SimplyObjectQuery）"><span class="nav-number">2.</span> <span class="nav-text">二：简单对象查询（SimplyObjectQuery）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#三：简单条件查询（SimpleConditionQuery）"><span class="nav-number">2.1.</span> <span class="nav-text">三：简单条件查询（SimpleConditionQuery）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#四：原生SQL语句查询（SqlQueryTest-4）"><span class="nav-number">2.2.</span> <span class="nav-text">四：原生SQL语句查询（SqlQueryTest_4）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#五：外置命名查询-NamedQueryTest-5"><span class="nav-number">2.3.</span> <span class="nav-text">五：外置命名查询(NamedQueryTest_5)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#六：对象导航查询-ObjectNavQueryTest-6"><span class="nav-number">2.4.</span> <span class="nav-text">六：对象导航查询(ObjectNavQueryTest_6)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#七：联合查询-JoinQueryTest-7"><span class="nav-number">2.5.</span> <span class="nav-text">七：联合查询(JoinQueryTest_7)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#八：-StateQueryTest-8"><span class="nav-number">2.6.</span> <span class="nav-text">八：(StateQueryTest_8)</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">老孩</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("G06wnJmKUmE3DcnYCr7GfbE4-gzGzoHsz", "AROYBIJC25VP5QR20gLTS36X");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
