@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="center &amp;gt;Spring IOC的控制反转底层实现是反射">
+<meta name="description" content="Spring IOC的控制反转底层实现是反射">
 <meta property="og:type" content="article">
 <meta property="og:title" content="框架基础理论知识-反射-springIOC">
 <meta property="og:url" content="http://yoursite.com/2017/12/13/框架基础理论知识-反射-springIOC/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="center &amp;gt;Spring IOC的控制反转底层实现是反射">
+<meta property="og:description" content="Spring IOC的控制反转底层实现是反射">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-13T10:05:53.606Z">
+<meta property="og:updated_time" content="2017-12-18T01:07:31.010Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="框架基础理论知识-反射-springIOC">
-<meta name="twitter:description" content="center &amp;gt;Spring IOC的控制反转底层实现是反射">
+<meta name="twitter:description" content="Spring IOC的控制反转底层实现是反射">
 
 
 
@@ -330,7 +330,7 @@
       
 
       
-        <p>center &gt;<font color="#CC4A31">Spring IOC的控制反转底层实现是反射</font><br><a id="more"></a></p>
+        <p><center><font color="#CC4A31">Spring IOC的控制反转底层实现是反射</font></center><br><a id="more"></a></p>
 <h2 id="类装载器ClassLoader"><a href="#类装载器ClassLoader" class="headerlink" title="类装载器ClassLoader"></a>类装载器ClassLoader</h2><p>类装载器就是寻找类的节码文件并构造出类在JVM内部表示对象的组件。在Java中，类装载器把一个类装入JVM中，要经过以下步骤：<br>[1.]装载：查找和导入Class文件<br>[2.]链接：执行校验、准备和解析步骤，其中解析步骤是可以选择的：<br>&emsp;&emsp;[2.1]校验：检查载入Class文件数据的正确性；<br>&emsp;&emsp;[2.2]准备：给类的静态变量分配存储空间；<br>&emsp;&emsp;[2.3]解析：将符号引用转成直接引用；<br>[3.]初始化：对类的静态变量、静态代码块执行初始化工作。 </p>
 <blockquote>
 <p><strong>类装载工作由ClassLoader及其子类负责，ClassLoader是一个重要的Java运行时系统组件，它负责在运行时查找和装入Class字节码文件。JVM在运行时会产生三个ClassLoader：根装载器、ExtClassLoader（扩展类装载器）和AppClassLoader（系统类装载器）。其中，根装载器不是ClassLoader的子类，它使用C++编写，因此我们在Java中看不到它，根装载器负责装载JRE的核心类库，如JRE目标下的rt.jar、charsets.jar等。ExtClassLoader和AppClassLoader都是ClassLoader的子类。其中ExtClassLoader负责装载JRE扩展目录ext中的JAR类包；AppClassLoader负责装载Classpath路径下的类包</strong></p>
@@ -486,7 +486,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="Tags : springboot">
+<meta name="description" content="Tags : 传统的MVC控制器和RESTfulWebService控制器的一个关键区别">
 <meta property="og:type" content="article">
 <meta property="og:title" content="restful API设计建议">
 <meta property="og:url" content="http://yoursite.com/2017/12/11/RESTful API设计建议/index.html">
 <meta property="og:site_name" content="Blog">
-<meta property="og:description" content="Tags : springboot">
+<meta property="og:description" content="Tags : 传统的MVC控制器和RESTfulWebService控制器的一个关键区别">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-11T11:31:05.046Z">
+<meta property="og:updated_time" content="2017-12-18T09:51:55.507Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="restful API设计建议">
-<meta name="twitter:description" content="Tags : springboot">
+<meta name="twitter:description" content="Tags : 传统的MVC控制器和RESTfulWebService控制器的一个关键区别">
 
 
 
@@ -330,7 +330,8 @@
       
 
       
-        <p><center><font color="#CC4A31">Tags : springboot</font></center><br><a id="more"></a></p>
+        <p><center><font color="#CC4A31">Tags : 传统的MVC控制器和RESTfulWebService控制器的一个关键区别</font></center><br><a id="more"></a></p>
+<p>传统的MVC控制器和RESTful web service控制器的一个关键区别在于：HTTP响应体的创建方式。前者采用视图层技术（view technology）实现把服务器端的数据渲染为HTML，后者则返回一个实体对象。对象数据将会直接以JSON格式写到HTTP响应中。</p>
 <h4 id="每个资源使用两个URL"><a href="#每个资源使用两个URL" class="headerlink" title="每个资源使用两个URL"></a>每个资源使用两个URL</h4><p>资源集合用一个URL，具体某个资源用一个URL：<br>/employees         #资源集合的URL<br>/employees/56      #具体某个资源的URL</p>
 <h3 id="用名词代替动词表示资源"><a href="#用名词代替动词表示资源" class="headerlink" title="用名词代替动词表示资源"></a>用名词代替动词表示资源</h3><p>这让你的API更简洁，URL数目更少。不要这么设计：<br>/getAllEmployees   /getAllExternalEmployees   /createEmployee   /updateEmployee<br>更好的设计：<br>GET /employees   GET /employees?state=external   POST /employees   PUT /employees/56</p>
 <h4 id="用HTTP方法操作资源"><a href="#用HTTP方法操作资源" class="headerlink" title="用HTTP方法操作资源"></a>用HTTP方法操作资源</h4><p>使用URL指定你要用的资源。使用HTTP方法来指定怎么处理这个资源。使用四种HTTP方法POST，GET，PUT，DELETE可以提供CRUD功能（创建，获取，更新，删除）。</p>
@@ -462,7 +463,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
