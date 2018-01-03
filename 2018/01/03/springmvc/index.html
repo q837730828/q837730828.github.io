@@ -88,7 +88,9 @@
 <meta property="og:description" content="Tags : 图解">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://p0qcso2ei.bkt.clouddn.com/%E6%8D%95%E8%8E%B7.PNG">
-<meta property="og:updated_time" content="2018-01-02T23:49:48.969Z">
+<meta property="og:image" content="http://p0qcso2ei.bkt.clouddn.com/springmvc1.png">
+<meta property="og:image" content="http://p0qcso2ei.bkt.clouddn.com/springmvc2.png">
+<meta property="og:updated_time" content="2018-01-03T01:21:13.619Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="springmvc">
 <meta name="twitter:description" content="Tags : 图解">
@@ -365,7 +367,12 @@
       
 
       
-        <p><center><font color="#CC4A31">Tags : 图解</font></center><br><a id="more"></a><br><img src="http://p0qcso2ei.bkt.clouddn.com/%E6%8D%95%E8%8E%B7.PNG" alt="springmvc原理图"></p>
+        <p><center><font color="#CC4A31">Tags : 图解</font></center><br><a id="more"></a></p>
+<p><img src="http://p0qcso2ei.bkt.clouddn.com/%E6%8D%95%E8%8E%B7.PNG" alt="springmvc原理图1"></p>
+<p><img src="http://p0qcso2ei.bkt.clouddn.com/springmvc1.png" alt="springmvc原理图2"></p>
+<p><img src="http://p0qcso2ei.bkt.clouddn.com/springmvc2.png" alt="springmvc原理图3"></p>
+<h3 id="springmvc执行流程："><a href="#springmvc执行流程：" class="headerlink" title="springmvc执行流程："></a>springmvc执行流程：</h3><p>第一步:用户发起请求到前端控制器（DispatcherServlet）<br>第二步：前端控制器请求处理器映射器（HandlerMappering）去查找处理器（Handle）：通过xml配置或者注解进行查找<br>第三步：找到以后处理器映射器（HandlerMappering）像前端控制器返回执行链（HandlerExecutionChain）<br>第四步：前端控制器（DispatcherServlet）调用处理器适配器（HandlerAdapter）去执行处理器（Handler）<br>第五步：处理器适配器去执行Handler<br>第六步：Handler执行完给处理器适配器返回ModelAndView<br>第七步：处理器适配器向前端控制器返回ModelAndView<br>第八步：前端控制器请求视图解析器（ViewResolver）去进行视图解析<br>第九步：视图解析器像前端控制器返回View<br>第十步：前端控制器对视图进行渲染<br>第十一步：前端控制器向用户响应结果</p>
+<h3 id="springMVC中的几个组件："><a href="#springMVC中的几个组件：" class="headerlink" title="springMVC中的几个组件："></a>springMVC中的几个组件：</h3><p>前端控制器（DispatcherServlet）：接收请求，响应结果，相当于电脑的CPU。策略模式<br><strong>作用：接收请求，响应结果，相当于转发器，中央处理器。有了dispatcherServlet减少了其它组件之间的耦合度。用户请求到达前端控制器，它就相当于mvc模式中的c，dispatcherServlet是整个流程控制的中心，由它调用其它组件处理用户的请求，dispatcherServlet的存在降低了组件之间的耦合性</strong><br>处理器映射器（HandlerMapping）：根据URL去查找处理器<br><strong>HandlerMapping负责根据用户请求找到Handler即处理器，springmvc提供了不同的映射器实现不同的映射方式，例如：配置文件方式，实现接口方式，注解方式等。</strong><br>处理器（Handler）：（需要程序员去写代码处理逻辑的）<br>处理器适配器（HandlerAdapter）：会把处理器包装成适配器，这样就可以支持多种类型的处理器，类比笔记本的适配器（适配器模式的应用）<br>视图解析器（ViewResovler）：进行视图解析，对返回的字符串，进行处理，可以解析成对应的页面。ViewResolver 将把逻辑视图名解析为具体的View，通过这种策略模式，很容易更换其他视图技术；</p>
 
       
     </div>
@@ -456,8 +463,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -537,6 +553,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#springmvc执行流程："><span class="nav-number">1.</span> <span class="nav-text">springmvc执行流程：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#springMVC中的几个组件："><span class="nav-number">2.</span> <span class="nav-text">springMVC中的几个组件：</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
