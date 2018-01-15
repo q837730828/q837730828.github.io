@@ -88,7 +88,7 @@
 <meta property="og:description" content="exception">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://p0qcso2ei.bkt.clouddn.com/exception1.jpg">
-<meta property="og:updated_time" content="2018-01-04T03:46:20.575Z">
+<meta property="og:updated_time" content="2018-01-04T03:53:04.621Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java异常">
 <meta name="twitter:description" content="exception">
@@ -368,7 +368,7 @@
         <p><center><font color="#CC4A31">exception</font></center><br><a id="more"></a></p>
 <p><img src="http://p0qcso2ei.bkt.clouddn.com/exception1.jpg" alt="java异常继承结构"></p>
 <h3 id="unchecked-exceptions（运行时异常）"><a href="#unchecked-exceptions（运行时异常）" class="headerlink" title="unchecked exceptions（运行时异常）"></a>unchecked exceptions（运行时异常）</h3><p>都是RuntimeException类及其子类异常，就是我们在开发中测试功能时程序终止，控制台出现的异常，比如：<br>NullPointerException(空指针异常)、<br>IndexOutOfBoundsException(下标越界异常)<br>ClassCastException(类转换异常)<br>ArrayStoreException(数据存储异常，操作数组时类型不一致)<br>IO操作的BufferOverflowException异常</p>
-<p>###checked exceptions非运行时异常 （编译异常）<br>是RuntimeException以外的异常，类型上都属于Exception类及其子类。从程序语法角度讲是必须进行处理的异常，如果不处理，程序就不能编译通过。如IOException、SQLException等以及用户自定义的Exception异常，一般情况下不自定义检查异常。<br>通俗的话说就是在写代码时出现红线，需要try catch或者throws时出现的异常。</p>
+<h3 id="checked-exceptions非运行时异常-（编译异常）"><a href="#checked-exceptions非运行时异常-（编译异常）" class="headerlink" title="checked exceptions非运行时异常 （编译异常）"></a>checked exceptions非运行时异常 （编译异常）</h3><p>是RuntimeException以外的异常，类型上都属于Exception类及其子类。从程序语法角度讲是必须进行处理的异常，如果不处理，程序就不能编译通过。如IOException、SQLException等以及用户自定义的Exception异常，一般情况下不自定义检查异常。<br>通俗的话说就是在写代码时出现红线，需要try catch或者throws时出现的异常。</p>
 <font color="#CC4A31">在项目中，要将异常转换成runtime异常，然后抛出，最后在controller进行catch。防止在底层处理异常时丢失异常信息，同时使项目扩展性更强。</font>
       
     </div>
@@ -559,7 +559,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#unchecked-exceptions（运行时异常）"><span class="nav-number">1.</span> <span class="nav-text">unchecked exceptions（运行时异常）</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#unchecked-exceptions（运行时异常）"><span class="nav-number">1.</span> <span class="nav-text">unchecked exceptions（运行时异常）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#checked-exceptions非运行时异常-（编译异常）"><span class="nav-number">2.</span> <span class="nav-text">checked exceptions非运行时异常 （编译异常）</span></a></li></ol></div>
             
 
           </div>
