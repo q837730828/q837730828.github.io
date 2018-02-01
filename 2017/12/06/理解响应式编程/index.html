@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Blog">
 <meta property="og:description" content="理解响应式编程">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-12-19T11:32:11.136Z">
+<meta property="og:updated_time" content="2018-02-01T06:36:57.189Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="理解响应式编程">
 <meta name="twitter:description" content="理解响应式编程">
@@ -363,20 +363,24 @@
       
 
       
-        <p><center><font color="#CC4A31">理解响应式编程</font></center><br><a id="more"></a><br>今天准备学习下springboot整合websocket，在spring官方文档查找相应的类和注解的解释时，发现有Web on Reactive Stack这个东西。然后就发现了响应式编程（RP）。然后又发现了函数式编程（FP），函数响应式编程（FRP），以及我们主流的面向对象编程（OOP）。</p>
-<h4 id="响应式编程（RP）"><a href="#响应式编程（RP）" class="headerlink" title="响应式编程（RP）"></a>响应式编程（RP）</h4><p>RxJava、Reactor。异步和非阻塞式的。面向解决高并发的问题。</p>
-<h4 id="函数式编程（FP）"><a href="#函数式编程（FP）" class="headerlink" title="函数式编程（FP）"></a>函数式编程（FP）</h4><p>JS、Scala、Erlang</p>
-<h4 id="函数响应式编程（FRP）"><a href="#函数响应式编程（FRP）" class="headerlink" title="函数响应式编程（FRP）"></a>函数响应式编程（FRP）</h4><h2 id="通熟易懂的理解响应式编程"><a href="#通熟易懂的理解响应式编程" class="headerlink" title="通熟易懂的理解响应式编程"></a>通熟易懂的理解响应式编程</h2><p>响应式编程(Reactive Programming 或称反应式编程)是一种流行的编程方法，编写代码是基于对变化的反应。它的灵感来自于我们的日常生活，也即我们如何采取行动以及与他人沟通。</p>
-<p>我们在执行日常生活活动时，我们会尽可能多任务，但大脑无法处理多任务，不管我们如何努力去做。我们人类实现多任务的唯一办法是在时间线上在任务之间切换。事实上，我们总是切换任务，即使我们没有意识到它。</p>
-<p>例如，要执行一个任务：在星巴克喝一杯咖啡饮料，你需要发出一个命令，等待它准备好，然后接受你的饮料。当你在等待的时候，你很可能会找到别的事情做。这是最简单的执行任务的反应(响应)形式，你会在你等待来自咖啡师的“响应”时做别的事情，当你的咖啡已经准备好后，会叫你的名字时。</p>
-<p>响应编程能够简化编程，它依赖于事件，代码运行的顺序不是代码行的顺序，而是和一个以上的事件有关，这些事件发生是以随着时间的推移的序列。我们把这一系列事件称为“流”。</p>
-<p>何为事件？例如，你知道某个名人总是在发送有趣微博，每次他推发一条微博我们可以称之为一个“事件”。如果你看看这位名人微博系列，你会发现其实是一个随着时间的推移（一系列的事件）发生的一序列的“事件”。</p>
-<p>响应式编程就是因为我们得“响应”这些事件而得以命名。例如，想象一下，你在等待某人发送一个很酷商品的促销码，当这条促销码发出时，你会立即响应，去购买这个很酷的商品。这正是什么响应性编程的原理。</p>
-<p>为了能够对事件作出反应，我们必须要监督它。 如果我们没有监听的情况下，我们永远不会知道什么时候它会有事件反应。 在微博上，可以设置监测微博的事件，我们遵循简并设置我们的电话，每次她发微博事件时就会第一时间通知我们。</p>
-<p>在响应式编程中，监视事件被称为侦听或订阅该事件。 这一点其实很相似订阅简讯。 当您订阅Web上发布的新闻，您得提供您的电子邮件地址，每次有新的时事通讯时候，您的电子邮件地址将得到该新闻的一个副本。 同样，我们使用某个函数订阅事件流，每当有一个新的事件时，流将激活这个函数，以使我们的代码能够对事件作出响应。 在这个比喻中，新闻通讯平台是事件流，电子报的每一个新闻是一个事件，你的电子邮件是您使用订阅事件流的函数。</p>
-<p>现在想象一个动态的通讯，您可以选择主题，并只会发送匹配主题的新闻项目。 你可根据自己的喜好过滤的通讯新闻，而这一点我们可以在事件流做的一样好。 想像你已经使用不同的电子邮件地址订阅多个通讯，以及后来决定你想要的通讯的所有新闻发送到一个新的单电子邮件地址。 简单可以做的是设置通讯新闻发送到新的电子邮件地址的转发邮件规则。 我们可以用事件流同样做到。</p>
-<p>将事件流可以和通常数组比较。 他们其实很相似。 数组是在空间值的序列，而事件流是随时间的值的序列。 在响应式编程中，所有函数操作都可以针对一个数组阵列上 - 比如过滤，reduce，mapping，结合，管道 - 也可以在事件流完成！ 我们可以过滤的事件流，reduce合并事件流的值，将事件流映射到另一个另外一个，结合组合事件流，将一个流的输入输出到另一个。</p>
-
+        <p><center><font color="#CC4A31">理解响应式编程</font></center><br><a id="more"></a></p>
+<p>今天准备学习下springboot整合websocket，在spring官方文档查找相应的类和注解的解释时，发现有Web on Reactive Stack这个东西。然后就发现了响应式编程（RP）。然后又发现了函数式编程（FP），函数响应式编程（FRP），以及我们主流的面向对象编程（OOP）。</p>
+<h3 id="响应式编程（RP）"><a href="#响应式编程（RP）" class="headerlink" title="响应式编程（RP）"></a>响应式编程（RP）</h3><p>RxJava、Reactor。异步和非阻塞式的。面向解决高并发的问题。<br>在计算机中，响应式编程或反应式编程（英语：Reactive programming）是一种面向数据流和变化传播的编程范式。这意味着可以在编程语言中很方便地表达静态或动态的数据流，而相关的计算模型会自动将变化的值通过数据流进行传播。<br><em>例如，在命令式编程环境中，a:=b+c表示将表达式的结果赋给 a，而之后改变 b或 c的值不会影响 a。但在响应式编程中， a的值会随着 b或 c的更新而更新。</em><br><em>电子表格程序就是响应式编程的一个例子。单元格可以包含字面值或类似”=B1+C1”的公式，而包含公式的单元格的值会依据其他单元格的值的变化而变化 。</em><br><em>另一个例子是<strong>硬件描述语言</strong>，比如Verilog，这里响应式编程可以对电路中传播的信号变化进行建模。</em><br>响应式编程最初是为了简化交互式用户界面的创建和实时系统动画的绘制而提出来的一种方法，但它<strong>本质上是一种通用的编程范式。</strong><br><strong>例如，在MVC软件架构中，响应式编程允许将相关模型的变化自动反映到视图上，反之亦然。</strong></p>
+<h3 id="函数式编程（FP）"><a href="#函数式编程（FP）" class="headerlink" title="函数式编程（FP）"></a>函数式编程（FP）<a href="http://www.ruanyifeng.com/blog/2012/04/functional_programming.html" target="_blank" rel="noopener"></a></h3><p>####概念<br>简单说，”函数式编程”是一种”编程范式”（programming paradigm），也就是如何编写程序的方法论。<br>举例来说，现在有这样一个数学表达式：<br>　　(1 + 2) <em> 3 - 4<br>传统的过程式编程，可能这样写：<br>　　var a = 1 + 2;<br>　　var b = a </em> 3;<br>　　var c = b - 4;<br>函数式编程要求使用函数，我们可以把运算过程定义为不同的函数，然后写成下面这样：<br>　　var result = subtract(multiply(add(1,2), 3), 4);<br>这就是函数式编程。</p>
+<p>####特点</p>
+<ol>
+<li>函数是”第一等公民”<br>所谓”第一等公民”（first class），指的是函数与其他数据类型一样，处于平等地位，可以赋值给其他变量，也可以作为参数，传入另一个函数，或者作为别的函数的返回值。<br>举例来说，下面代码中的print变量就是一个函数，可以作为另一个函数的参数。<br>　　var print = function(i){ console.log(i);};<br>　　[1,2,3].forEach(print);</li>
+<li>只用”表达式”，不用”语句”<br>“表达式”（expression）是一个单纯的运算过程，总是有返回值；”语句”（statement）是执行某种操作，没有返回值。函数式编程要求，只使用表达式，不使用语句。也就是说，每一步都是单纯的运算，而且都有返回值。<br>原因是函数式编程的开发动机，一开始就是为了处理运算（computation），不考虑系统的读写（I/O）。”语句”属于对系统的读写操作，所以就被排斥在外。<br>当然，实际应用中，不做I/O是不可能的。因此，编程过程中，函数式编程只要求把I/O限制到最小，不要有不必要的读写行为，保持计算过程的单纯性。</li>
+<li>没有”副作用”<br>函数式编程强调没有”副作用”，意味着函数要保持独立，<strong>所有功能就是返回一个新的值</strong>，没有其他行为，尤其是不得修改外部变量的值。</li>
+<li>不修改状态<br>上一点已经提到，函数式编程只是返回新的值，不修改系统变量。因此，不修改变量，也是它的一个重要特点。<br>在其他类型的语言中，变量往往用来保存”状态”（state）。不修改变量，意味着状态不能保存在变量中。函数式编程使用参数保存状态，最好的例子就是递归。下面的代码是一个将字符串逆序排列的函数，它演示了不同的参数如何决定了运算所处的”状态”。<br><strong>由于使用了递归，函数式语言的运行速度比较慢，这是它长期不能在业界推广的主要原因。</strong></li>
+<li>引用透明<br>引用透明（Referential transparency），指的是函数的运行不依赖于外部变量或”状态”，只依赖于输入的参数，任何时候只要参数相同，引用函数所得到的返回值总是相同的。<br>有了前面的第三点和第四点，这点是很显然的。其他类型的语言，函数的返回值往往与系统状态有关，不同的状态之下，返回值是不一样的。这就叫”引用不透明”，很不利于观察和理解程序的行为。<br>####意义</li>
+<li>代码简洁，开发快速</li>
+<li>接近自然语言，易于理解</li>
+<li>更方便的代码管理<br>函数式编程不依赖、也不会改变外界的状态，只要给定输入参数，返回的结果必定相同。因此，每一个函数都可以被看做独立单元，很有利于进行单元测试（unit testing）和除错（debugging），以及模块化组合。</li>
+<li>易于”并发编程”</li>
+<li>代码的热升级<br>函数式编程没有副作用，只要保证接口不变，内部实现是外部无关的。所以，可以在运行状态下直接升级代码，不需要重启，也不需要停机。<br>JS、Scala、Erlang</li>
+</ol>
+<h3 id="函数响应式编程（FRP）"><a href="#函数响应式编程（FRP）" class="headerlink" title="函数响应式编程（FRP）"></a>函数响应式编程（FRP）</h3>
       
     </div>
     
@@ -499,7 +503,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">45</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -510,7 +514,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -521,7 +525,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -570,7 +574,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#响应式编程（RP）"><span class="nav-number">1.</span> <span class="nav-text">响应式编程（RP）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#函数式编程（FP）"><span class="nav-number">2.</span> <span class="nav-text">函数式编程（FP）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#函数响应式编程（FRP）"><span class="nav-number">3.</span> <span class="nav-text">函数响应式编程（FRP）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通熟易懂的理解响应式编程"><span class="nav-number"></span> <span class="nav-text">通熟易懂的理解响应式编程</span></a></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#响应式编程（RP）"><span class="nav-number">1.</span> <span class="nav-text">响应式编程（RP）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数式编程（FP）"><span class="nav-number">2.</span> <span class="nav-text">函数式编程（FP）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数响应式编程（FRP）"><span class="nav-number">3.</span> <span class="nav-text">函数响应式编程（FRP）</span></a></li></ol></div>
             
 
           </div>
